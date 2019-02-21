@@ -228,6 +228,15 @@ public class fragmento_notas extends Fragment {
                 public void onErrorResponse(VolleyError error) {
                     Log.e("LOG_VOLLEY", error.toString());
 
+                    if (error instanceof NetworkError) {
+                        Toast.makeText(getContext(), "NetworkError", Toast.LENGTH_SHORT).show();
+                        // NO HAY INTERNET
+                    } else if (error instanceof NoConnectionError) {
+                        Toast.makeText(getContext(), "NoConnectionError", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "Credenciales incorrectos.", Toast.LENGTH_SHORT).show();
+                    }
+
                     showLoginDialog(periodoId, carreraId);
                     contenedorSwipeRefreshLayout.setRefreshing(false);
                 }
@@ -240,7 +249,7 @@ public class fragmento_notas extends Fragment {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", "Bearer " + Preferences.getTokenAcceso(getContext()));
+                    headers.put("Authorization", "Bearer " + Preferences.getTokenAcceso(getContext()) + "xyz");
 
                     return headers;
                 }
