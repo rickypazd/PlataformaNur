@@ -5,10 +5,13 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.ricardopazdemiquel.plataformanur.Objs.AlumnoCarrera;
 import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class Carga extends AppCompatActivity {
 

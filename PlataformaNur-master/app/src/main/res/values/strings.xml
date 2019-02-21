@@ -10,4 +10,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="primer_parcial">1
+        &lt;sup&gt;er&lt;/sup&gt;
+        parcial
+    </string>
+    <string name="segundo_parcial">1
+        &lt;sup&gt;do&lt;/sup&gt;
+        parcial
+    </string>
+
 </resources>

@@ -29,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:textAlignment="center"
             android:layout_marginTop="25dp"
             android:textSize="30dp" />
 
@@ -209,12 +210,32 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/angry_btn"
-                    android:layout_width="199dp"
+                    android:id="@+id/btn_editar"
+                    android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:shadowRadius="5"
                     android:text="Editar perfil"
+                    android:textColor="#000000"
+                    android:textSize="8dp" />
+
+                <Button
+                    android:id="@+id/btn_cambiar_pin"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:shadowRadius="5"
+                    android:text="Cambiar pin"
+                    android:textColor="#000000"
+                    android:textSize="8dp" />
+
+                <Button
+                    android:id="@+id/btn_logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:shadowRadius="5"
+                    android:text="Cerrar sesion"
                     android:textColor="#000000"
                     android:textSize="8dp" />
 

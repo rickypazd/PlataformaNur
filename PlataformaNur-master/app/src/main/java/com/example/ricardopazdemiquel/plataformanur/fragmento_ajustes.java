@@ -1,18 +1,14 @@
 package com.example.ricardopazdemiquel.plataformanur;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,20 +23,22 @@ import com.android.volley.toolbox.Volley;
 import com.example.ricardopazdemiquel.plataformanur.Objs.Alumno;
 import com.example.ricardopazdemiquel.plataformanur.Objs.AlumnoCarrera;
 import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
-import com.google.gson.JsonArray;
+import com.example.ricardopazdemiquel.plataformanur.dao.FactoryDAO;
+import com.example.ricardopazdemiquel.plataformanur.dao.HorariosOfertadosDAO;
+import com.example.ricardopazdemiquel.plataformanur.dao.MateriasOfertadasDAO;
+import com.example.ricardopazdemiquel.plataformanur.dao.NotasDAO;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class fragmento_ajustes extends Fragment{
+public class fragmento_ajustes extends Fragment implements View.OnClickListener {
 
     private TextView textView_carreras;
     private TextView textView_nombre;
@@ -52,20 +50,17 @@ public class fragmento_ajustes extends Fragment{
     private TextView textView_fecha_nac;
 
     public fragmento_ajustes() {
-
     }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_fragmento_ajustes, container, false);
 
         textView_carreras = (TextView) view.findViewById(R.id.textView_carreras);
@@ -76,18 +71,16 @@ public class fragmento_ajustes extends Fragment{
         textView_telefono = (TextView) view.findViewById(R.id.textView_telefono);
         textView_email = (TextView) view.findViewById(R.id.textView_email);
         textView_fecha_nac = (TextView) view.findViewById(R.id.textView_fecha_nac);
+        Button btnEditarPerfil = view.findViewById(R.id.btn_editar);
+        Button btnCambiarPin = view.findViewById(R.id.btn_cambiar_pin);
+        Button btnLogout = view.findViewById(R.id.btn_logout);
+        btnEditarPerfil.setOnClickListener(this);
+        btnCambiarPin.setOnClickListener(this);
+        btnLogout.setOnClickListener(this);
 
-        Alumno alumno = Preferences.getAlumno(fragmento_ajustes.this.getContext());
-        if (alumno == null){
-            getAlumnoInfo();
-            //getAlumnoCarreras();
-            //cargarPerfil();
-        }else{
-            cargarPerfil();
-        }
+        cargarPerfil();
 
         return view;
-        //return inflater.inflate(R.layout.fragment_fragmento_ajustes, container, false);
     }
 
     public void getAlumnoInfo() {
@@ -289,4 +282,49 @@ public class fragmento_ajustes extends Fragment{
         textView_fecha_nac.setText(alumno.getFechaNacimiento());
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_logout:
+                Preferences.setAlumno(getContext(), new Alumno());
+                Preferences.setPeriodos(getContext(), new JSONArray());
+                Preferences.setAlumnoCarreras(getContext(), new JSONArray());
+                Preferences.setTokenAcceso(getContext(), "");
+                Preferences.setPeriodosOferta(getContext(), new JSONArray());
+                Preferences.setCarreraSeleccionada(getContext(), null);
+                Preferences.setIsFirstTime(getContext(), false);
+
+                NotasDAO notasDAO = FactoryDAO.getOrCreate().newNotasDAO();
+                MateriasOfertadasDAO materiasOfertadasDao = FactoryDAO.getOrCreate().newMateriasOfertadasDAO();
+                HorariosOfertadosDAO horariosOfertadosDao = FactoryDAO.getOrCreate().newHorariosOfertadosDAO();
+                notasDAO.truncate();
+                materiasOfertadasDao.truncate();
+                horariosOfertadosDao.truncate();
+
+                Intent intent = new Intent(getContext(), Login2.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+                break;
+
+            case R.id.btn_editar:
+                editarPerfil();
+
+                break;
+
+            case R.id.btn_cambiar_pin:
+                cambiarPin();
+
+                break;
+        }
+    }
+
+    public void editarPerfil(){
+        EditarPerfilDialog editarPerfilDialog = new EditarPerfilDialog();
+        editarPerfilDialog.show(fragmento_ajustes.this.getFragmentManager(), "Editar perfil");
+    }
+    public void cambiarPin(){
+        CambiarPinDialog cambiarPinDialog = new CambiarPinDialog();
+        cambiarPinDialog.show(fragmento_ajustes.this.getFragmentManager(), "Cambiar pin");
+    }
 }

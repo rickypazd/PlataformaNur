@@ -205,4 +205,11 @@
         <item name="colorControlNormal">@color/grey_40</item>
     </style>
 
+    <!--Theme for edit profile dialog-->
+    <style name="DialogEditProfileTheme">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
 </resources>

@@ -7,6 +7,13 @@
     <color name="colorAccentDark">#F50057</color>
     <color name="colorAccentLight">#FF80AB</color>
 
+    <color name="asistenciaRojo">#DA523C</color>
+    <color name="asistenciaAmarillo">#FFC600</color>
+    <color name="asistenciaNaranja">#FF8B24</color>
+    <color name="dropDownViewSpinnerNotas">#FF7E67</color>
+    <color name="dropDownViewSpinnerNotas2">#34314C</color>
+
+
     <color name="overlay_dark_10">#1A000000</color>
     <color name="overlay_dark_20">#33000000</color>
     <color name="overlay_dark_30">#4D000000</color>

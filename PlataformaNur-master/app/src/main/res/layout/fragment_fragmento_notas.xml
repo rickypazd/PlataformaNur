@@ -1,14 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragmento_notas"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragmento_notas">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="fragmento notas" />
+        android:background="#fbfbfb">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/tvMisNotas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mis notas"
+            android:textSize="20dp"
+            android:layout_margin="16px"/>
+
+        <Spinner
+            android:id="@+id/spinnerPeriodo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/notasRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/layout_item_nota"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
+    <!--bottom sheet container-->
+    <FrameLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/bottom_sheet_behavior" />
+</android.support.design.widget.CoordinatorLayout>
