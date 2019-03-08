@@ -12,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
+import com.example.ricardopazdemiquel.plataformanur.Objs.Periodo;
 import com.example.ricardopazdemiquel.plataformanur.R;
+import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
 import com.example.ricardopazdemiquel.plataformanur.dto.Notas;
 import com.github.akashandroid90.imageletter.MaterialLetterIcon;
 
@@ -100,6 +102,7 @@ public class AdaptadorNotas extends RecyclerView.Adapter<AdaptadorNotas.MyViewHo
 
         holder.tvNombreMateria.setText(obj.getSMATERIA_DSC());
         holder.tvNombreDocente.setText(obj.getDOCENTE());
+        holder.tvPeriodoMateria.setText(getPeriodo(obj.getLPERIODO_ID()));
         holder.image.setImageDrawable(TextDrawable.builder().buildRound(obj.getSMATERIA_DSC().charAt(0) + "", Color.LTGRAY));
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +111,15 @@ public class AdaptadorNotas extends RecyclerView.Adapter<AdaptadorNotas.MyViewHo
                 if (onItemClickListener != null) {
                     onItemClickListener.onItemClick(view, obj, position);
                 }
+            }
+        });
+
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (onItemClickListener == null) return false;
+                onItemClickListener.onItemLongClick(view, obj, position);
+                return true;
             }
         });
 
@@ -140,10 +152,23 @@ public class AdaptadorNotas extends RecyclerView.Adapter<AdaptadorNotas.MyViewHo
                 nota.getFMES9() + nota.getFMES10() + nota.getFMES11() + nota.getFMES12();
     }
 
+    public String getPeriodo(int id) {
+        ArrayList<Periodo> periodos = Preferences.getPeriodos(contexto);
+
+        for (Periodo periodo: periodos) {
+            if (periodo.getLPERIODO_ID() == id) {
+                return periodo.getSPERIODO_DSC();
+            }
+        }
+
+        return "";
+    }
+
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvNombreMateria;
         public TextView tvNombreDocente;
+        public TextView tvPeriodoMateria;
         public ImageView image;
         public View vEstadoAsistencia;
         public CardView cardView;
@@ -154,6 +179,7 @@ public class AdaptadorNotas extends RecyclerView.Adapter<AdaptadorNotas.MyViewHo
             image = v.findViewById(R.id.image_view);
             tvNombreMateria = v.findViewById(R.id.nombreMateria);
             tvNombreDocente = v.findViewById(R.id.nombreDocente);
+            tvPeriodoMateria = v.findViewById(R.id.periodoMateria);
             vEstadoAsistencia = v.findViewById(R.id.estadoAsistencia);
             cardView = v.findViewById(R.id.cardView);
         }
@@ -171,5 +197,6 @@ public class AdaptadorNotas extends RecyclerView.Adapter<AdaptadorNotas.MyViewHo
 
     public interface OnItemClickListener {
         void onItemClick(View view, Notas obj, int pos);
+        void onItemLongClick(View view, Notas obj, int pos);
     }
 }

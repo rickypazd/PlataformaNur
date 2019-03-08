@@ -2,6 +2,7 @@ package com.example.ricardopazdemiquel.plataformanur.dto;
 
 public class Notas extends DTO {
 
+	/* LA LLAVE PRIMARIA ES LCARRERA_ID, LPERIODO_ID, SCODMATERIA*/
 	private int LGRUPO_ID;
 	private int LCENTRO_ID;
 	private String SCODCENTRO;

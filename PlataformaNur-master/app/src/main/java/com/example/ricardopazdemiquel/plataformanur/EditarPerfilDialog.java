@@ -1,5 +1,6 @@
 package com.example.ricardopazdemiquel.plataformanur;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -32,10 +34,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EditarPerfilDialog extends AppCompatDialogFragment {
+
     private TextInputEditText et_celular;
     private TextInputEditText et_telefono;
     private TextInputEditText et_correo;
     private Context context;
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -80,7 +87,7 @@ public class EditarPerfilDialog extends AppCompatDialogFragment {
         final String celular = et_celular.getText().toString();
         final String telefono = et_telefono.getText().toString();
         final String correo = et_correo.getText().toString();
-        context = this.getContext();
+        // context = this.getContext();
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
         JSONObject jsonBody = new JSONObject();
         jsonBody.put("pEmail", correo);
@@ -112,6 +119,14 @@ public class EditarPerfilDialog extends AppCompatDialogFragment {
                             alumno.setTelefono(telefono);
                             alumno.setEmail(correo);
                             Preferences.setAlumno(context, alumno);
+
+                            TextView tvCelular = ((Activity) context).findViewById(R.id.textView_celular);
+                            TextView tvTelefono = ((Activity) context).findViewById(R.id.textView_telefono);
+                            TextView tvEmail = ((Activity) context).findViewById(R.id.textView_email);
+
+                            tvCelular.setText(celular);
+                            tvTelefono.setText(telefono);
+                            tvEmail.setText(correo);
                         }else{
                             //TODO hacer login de nuevo
                         }
@@ -149,7 +164,7 @@ public class EditarPerfilDialog extends AppCompatDialogFragment {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
 
-                String accesstoken = Preferences.getTokenAcceso(context).trim();
+                String accesstoken = Preferences.getTokenAcceso(EditarPerfilDialog.this.getContext()).trim();
 
                 headers.put("Authorization", "Bearer " + accesstoken);
 

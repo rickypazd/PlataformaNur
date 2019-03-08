@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
         android:name=".Utiles.MyApp"
         android:allowBackup="true"
@@ -17,6 +16,7 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
         <activity android:name=".Carga">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,10 +24,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login2" />
+        <activity android:name=".Login2" >
+
+        </activity>
         <activity
             android:name=".TabBarActivity"
             android:label="@string/title_activity_tab_bar" />
+        <activity android:name=".DetalleMateriaActivity"></activity>
     </application>
 
 </manifest>

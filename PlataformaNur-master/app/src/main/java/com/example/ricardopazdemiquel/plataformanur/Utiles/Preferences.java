@@ -236,6 +236,37 @@ public class Preferences {
         editor2.commit();
     }
 
+    public static void setCarreraSeleccionada(Context context, JSONObject obj) {
+        SharedPreferences preferencias2 = context.getSharedPreferences("myPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor2 = preferencias2.edit();
+        Gson gson = new Gson();
+
+        AlumnoCarrera carrera = new AlumnoCarrera();
+
+        try {
+            carrera.setLCARRERA_ID(obj.getInt("LCARRERA_ID"));
+            carrera.setSCODCENTRO(obj.getString("SCODCENTRO"));
+            carrera.setSCENTRO_DSC((obj.getString("SCENTRO_DSC")));
+            carrera.setSCODCARRERA(obj.getString("SCODCARRERA"));
+            carrera.setSCARRERA_DSC(obj.getString("SCARRERA_DSC"));
+            carrera.setLCODPENSUM(obj.getInt("LCODPENSUM"));
+            carrera.setLCREDVENCIDOS(obj.getInt("LCREDVENCIDOS"));
+            carrera.setLPERIODOINICIO(obj.getString("LPERIODOINICIO"));
+            carrera.setLPERIODOACTUAL_ID(obj.getInt("LPERIODOACTUAL_ID"));
+            carrera.setLPERIODOACTUAL(obj.getString("LPERIODOACTUAL"));
+            carrera.setLPERIODOFIN(!obj.isNull("LPERIODOFIN") ? obj.getString("LPERIODOFIN") : "");
+            carrera.setDTFECHADMISION(obj.getString("DTFECHADMISION"));
+            carrera.setDTFECHEGRESO(!obj.isNull("DTFECHEGRESO") ? obj.getString("DTFECHEGRESO") : "");
+            carrera.setDTFECHTITULACION(!obj.isNull("DTFECHTITULACION") ? obj.getString("DTFECHTITULACION") : "");
+            carrera.setSTIPOGRADUACION_DSC(!obj.isNull("STIPOGRADUACION_DSC") ? obj.getString("STIPOGRADUACION_DSC") : "");
+        } catch (Exception e) {
+
+        }
+
+        editor2.putString("carrera_seleccionada", gson.toJson(carrera));
+        editor2.commit();
+    }
+
     public static boolean isFirstTime(Context context) {
         SharedPreferences preferences = context.getSharedPreferences("myPref", context.MODE_PRIVATE);
         boolean ranBefore = preferences.getBoolean("RanBefore", false);
@@ -324,4 +355,39 @@ public class Preferences {
         editor2.putString("alumno_oferta", gson.toJson(obj));
         editor2.commit();
     }
+
+    public static String getRegistro(Context context) {
+        SharedPreferences preferencias = context.getSharedPreferences("myPref", context.MODE_PRIVATE);
+        String usr = preferencias.getString("registro", "");
+        if (usr.length() <= 0) {
+            return null;
+        } else {
+            return usr;
+        }
+    }
+
+    public static void setRegistro(Context context, String pin) {
+        SharedPreferences preferencias2 = context.getSharedPreferences("myPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor2 = preferencias2.edit();
+        editor2.putString("registro", pin.toString());
+        editor2.commit();
+    }
+
+    public static String getPin(Context context) {
+        SharedPreferences preferencias = context.getSharedPreferences("myPref", context.MODE_PRIVATE);
+        String usr = preferencias.getString("pin", "");
+        if (usr.length() <= 0) {
+            return null;
+        } else {
+            return usr;
+        }
+    }
+
+    public static void setPin(Context context, String clave) {
+        SharedPreferences preferencias2 = context.getSharedPreferences("myPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor2 = preferencias2.edit();
+        editor2.putString("pin", clave.toString());
+        editor2.commit();
+    }
+
 }

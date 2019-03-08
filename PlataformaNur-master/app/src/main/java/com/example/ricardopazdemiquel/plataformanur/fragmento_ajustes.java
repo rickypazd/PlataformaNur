@@ -1,14 +1,23 @@
 package com.example.ricardopazdemiquel.plataformanur;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.ricardopazdemiquel.plataformanur.Objs.Alumno;
 import com.example.ricardopazdemiquel.plataformanur.Objs.AlumnoCarrera;
 import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
@@ -27,6 +37,7 @@ import com.example.ricardopazdemiquel.plataformanur.dao.FactoryDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.HorariosOfertadosDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.MateriasOfertadasDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.NotasDAO;
+import com.example.ricardopazdemiquel.plataformanur.layouts.AdaptadorCarreras;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,6 +59,7 @@ public class fragmento_ajustes extends Fragment implements View.OnClickListener 
     private TextView textView_telefono;
     private TextView textView_email;
     private TextView textView_fecha_nac;
+    private Spinner spinnerCarrera;
 
     public fragmento_ajustes() {
     }
@@ -56,6 +68,8 @@ public class fragmento_ajustes extends Fragment implements View.OnClickListener 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        ((TabBarActivity)getActivity()).getSupportActionBar().show();
     }
 
     @Override
@@ -71,12 +85,43 @@ public class fragmento_ajustes extends Fragment implements View.OnClickListener 
         textView_telefono = (TextView) view.findViewById(R.id.textView_telefono);
         textView_email = (TextView) view.findViewById(R.id.textView_email);
         textView_fecha_nac = (TextView) view.findViewById(R.id.textView_fecha_nac);
-        Button btnEditarPerfil = view.findViewById(R.id.btn_editar);
-        Button btnCambiarPin = view.findViewById(R.id.btn_cambiar_pin);
-        Button btnLogout = view.findViewById(R.id.btn_logout);
-        btnEditarPerfil.setOnClickListener(this);
-        btnCambiarPin.setOnClickListener(this);
-        btnLogout.setOnClickListener(this);
+
+        ImageView logo = view.findViewById(R.id.imgUser);
+        Glide.with(this).load(R.drawable.user).into(logo);
+
+//        spinnerCarrera = view.findViewById(R.id.spinnerCarrera);
+//        ArrayList<AlumnoCarrera> carreras = Preferences.getAlumnoCarreras(getContext());
+//        AdaptadorCarreras adaptador = new AdaptadorCarreras(getContext(), carreras);
+//        spinnerCarrera.setAdapter(adaptador);
+//        spinnerCarrera.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                AlumnoCarrera carrera = (AlumnoCarrera) spinnerCarrera.getSelectedItem();
+//                Preferences.setCarreraSeleccionada(getContext(), carrera);
+//                Log.i("nur", "seleccionando " + carrera.getSCARRERA_DSC());
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//            }
+//        });
+//        for (int i = 0; i < carreras.size(); i++) {
+//            AlumnoCarrera carrera = carreras.get(i);
+//            AlumnoCarrera carreraSeleccionada = Preferences.getCarreraSeleccionada(getContext());
+//
+//            Log.i("nur", "if (" + carreraSeleccionada.getLCARRERA_ID() + " == " + carrera.getLCARRERA_ID() + ") {");
+//            if (carreraSeleccionada.getLCARRERA_ID() == carrera.getLCARRERA_ID()) {
+//                spinnerCarrera.setSelection(i);
+//                break;
+//            }
+//        }
+
+//        Button btnEditarPerfil = view.findViewById(R.id.btn_editar);
+//        Button btnCambiarPin = view.findViewById(R.id.btn_cambiar_pin);
+//        Button btnLogout = view.findViewById(R.id.btn_logout);
+//        btnEditarPerfil.setOnClickListener(this);
+//        btnCambiarPin.setOnClickListener(this);
+//        btnLogout.setOnClickListener(this);
 
         cargarPerfil();
 
@@ -284,47 +329,102 @@ public class fragmento_ajustes extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_logout:
-                Preferences.setAlumno(getContext(), new Alumno());
-                Preferences.setPeriodos(getContext(), new JSONArray());
-                Preferences.setAlumnoCarreras(getContext(), new JSONArray());
-                Preferences.setTokenAcceso(getContext(), "");
-                Preferences.setPeriodosOferta(getContext(), new JSONArray());
-                Preferences.setCarreraSeleccionada(getContext(), null);
-                Preferences.setIsFirstTime(getContext(), false);
-
-                NotasDAO notasDAO = FactoryDAO.getOrCreate().newNotasDAO();
-                MateriasOfertadasDAO materiasOfertadasDao = FactoryDAO.getOrCreate().newMateriasOfertadasDAO();
-                HorariosOfertadosDAO horariosOfertadosDao = FactoryDAO.getOrCreate().newHorariosOfertadosDAO();
-                notasDAO.truncate();
-                materiasOfertadasDao.truncate();
-                horariosOfertadosDao.truncate();
-
-                Intent intent = new Intent(getContext(), Login2.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-
-                break;
-
-            case R.id.btn_editar:
-                editarPerfil();
-
-                break;
-
-            case R.id.btn_cambiar_pin:
-                cambiarPin();
-
-                break;
-        }
+//        switch (view.getId()) {
+//            case R.id.btn_logout:
+//                cerrarSesion();
+//
+//                break;
+//
+//            case R.id.btn_editar:
+//                editarPerfil();
+//
+//                break;
+//
+//            case R.id.btn_cambiar_pin:
+//                cambiarPin();
+//
+//                break;
+//        }
     }
 
     public void editarPerfil(){
         EditarPerfilDialog editarPerfilDialog = new EditarPerfilDialog();
+        editarPerfilDialog.setContext(getContext());
         editarPerfilDialog.show(fragmento_ajustes.this.getFragmentManager(), "Editar perfil");
     }
+
     public void cambiarPin(){
         CambiarPinDialog cambiarPinDialog = new CambiarPinDialog();
         cambiarPinDialog.show(fragmento_ajustes.this.getFragmentManager(), "Cambiar pin");
     }
+
+    private void confirmarCerrarSesion() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("¿Cerrar sesión?");
+        builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                cerrarSesion();
+            }
+        });
+        builder.setNegativeButton("No", null);
+        builder.show();
+    }
+
+    public void cerrarSesion() {
+        Preferences.setAlumno(getContext(), new Alumno());
+        Preferences.setPeriodos(getContext(), new JSONArray());
+        Preferences.setAlumnoCarreras(getContext(), new JSONArray());
+        Preferences.setTokenAcceso(getContext(), "");
+        Preferences.setRegistro(getContext(), "");
+        Preferences.setPin(getContext(), "");
+        Preferences.setPeriodosOferta(getContext(), new JSONArray());
+        Preferences.setCarreraSeleccionada(getContext(), new AlumnoCarrera());
+        Preferences.setIsFirstTime(getContext(), false);
+
+        NotasDAO notasDAO = FactoryDAO.getOrCreate().newNotasDAO();
+        MateriasOfertadasDAO materiasOfertadasDao = FactoryDAO.getOrCreate().newMateriasOfertadasDAO();
+        HorariosOfertadosDAO horariosOfertadosDao = FactoryDAO.getOrCreate().newHorariosOfertadosDAO();
+        notasDAO.truncate();
+        materiasOfertadasDao.truncate();
+        horariosOfertadosDao.truncate();
+
+        Intent intent = new Intent(getContext(), Login2.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        inflater.inflate(R.menu.menu_basic, menu);
+//    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_editar_perfil:
+                editarPerfil();
+                break;
+
+            case R.id.action_cambiar_pin:
+                cambiarPin();
+                break;
+
+            case R.id.action_cerrar_sesion:
+                confirmarCerrarSesion();
+                break;
+
+            default:
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_basic, menu);
+//        return true;
+//    }
+
 }

@@ -1,23 +1,29 @@
 package com.example.ricardopazdemiquel.plataformanur;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.graphics.Typeface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -62,14 +68,14 @@ public class fragmento_notas extends Fragment {
 
     private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
-    private View bottom_sheet;
 
-    public fragmento_notas() {Log.i("nur", "fragmento_notas constructor");
+    public fragmento_notas() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);Log.i("nur", "fragmento_notas onCreate");
+        super.onCreate(savedInstanceState);
+        ((TabBarActivity)getActivity()).getSupportActionBar().hide();
     }
 
     @Override
@@ -82,16 +88,9 @@ public class fragmento_notas extends Fragment {
         notasRecyclerView = view.findViewById(R.id.notasRecyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         notasRecyclerView.setLayoutManager(layoutManager);
-        bottom_sheet = view.findViewById(R.id.bottom_sheet);
+        View bottom_sheet = view.findViewById(R.id.bottom_sheet);
         mBehavior = BottomSheetBehavior.from(bottom_sheet);
 
-        /*
-        if (getContext() != null) {
-            Typeface fontSegoePrint = Typeface.createFromAsset(getContext().getAssets(), "segoeprb.ttf");
-            TextView tvMisNotas = view.findViewById(R.id.tvMisNotas);
-            tvMisNotas.setTypeface(fontSegoePrint);
-        }
-        */
         spinnerPeriodos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -146,6 +145,16 @@ public class fragmento_notas extends Fragment {
                 public void onItemClick(View view, Notas obj, int pos) {
                     showBottomSheetDialog(obj);
                 }
+
+                @Override
+                public void onItemLongClick(View view, Notas obj, int pos) {
+                    Intent intent = new Intent(getContext(), DetalleMateriaActivity.class);
+                    intent.putExtra("LCARRERA_ID", obj.getLCARRERA_ID());
+                    intent.putExtra("LPERIODO_ID", obj.getLPERIODO_ID());
+                    intent.putExtra("SCODMATERIA", obj.getSCODMATERIA());
+
+                    startActivity(intent);
+                }
             });
         }
     }
@@ -156,13 +165,53 @@ public class fragmento_notas extends Fragment {
         }
 
         final View view = getLayoutInflater().inflate(R.layout.sheet_basic, null);
-        // ((TextView) view.findViewById(R.id.tvPrimerParcial)).setText(Html.fromHtml(getString(R.string.primer_parcial)));
+
+
         ((TextView) view.findViewById(R.id.tvNotaPrimerParcial)).setText(nota.getPAR1());
         ((TextView) view.findViewById(R.id.tvNotaSegundoParcial)).setText(nota.getPAR2());
         ((TextView) view.findViewById(R.id.tvNotaExamenFinal)).setText(nota.getEXFINAL());
         ((TextView) view.findViewById(R.id.tvNotaFinal)).setText(nota.getFINAL());
 
+        TextView notaPrimerParcial = view.findViewById(R.id.notaPrimerParcial);
+        TextView notaSegundoParcial = view.findViewById(R.id.notaSegundoParcial);
+        TextView notaExamenFinal = view.findViewById(R.id.notaExamenFinal);
+        TextView notaFinal = view.findViewById(R.id.notaFinal);
+
+        // TODO: optimize this
+        // PRIMER PARCIAL
+        String notaPrimerParcialStr = nota.getPAR1(); /* "27/30" */
+        notaPrimerParcialStr = notaPrimerParcialStr.replace(",", ".");
+        String[] notaPrimerParcialArr = notaPrimerParcialStr.split("/"); /* ["27", "30"] */
+        int residuoPrimerParcial = (int) (Double.parseDouble(notaPrimerParcialArr[0]) % 1);
+        int primerParcialSobre = (int) Double.parseDouble(notaPrimerParcialArr[1]);
+        animateTextViewV2(Double.parseDouble(notaPrimerParcialArr[0]), primerParcialSobre, notaPrimerParcial, residuoPrimerParcial);
+
+        // SEGUNDO PARCIAL
+        String notaSegundoParcialStr = nota.getPAR2(); /* "27/30" */
+        notaSegundoParcialStr = notaSegundoParcialStr.replace(",", ".");
+        String[] notaSegundoParcialArr = notaSegundoParcialStr.split("/"); /* ["27", "30"] */
+        int residuoSegundoParcial = (int) (Double.parseDouble(notaSegundoParcialArr[0]) % 1);
+        int segundoParcialSobre = (int) Double.parseDouble(notaSegundoParcialArr[1]);
+        animateTextViewV2(Double.parseDouble(notaSegundoParcialArr[0]), segundoParcialSobre, notaSegundoParcial, residuoSegundoParcial);
+
+        // EXAMEN FINAL
+        String notaExamenFinalStr = nota.getEXFINAL(); /* "27/30" */
+        notaExamenFinalStr = notaExamenFinalStr.replace(",", ".");
+        String[] notaExamenFinalArr = notaExamenFinalStr.split("/"); /* ["27", "30"] */
+        int residuoExamenFinal = (int) (Double.parseDouble(notaExamenFinalArr[0]) % 1);
+        int examenFinalSobre = (int) Double.parseDouble(notaExamenFinalArr[1]);
+        animateTextViewV2(Double.parseDouble(notaExamenFinalArr[0]), examenFinalSobre, notaExamenFinal, residuoExamenFinal);
+
+        // NOTA FINAL
+        String notaFinalStr = nota.getFINAL(); /* "27/30" */
+        notaFinalStr = notaFinalStr.replace(",", ".");
+        String[] notaFinalArr = notaFinalStr.split("/"); /* ["27", "30"] */
+        int residuoNotaFinal = (int) (Double.parseDouble(notaFinalArr[0]) % 1);
+        int notaFinalSobre = (int) Double.parseDouble(notaFinalArr[1]);
+        animateTextViewV2(Double.parseDouble(notaFinalArr[0]), notaFinalSobre, notaFinal, residuoNotaFinal);
+
         mBottomSheetDialog = new BottomSheetDialog(getContext());
+        mBottomSheetDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mBottomSheetDialog.setContentView(view);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mBottomSheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -229,15 +278,13 @@ public class fragmento_notas extends Fragment {
                     Log.e("LOG_VOLLEY", error.toString());
 
                     if (error instanceof NetworkError) {
-                        Toast.makeText(getContext(), "NetworkError", Toast.LENGTH_SHORT).show();
-                        // NO HAY INTERNET
+                        showCustomDialog();
                     } else if (error instanceof NoConnectionError) {
                         Toast.makeText(getContext(), "NoConnectionError", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getContext(), "Credenciales incorrectos.", Toast.LENGTH_SHORT).show();
+                        loginAgain(Preferences.getRegistro(getContext()), Preferences.getPin(getContext()), periodoId, carreraId);
                     }
 
-                    showLoginDialog(periodoId, carreraId);
                     contenedorSwipeRefreshLayout.setRefreshing(false);
                 }
             }) {
@@ -271,28 +318,27 @@ public class fragmento_notas extends Fragment {
         }
     }
 
-    public void showLoginDialog(final int periodoId, final int carreraId) {
-        final View inflatedView = LayoutInflater.from(getContext())
-                .inflate(R.layout.dialog_login, (ViewGroup) getView(), false);
-        final EditText etRegistro = inflatedView.findViewById(R.id.registro);
-        final EditText etPin = inflatedView.findViewById(R.id.pin);
+    private void showCustomDialog() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_warning);
+        dialog.setCancelable(true);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setView(inflatedView);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                String registro = etRegistro.getText().toString();
-                String pin = etPin.getText().toString();
-
-                if (!registro.trim().isEmpty() && !pin.trim().isEmpty()) {
-                    loginAgain(registro, pin, periodoId, carreraId);
-                }
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
 
-        builder.show();
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     public void loginAgain(String registro, String pin, final int periodoId, final int carreraId) {
@@ -332,15 +378,10 @@ public class fragmento_notas extends Fragment {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
                     if (volleyError instanceof NetworkError) {
-                        Toast.makeText(getContext(), "NetworkError", Toast.LENGTH_SHORT).show();
-                    } else if (volleyError instanceof NoConnectionError) {
-                        Toast.makeText(getContext(), "NoConnectionError", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getContext(), "Credenciales incorrectos.", Toast.LENGTH_SHORT).show();
+                        showCustomDialog();
                     }
 
                     progreso.dismiss();
-                    Log.e("LOG_VOLLEY", volleyError.toString());
                 }
             }) {
                 @Override
@@ -361,6 +402,31 @@ public class fragmento_notas extends Fragment {
             requestQueue.add(stringRequest);
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void animateTextViewV2(final double nota, final int sobre, final TextView textview, final int puntoDecimal) {
+        DecelerateInterpolator decelerateInterpolator = new DecelerateInterpolator(0.2f);
+
+        Handler handler = new Handler();
+
+        for (int count = 0; count <= (int) nota; count++) {
+            float input = ((float) count) / (int) nota;
+            // int time = Math.round(decelerateInterpolator.getInterpolation(input) * 100) * count;
+            int time = Math.round(input * 100) * 10;
+            final int finalCount = count;
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (finalCount == (int) nota && nota % 1 != 0) { /* ultima iteracion */
+                        textview.setText(nota + "/" + sobre);
+                        return;
+                    }
+
+                    textview.setText(finalCount + "/" + sobre);
+                }
+            }, time);
         }
     }
 

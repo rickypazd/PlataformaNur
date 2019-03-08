@@ -3,12 +3,14 @@ package com.example.ricardopazdemiquel.plataformanur;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -39,8 +41,7 @@ import java.util.Map;
 
 public class Login2 extends AppCompatActivity {
 
-    private TextInputEditText et_registro;
-    private TextInputEditText et_pin;
+    private TextInputEditText et_registro, et_pin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,34 +51,31 @@ public class Login2 extends AppCompatActivity {
         Button btn_login = findViewById(R.id.btn_login);
         et_registro = findViewById(R.id.et_registro);
         et_pin = findViewById(R.id.et_pin);
+        TextView tvIngresar = findViewById(R.id.tvIngresar);
+
+        Typeface fontSegoePrint = Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf");
+        tvIngresar.setTypeface(fontSegoePrint);
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    loguearse();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                loguearse();
             }
         });
     }
 
-    public void loguearse() throws JSONException {
+    public void loguearse() {
         boolean valido = true;
         String registro = et_registro.getText().toString();
         String ping = et_pin.getText().toString();
         if (registro.length() <= 0) {
-            et_registro.setBackgroundColor(Color.rgb(255, 194, 194));
+            et_registro.setError("Debe introducir su número de registro");
             valido = false;
-        } else {
-            et_registro.setBackgroundColor(Color.rgb(255, 255, 255));
         }
+
         if (ping.length() <= 0) {
-            et_pin.setBackgroundColor(Color.rgb(255, 194, 194));
+            et_pin.setError("Debe introducir su clave");
             valido = false;
-        } else {
-            et_pin.setBackgroundColor(Color.rgb(255, 255, 255));
         }
 
         if (valido) {
@@ -85,7 +83,7 @@ public class Login2 extends AppCompatActivity {
         }
     }
 
-    public void login(String registro, String ping) throws JSONException {
+    public void login(final String registro, final String ping) {
         String url = getString(R.string.URL_service) + "Login";
 
         try {
@@ -94,7 +92,7 @@ public class Login2 extends AppCompatActivity {
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("username", registro);
             jsonBody.put("password", ping);
-            jsonBody.put("bloqueo", false);
+            jsonBody.put("bloqueo", false); // TODO: quitar esto
 
             final ProgressDialog progreso = new ProgressDialog(this);
             progreso.setIndeterminate(true);
@@ -115,6 +113,8 @@ public class Login2 extends AppCompatActivity {
                         Toast.makeText(Login2.this, response, Toast.LENGTH_LONG).show();
                     } else {
                         Preferences.setTokenAcceso(Login2.this, response);
+                        Preferences.setRegistro(Login2.this, registro);
+                        Preferences.setPin(Login2.this, ping);
 
                         obtenerPeriodos();
                         obtenerCarreras();
@@ -211,10 +211,8 @@ public class Login2 extends AppCompatActivity {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> headers = new HashMap<>();
-                    // Basic Authentication
-                    //String auth = "Basic " + Base64.encodeToString(CONSUMER_KEY_AND_SECRET.getBytes(), Base64.NO_WRAP);
-
                     headers.put("Authorization", "Bearer " + Preferences.getTokenAcceso(Login2.this));
+
                     return headers;
                 }
 
@@ -263,6 +261,8 @@ public class Login2 extends AppCompatActivity {
                         if (respuesta.getBoolean("Status")) {
                             JSONArray listaCarreras = respuesta.getJSONArray("Data");
                             Preferences.setAlumnoCarreras(Login2.this, listaCarreras);
+                            /* la primera carrera seleccionada por defecto */
+                            Preferences.setCarreraSeleccionada(Login2.this, listaCarreras.getJSONObject(0));
                         } else {
                             Log.i("nur", "Status false en get notas");
                         }
@@ -278,7 +278,6 @@ public class Login2 extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     progreso.dismiss();
-                    Log.e("LOG_VOLLEY", error.toString());
 
                     pasosCompletadosBase += 1;
                     verificarCompletadoBase();
@@ -292,10 +291,8 @@ public class Login2 extends AppCompatActivity {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> headers = new HashMap<>();
-                    // Basic Authentication
-                    //String auth = "Basic " + Base64.encodeToString(CONSUMER_KEY_AND_SECRET.getBytes(), Base64.NO_WRAP);
-
                     headers.put("Authorization", "Bearer " + Preferences.getTokenAcceso(Login2.this));
+
                     return headers;
                 }
 
@@ -375,10 +372,8 @@ public class Login2 extends AppCompatActivity {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> headers = new HashMap<>();
-                    // Basic Authentication
-                    //String auth = "Basic " + Base64.encodeToString(CONSUMER_KEY_AND_SECRET.getBytes(), Base64.NO_WRAP);
-
                     headers.put("Authorization", "Bearer " + Preferences.getTokenAcceso(Login2.this));
+
                     return headers;
                 }
 
@@ -447,7 +442,6 @@ public class Login2 extends AppCompatActivity {
 
                     pasosCompletadosBase += 1;
                     verificarCompletadoBase();
-                    Log.e("LOG_VOLLEY", error.toString());
                 }
             }) {
                 @Override
@@ -458,10 +452,8 @@ public class Login2 extends AppCompatActivity {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> headers = new HashMap<>();
-                    // Basic Authentication
-                    //String auth = "Basic " + Base64.encodeToString(CONSUMER_KEY_AND_SECRET.getBytes(), Base64.NO_WRAP);
-
                     headers.put("Authorization", "Bearer " + Preferences.getTokenAcceso(Login2.this));
+
                     return headers;
                 }
 
@@ -576,7 +568,6 @@ public class Login2 extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     progreso.dismiss();
-                    Log.e("LOG_VOLLEY", error.toString());
 
                     pasosCompletadosNotas += 1;
                     verificarCompletadoNotas();
@@ -590,10 +581,8 @@ public class Login2 extends AppCompatActivity {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> headers = new HashMap<>();
-                    // Basic Authentication
-                    //String auth = "Basic " + Base64.encodeToString(CONSUMER_KEY_AND_SECRET.getBytes(), Base64.NO_WRAP);
-
                     headers.put("Authorization", "Bearer " + Preferences.getTokenAcceso(Login2.this));
+
                     return headers;
                 }
 
@@ -628,9 +617,9 @@ public class Login2 extends AppCompatActivity {
     public void listo() {
         if (serviciosCompletados == SERVICIOS_REQUERIDOS) {
             serviciosCompletados = 0;
-            
-            // ir al inicio
-            Toast.makeText(Login2.this, "Login exitoso", Toast.LENGTH_LONG).show();
+
+            finish();
+
             Intent intent = new Intent(Login2.this, Carga.class);
             startActivity(intent);
         }
@@ -716,10 +705,8 @@ public class Login2 extends AppCompatActivity {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> headers = new HashMap<>();
-                    // Basic Authentication
-                    //String auth = "Basic " + Base64.encodeToString(CONSUMER_KEY_AND_SECRET.getBytes(), Base64.NO_WRAP);
-
                     headers.put("Authorization", "Bearer " + Preferences.getTokenAcceso(Login2.this));
+
                     return headers;
                 }
 

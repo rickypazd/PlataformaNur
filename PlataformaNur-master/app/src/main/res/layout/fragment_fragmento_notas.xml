@@ -13,13 +13,14 @@
         android:layout_height="match_parent"
         android:background="#fbfbfb">
 
-        <TextView
-            android:id="@+id/tvMisNotas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mis notas"
-            android:textSize="20dp"
-            android:layout_margin="16px"/>
+        <!--<TextView-->
+            <!--android:id="@+id/tvMisNotas"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--android:text="Mis notas"-->
+            <!--android:textSize="20dp"-->
+            <!--android:gravity="center_vertical|center"-->
+            <!--android:layout_margin="16px"/>-->
 
         <Spinner
             android:id="@+id/spinnerPeriodo"

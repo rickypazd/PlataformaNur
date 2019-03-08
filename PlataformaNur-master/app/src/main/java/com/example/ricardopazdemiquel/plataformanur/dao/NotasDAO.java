@@ -17,6 +17,7 @@ public abstract class NotasDAO implements IDAO {
     public abstract void actualizar(JSONObject obj);
     public abstract void truncate();
     public abstract List<Notas> seleccionar(int carrera, int periodo);
+    public abstract Notas seleccionar(int carrera, int periodo, String materia);
     protected String[] columnas;
 
     public NotasDAO(String... columnas) {

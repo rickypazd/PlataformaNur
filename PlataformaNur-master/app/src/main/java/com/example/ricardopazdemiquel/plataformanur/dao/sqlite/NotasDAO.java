@@ -530,4 +530,22 @@ class NotasDAO extends com.example.ricardopazdemiquel.plataformanur.dao.NotasDAO
         return objNotas;
     }
 
+	@Override
+	public Notas seleccionar(int carrera, int periodo, String materia) {
+		Conexion con = Conexion.getOrCreate();
+
+		String where = "LCARRERA_ID = ? AND LPERIODO_ID = ? AND SCODMATERIA = ?";
+		String[] parametrosWhere = { String.valueOf(carrera), String.valueOf(periodo), String.valueOf(materia) };
+
+		Cursor cursor = con.ejecutarConsulta(Tablas.Notas, columnas, where, parametrosWhere);
+		List<Notas> lista = new ArrayList<>();
+
+		Notas objNotas = null;
+
+		if (cursor.moveToFirst()) {
+			objNotas = obtenerObjDeCursor(cursor);
+		}
+
+		return objNotas;
+	}
 }

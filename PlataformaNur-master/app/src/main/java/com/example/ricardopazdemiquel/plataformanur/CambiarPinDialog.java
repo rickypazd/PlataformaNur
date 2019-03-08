@@ -58,7 +58,7 @@ public class CambiarPinDialog extends AppCompatDialogFragment {
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        Log.i("nur", "khe");
                     }
                 });
 
@@ -118,6 +118,7 @@ public class CambiarPinDialog extends AppCompatDialogFragment {
                         Boolean status = obj.getBoolean("Status");
                         if(status){
                             Toast.makeText(CambiarPinDialog.this.getContext(), "Pin actualizado con éxito.", Toast.LENGTH_LONG).show();
+                            // TODO: update the shared preferences
                             dialog.dismiss();
                         }else{
                             Toast.makeText(CambiarPinDialog.this.getContext(), "Pin incorrecto", Toast.LENGTH_LONG).show();

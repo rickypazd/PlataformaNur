@@ -74,6 +74,7 @@ public class fragmento_ofertas extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((TabBarActivity)getActivity()).getSupportActionBar().hide();
     }
 
     @Override
