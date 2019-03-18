@@ -15,6 +15,9 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.example.ricardopazdemiquel.plataformanur.Objs.Periodo;
 import com.example.ricardopazdemiquel.plataformanur.R;
 import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
+import com.example.ricardopazdemiquel.plataformanur.dao.FactoryDAO;
+import com.example.ricardopazdemiquel.plataformanur.dao.HorariosMateriasDAO;
+import com.example.ricardopazdemiquel.plataformanur.dto.HorariosMaterias;
 import com.example.ricardopazdemiquel.plataformanur.dto.Notas;
 import com.github.akashandroid90.imageletter.MaterialLetterIcon;
 
@@ -102,7 +105,7 @@ public class AdaptadorNotas extends RecyclerView.Adapter<AdaptadorNotas.MyViewHo
 
         holder.tvNombreMateria.setText(obj.getSMATERIA_DSC());
         holder.tvNombreDocente.setText(obj.getDOCENTE());
-        holder.tvPeriodoMateria.setText(getPeriodo(obj.getLPERIODO_ID()));
+        holder.tvPeriodoMateria.setText(getHorario(obj));
         holder.image.setImageDrawable(TextDrawable.builder().buildRound(obj.getSMATERIA_DSC().charAt(0) + "", Color.LTGRAY));
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -162,6 +165,80 @@ public class AdaptadorNotas extends RecyclerView.Adapter<AdaptadorNotas.MyViewHo
         }
 
         return "";
+    }
+
+    public String getHorario(Notas objNota) {
+        HorariosMateriasDAO horarioDao = FactoryDAO.getOrCreate().newHorariosMateriasDAO();
+        List<HorariosMaterias> listaHorarios = horarioDao.seleccionar(objNota.getLGRUPO_ID() + "");
+
+        String horarios = "";
+        // caso 1: dif dias, mismo horario, misma aula EJ: lun-jue 07:00 - 09:00 Aula 303
+        // caso 2: dif dias, mismo horario, dif aulas EJ: lun 07:00 - 09:00 Aula 301\njue 07:00 - 09:00 Aula 303
+        // caso 3: dif dias, dif horarios, misma aula EJ: lun 07:00 - 09:00 Aula \njue 07:30 - 09
+        boolean mismoHorario = true;
+        boolean mismaAula = true;
+
+        if (listaHorarios.size() > 1) {
+            String entrada = "", salida = "", aula = "";
+
+            for (int i = 0; i < listaHorarios.size(); i++) {
+                HorariosMaterias horario = listaHorarios.get(i);
+
+                if (entrada.equals("")) {
+                    entrada = horario.getENTRADA();
+                }
+
+                if (salida.equals("")) {
+                    salida = horario.getSALIDA();
+                }
+
+                if (aula.equals("")) {
+                    aula = horario.getSAULA_DSC();
+                }
+
+                if (i == 0) {
+                    continue;
+                }
+
+                if (!horario.getENTRADA().equals(entrada) || !horario.getSALIDA() .equals(salida)) {
+                    mismoHorario = false;
+                }
+
+                if (!horario.getSAULA_DSC().equals(aula)) {
+                    mismaAula = false;
+                }
+            }
+        }
+
+        for (int i = 0; i < listaHorarios.size(); i++) {
+            HorariosMaterias horario = listaHorarios.get(i);
+
+            if (mismoHorario && mismaAula) {
+                horarios += getDiaAbreviado(horario.getSDIA_DSC()) + " ";
+
+                if (i == listaHorarios.size() - 1) {
+                    if (objNota.getSCENTRO_DSC().equals("A DISTANCIA")) {
+                        horarios += "Semana " + objNota.getSCODGRUPO() + " ";
+                    }
+
+                    horarios += horario.getENTRADA() + " - " + horario.getSALIDA() + " Aula " + horario.getSAULA_DSC() + "\n";
+                }
+            } else {
+                horarios += horario.getSDIA_DSC() + " ";
+
+                if (objNota.getSCENTRO_DSC().equals("A DISTANCIA")) {
+                    horarios += "Semana " + objNota.getSCODGRUPO() + " ";
+                }
+
+                horarios += horario.getENTRADA() + " - " + horario.getSALIDA() + " Aula " + horario.getSAULA_DSC() + "\n";
+            }
+        }
+
+        return horarios;
+    }
+
+    public String getDiaAbreviado(String dia) {
+        return dia.substring(0, 3);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

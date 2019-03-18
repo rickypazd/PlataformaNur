@@ -61,5 +61,17 @@
             DTHRSALIDA text,
             MAT_OFERTADA_ID integer
         );
+
+        create table HorariosMaterias (
+            ID integer,
+            LGRUPOHORARIO_ID integer,
+            LGRUPO_ID integer,
+            ENTRADA text,
+            SALIDA text,
+            LDIA integer,
+            SDIA_DSC text,
+            SAULA_DSC text,
+            primary key(ID)
+        );
     </string>
 </resources>

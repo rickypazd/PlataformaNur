@@ -111,12 +111,17 @@ public class TabBarActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        spinnerCarrera = findViewById(R.id.spinnerCarrera);
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(null);
+            if (estudiaUnaSolaCarrera()) {
+                spinnerCarrera.setVisibility(View.GONE);
+                getSupportActionBar().setTitle(Preferences.getCarreraSeleccionada(this).getSCARRERA_DSC());
+            } else {
+                getSupportActionBar().setTitle(null);
+            }
         }
 
-        spinnerCarrera = findViewById(R.id.spinnerCarrera);
         ArrayList<AlumnoCarrera> carreras = Preferences.getAlumnoCarreras(this);
         AdaptadorCarreras adaptador = new AdaptadorCarreras(this, carreras);
         spinnerCarrera.setAdapter(adaptador);

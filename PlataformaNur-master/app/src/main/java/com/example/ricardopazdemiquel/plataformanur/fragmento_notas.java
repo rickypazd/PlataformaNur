@@ -148,12 +148,6 @@ public class fragmento_notas extends Fragment {
 
                 @Override
                 public void onItemLongClick(View view, Notas obj, int pos) {
-                    Intent intent = new Intent(getContext(), DetalleMateriaActivity.class);
-                    intent.putExtra("LCARRERA_ID", obj.getLCARRERA_ID());
-                    intent.putExtra("LPERIODO_ID", obj.getLPERIODO_ID());
-                    intent.putExtra("SCODMATERIA", obj.getSCODMATERIA());
-
-                    startActivity(intent);
                 }
             });
         }
@@ -166,7 +160,7 @@ public class fragmento_notas extends Fragment {
 
         final View view = getLayoutInflater().inflate(R.layout.sheet_basic, null);
 
-
+        ((TextView) view.findViewById(R.id.tvNombreMateria)).setText(nota.getSMATERIA_DSC());
         ((TextView) view.findViewById(R.id.tvNotaPrimerParcial)).setText(nota.getPAR1());
         ((TextView) view.findViewById(R.id.tvNotaSegundoParcial)).setText(nota.getPAR2());
         ((TextView) view.findViewById(R.id.tvNotaExamenFinal)).setText(nota.getEXFINAL());
@@ -176,6 +170,10 @@ public class fragmento_notas extends Fragment {
         TextView notaSegundoParcial = view.findViewById(R.id.notaSegundoParcial);
         TextView notaExamenFinal = view.findViewById(R.id.notaExamenFinal);
         TextView notaFinal = view.findViewById(R.id.notaFinal);
+
+        if (nota.getPAR2().equals("0/0")) {
+            view.findViewById(R.id.contenedorSegundoParcial).setVisibility(View.GONE);
+        }
 
         // TODO: optimize this
         // PRIMER PARCIAL

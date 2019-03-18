@@ -1,21 +1,14 @@
 package com.example.ricardopazdemiquel.plataformanur;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
-import com.example.ricardopazdemiquel.plataformanur.Objs.AlumnoCarrera;
 import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 public class Carga extends AppCompatActivity {
 
-    private JSONObject usr_log;
     private String Token_Acceso;
 
     @Override
@@ -23,7 +16,6 @@ public class Carga extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carga);
 
-        usr_log = Preferences.getUsr_log(this);
         Token_Acceso = Preferences.getTokenAcceso(this);
         ejecutar();
     }
@@ -32,16 +24,16 @@ public class Carga extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                Intent intent;
+
                 if (Token_Acceso == null) {
-                    Intent intent = new Intent(Carga.this, Login2.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+                    intent = new Intent(Carga.this, Login2.class);
                 } else {
-                    Intent intent = new Intent(Carga.this, TabBarActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    //usr logueado
+                    intent = new Intent(Carga.this, TabBarActivity.class);
                 }
+
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
 
                 finish();
             }

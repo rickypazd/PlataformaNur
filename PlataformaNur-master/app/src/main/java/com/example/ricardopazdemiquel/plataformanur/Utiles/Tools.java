@@ -1,5 +1,6 @@
 package com.example.ricardopazdemiquel.plataformanur.Utiles;
 
+import android.content.Context;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 public class Tools {
@@ -11,6 +12,14 @@ public class Tools {
                 nested.scrollTo(500, targetView.getBottom());
             }
         });
+    }
+
+    public static void getDrawable(Context context, int drawableResId) {
+
+    }
+
+    public static void getDrawable(Context context, int drawableResId, int colorFilter) {
+
     }
 
 }

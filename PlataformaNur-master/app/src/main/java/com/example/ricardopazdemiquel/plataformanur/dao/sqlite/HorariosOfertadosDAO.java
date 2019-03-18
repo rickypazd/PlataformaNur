@@ -146,11 +146,11 @@ class HorariosOfertadosDAO extends com.example.ricardopazdemiquel.plataformanur.
         HorariosOfertados objHorariosOfertados = new HorariosOfertados();
 
         try {
-            objHorariosOfertados.setLDIA_ID(obj.getInt("LDIA_ID"));
-            objHorariosOfertados.setSDIA_DSC(obj.getString("SDIA_DSC"));
-            objHorariosOfertados.setDTHRENTRADA(obj.getString("DTHRENTRADA"));
-            objHorariosOfertados.setDTHRSALIDA(obj.getString("DTHRSALIDA"));
-            objHorariosOfertados.setMAT_OFERTADA_ID(obj.getInt("MAT_OFERTADA_ID"));
+            if (!obj.isNull("LDIA_ID")) objHorariosOfertados.setLDIA_ID(obj.getInt("LDIA_ID"));
+            objHorariosOfertados.setSDIA_DSC(obj.isNull("SDIA_DSC") ? "" : obj.getString("SDIA_DSC"));
+            objHorariosOfertados.setDTHRENTRADA(obj.isNull("DTHRENTRADA") ? "" : obj.getString("DTHRENTRADA"));
+            objHorariosOfertados.setDTHRSALIDA(obj.isNull("DTHRSALIDA") ? "" : obj.getString("DTHRSALIDA"));
+            if (!obj.isNull("MAT_OFERTADA_ID")) objHorariosOfertados.setMAT_OFERTADA_ID(obj.getInt("MAT_OFERTADA_ID"));
         } catch (Exception e) {
             e.printStackTrace();
         }

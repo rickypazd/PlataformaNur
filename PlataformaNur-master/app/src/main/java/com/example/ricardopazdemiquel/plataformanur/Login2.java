@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.example.ricardopazdemiquel.plataformanur.Objs.AlumnoCarrera;
 import com.example.ricardopazdemiquel.plataformanur.Objs.Periodo;
 import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
 import com.example.ricardopazdemiquel.plataformanur.dao.FactoryDAO;
+import com.example.ricardopazdemiquel.plataformanur.dao.HorariosMateriasDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.HorariosOfertadosDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.MateriasOfertadasDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.NotasDAO;
@@ -42,6 +44,7 @@ import java.util.Map;
 public class Login2 extends AppCompatActivity {
 
     private TextInputEditText et_registro, et_pin;
+    private ProgressDialog progreso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,10 @@ public class Login2 extends AppCompatActivity {
         et_registro = findViewById(R.id.et_registro);
         et_pin = findViewById(R.id.et_pin);
         TextView tvIngresar = findViewById(R.id.tvIngresar);
+
+        TextInputLayout textInputLayout = findViewById(R.id.textInputLayout);
+        // textInputLayout.setLayoutMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+
 
         Typeface fontSegoePrint = Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf");
         tvIngresar.setTypeface(fontSegoePrint);
@@ -94,9 +101,9 @@ public class Login2 extends AppCompatActivity {
             jsonBody.put("password", ping);
             jsonBody.put("bloqueo", false); // TODO: quitar esto
 
-            final ProgressDialog progreso = new ProgressDialog(this);
+            progreso = new ProgressDialog(this);
             progreso.setIndeterminate(true);
-            progreso.setTitle("Esperando respuesta...");
+            progreso.setTitle("Iniciando sesion...");
             progreso.setCancelable(false);
             progreso.show();
 
@@ -105,8 +112,6 @@ public class Login2 extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    progreso.dismiss();
-
                     response = response.replace('"', ' ').trim();
 
                     if (response.equals("Bloqueo. Tiene deuda pendiente.")) {
@@ -120,6 +125,8 @@ public class Login2 extends AppCompatActivity {
                         obtenerCarreras();
                         obtenerPeriodosOfertados();
                         obtenerPerfil();
+                        obtenerFotoDePerfil();
+                        // TODO: obtener el historial de materias cursadas
                     }
                 }
             }, new Response.ErrorListener() {
@@ -161,19 +168,13 @@ public class Login2 extends AppCompatActivity {
 
             jsonBody.put("", "");
 
-            final ProgressDialog progreso = new ProgressDialog(this);
-            progreso.setIndeterminate(true);
-            progreso.setTitle("Esperando respuesta...");
-            progreso.setCancelable(false);
-            progreso.show();
+            progreso.setTitle("Obteniendo periodos cursados...");
 
             final String mRequestBody = jsonBody.toString();
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    progreso.dismiss();
-
                     try {
                         JSONObject respuesta = new JSONObject(response);
 
@@ -184,11 +185,9 @@ public class Login2 extends AppCompatActivity {
 
                             pasosCompletadosBase += 1;
                             verificarCompletadoBase();
-
                         } else {
                             Log.i("nur", "Status false en get notas");
                         }
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -196,8 +195,6 @@ public class Login2 extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    progreso.dismiss();
-
                     pasosCompletadosBase += 1;
                     verificarCompletadoBase();
                     Log.e("LOG_VOLLEY", error.toString());
@@ -242,19 +239,13 @@ public class Login2 extends AppCompatActivity {
 
             jsonBody.put("", "");
 
-            final ProgressDialog progreso = new ProgressDialog(this);
-            progreso.setIndeterminate(true);
-            progreso.setTitle("Esperando respuesta...");
-            progreso.setCancelable(false);
-            progreso.show();
+            progreso.setTitle("Obteniendo carreras...");
 
             final String mRequestBody = jsonBody.toString();
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    progreso.dismiss();
-
                     try {
                         JSONObject respuesta = new JSONObject(response);
 
@@ -272,13 +263,10 @@ public class Login2 extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    progreso.dismiss();
-
                     pasosCompletadosBase += 1;
                     verificarCompletadoBase();
                 }
@@ -322,11 +310,7 @@ public class Login2 extends AppCompatActivity {
 
             jsonBody.put("", "");
 
-            final ProgressDialog progreso = new ProgressDialog(this);
-            progreso.setIndeterminate(true);
-            progreso.setTitle("Esperando respuesta...");
-            progreso.setCancelable(false);
-            progreso.show();
+            progreso.setTitle("Obteniendo perfil...");
 
             final String mRequestBody = jsonBody.toString();
 
@@ -350,14 +334,83 @@ public class Login2 extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    progreso.dismiss();
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    progreso.dismiss();
+                    pasosCompletadosBase += 1;
+                    verificarCompletadoBase();
+                    Log.e("LOG_VOLLEY", error.toString());
 
+                }
+            }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Bearer " + Preferences.getTokenAcceso(Login2.this));
+
+                    return headers;
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+
+            requestQueue.add(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void obtenerFotoDePerfil() {
+        String url = getString(R.string.URL_service) + "GetAlumnoImagen";
+
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            JSONObject jsonBody = new JSONObject();
+
+            jsonBody.put("", "");
+
+            progreso.setTitle("Obteniendo perfil...");
+
+            final String mRequestBody = jsonBody.toString();
+
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject respuesta = new JSONObject(response);
+
+                        if (respuesta.getBoolean("Status")) {
+                            String imagenB64Str = respuesta.getString("Data");
+
+                            Preferences.setAlumnoImagenStr(Login2.this, imagenB64Str);
+
+                            pasosCompletadosBase += 1;
+                            verificarCompletadoBase();
+                        } else {
+                            Log.i("nur", "Status false en get alumno imagen");
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
                     pasosCompletadosBase += 1;
                     verificarCompletadoBase();
                     Log.e("LOG_VOLLEY", error.toString());
@@ -403,11 +456,7 @@ public class Login2 extends AppCompatActivity {
 
             jsonBody.put("", "");
 
-            final ProgressDialog progreso = new ProgressDialog(this);
-            progreso.setIndeterminate(true);
-            progreso.setTitle("Esperando respuesta...");
-            progreso.setCancelable(false);
-            progreso.show();
+            progreso.setTitle("Obteniendo ofertas...");
 
             final String mRequestBody = jsonBody.toString();
 
@@ -432,14 +481,10 @@ public class Login2 extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    progreso.dismiss();
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    progreso.dismiss();
-
                     pasosCompletadosBase += 1;
                     verificarCompletadoBase();
                 }
@@ -476,7 +521,7 @@ public class Login2 extends AppCompatActivity {
 
     /* */
 
-    final int PASOS_NECESARIOS_BASE = 4; /* carreras, periodos, perfil, periodos ofertados*/
+    final int PASOS_NECESARIOS_BASE = 5; /* carreras, periodos, perfil, imagen de perfil, periodos ofertados*/
     int pasosCompletadosBase = 0;
 
     int PASOS_NESARIOS_NOTAS = 0; /* carreras x periodos */
@@ -525,19 +570,13 @@ public class Login2 extends AppCompatActivity {
             jsonBody.put("pCarreraId", carreraId);
             jsonBody.put("pPeriodoId", periodoId);
 
-            final ProgressDialog progreso = new ProgressDialog(this);
-            progreso.setIndeterminate(true);
-            progreso.setTitle("Esperando respuesta...");
-            progreso.setCancelable(false);
-            progreso.show();
+            progreso.setTitle("Obteniendo notas...");
 
             final String mRequestBody = jsonBody.toString();
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    progreso.dismiss();
-
                     try {
                         JSONObject respuesta = new JSONObject(response);
 
@@ -545,12 +584,22 @@ public class Login2 extends AppCompatActivity {
                             JSONArray notasJson = respuesta.getJSONArray("Data");
 
                             NotasDAO dao = FactoryDAO.getOrCreate().newNotasDAO();
+                            HorariosMateriasDAO horariosDao = FactoryDAO.getOrCreate().newHorariosMateriasDAO();
 
                             for (int i = 0; i < notasJson.length(); i++) {
                                 JSONObject nota = notasJson.getJSONObject(i);
                                 nota.put("LPERIODO_ID", periodoId);
                                 nota.put("LCARRERA_ID", carreraId);
                                 dao.insertar(nota);
+
+                                if (!nota.isNull("HORARIO")) {
+                                    JSONArray horarios = nota.getJSONArray("HORARIO");
+
+                                    for (int j = 0; j < horarios.length(); j++) {
+                                        JSONObject horario = horarios.getJSONObject(j);
+                                        horariosDao.insertar(horario);
+                                    }
+                                }
                             }
 
                         } else {
@@ -567,8 +616,6 @@ public class Login2 extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    progreso.dismiss();
-
                     pasosCompletadosNotas += 1;
                     verificarCompletadoNotas();
                 }
@@ -618,6 +665,7 @@ public class Login2 extends AppCompatActivity {
         if (serviciosCompletados == SERVICIOS_REQUERIDOS) {
             serviciosCompletados = 0;
 
+            progreso.dismiss();
             finish();
 
             Intent intent = new Intent(Login2.this, Carga.class);
@@ -635,11 +683,7 @@ public class Login2 extends AppCompatActivity {
             jsonBody.put("pCarreraId", carreraId);
             jsonBody.put("pPeriodoId", periodoId);
 
-            final ProgressDialog progreso = new ProgressDialog(this);
-            progreso.setIndeterminate(true);
-            progreso.setTitle("Esperando respuesta...");
-            progreso.setCancelable(false);
-            progreso.show();
+            progreso.setTitle("Obteniendo materias ofertadas...");
 
             final String mRequestBody = jsonBody.toString();
 
@@ -684,13 +728,10 @@ public class Login2 extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    progreso.dismiss();
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    progreso.dismiss();
                     Log.e("LOG_VOLLEY", error.toString());
 
                     pasosCompletadosOfertas += 1;

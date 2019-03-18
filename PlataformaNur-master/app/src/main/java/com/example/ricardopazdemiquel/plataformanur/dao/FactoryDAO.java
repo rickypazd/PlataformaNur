@@ -1,5 +1,7 @@
 package com.example.ricardopazdemiquel.plataformanur.dao;
 
+import com.example.ricardopazdemiquel.plataformanur.dto.HorariosMaterias;
+
 /**
  * La idea es que a la hora de migrar a otro SGBD (a futuro) no
  * se modifique ninguna linea de codigo de la aplicacion, sino,
@@ -27,5 +29,7 @@ public abstract class FactoryDAO {
     public abstract MateriasOfertadasDAO newMateriasOfertadasDAO();
 
     public abstract HorariosOfertadosDAO newHorariosOfertadosDAO();
+
+    public abstract HorariosMateriasDAO newHorariosMateriasDAO();
 
 }

@@ -76,74 +76,6 @@ class MateriasOfertadasDAO extends com.example.ricardopazdemiquel.plataformanur.
 
         MateriasOfertadas objMateriasOfertadas = (MateriasOfertadas) obj;
 
-//		if (objMateriasOfertadas.getLGRUPO_ID() <= 0) {
-//		    throw new IllegalArgumentException("El LGRUPO_ID no puede ser menor o igual que cero");
-//		}
-//
-//		if (objMateriasOfertadas.getLCENTRO_ID() <= 0) {
-//		    throw new IllegalArgumentException("El LCENTRO_ID no puede ser menor o igual que cero");
-//		}
-//
-//		if (objMateriasOfertadas.getSCENTRO_DSC().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El SCENTRO_DSC no puede estar vacio");
-//		}
-//
-//		if (objMateriasOfertadas.getSMATERIA_DSC().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El SMATERIA_DSC no puede estar vacio");
-//		}
-//
-//		if (objMateriasOfertadas.getLSEMESTRE() <= 0) {
-//		    throw new IllegalArgumentException("El LSEMESTRE no puede ser menor o igual que cero");
-//		}
-//
-//		if (objMateriasOfertadas.getLCREDITOS() <= 0) {
-//		    throw new IllegalArgumentException("El LCREDITOS no puede ser menor o igual que cero");
-//		}
-//
-//		if (objMateriasOfertadas.getLLABORATORIO() <= 0) {
-//		    throw new IllegalArgumentException("El LLABORATORIO no puede ser menor o igual que cero");
-//		}
-//
-//		if (objMateriasOfertadas.getDOCENTE().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El DOCENTE no puede estar vacio");
-//		}
-//
-//		if (objMateriasOfertadas.getSCODMATERIA().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El SCODMATERIA no puede estar vacio");
-//		}
-//
-//		if (objMateriasOfertadas.getCASILLA().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El CASILLA no puede estar vacio");
-//		}
-//
-//		if (objMateriasOfertadas.getSCODGRUPO().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El SCODGRUPO no puede estar vacio");
-//		}
-//
-//		if (objMateriasOfertadas.getSSEMANA().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El SSEMANA no puede estar vacio");
-//		}
-//
-//		if (objMateriasOfertadas.getLESTADOGRUPO_ID() <= 0) {
-//		    throw new IllegalArgumentException("El LESTADOGRUPO_ID no puede ser menor o igual que cero");
-//		}
-//
-//		if (objMateriasOfertadas.getSESTADOGRUPO_DSC().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El SESTADOGRUPO_DSC no puede estar vacio");
-//		}
-//
-//		if (objMateriasOfertadas.getSOBS1().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El SOBS1 no puede estar vacio");
-//		}
-//
-//		if (objMateriasOfertadas.getLPERIODO_ID() <= 0) {
-//		    throw new IllegalArgumentException("El LPERIODO_ID no puede ser menor o igual que cero");
-//		}
-//
-//		if (objMateriasOfertadas.getLCARRERA_ID() <= 0) {
-//		    throw new IllegalArgumentException("El LCARRERA_ID no puede ser menor o igual que cero");
-//		}
-
         ContentValues valores = new ContentValues();
 		valores.put(LGRUPO_ID, objMateriasOfertadas.getLGRUPO_ID());
 		valores.put(LCENTRO_ID, objMateriasOfertadas.getLCENTRO_ID());
@@ -264,60 +196,49 @@ class MateriasOfertadasDAO extends com.example.ricardopazdemiquel.plataformanur.
     }
 
 	@Override
-	public int insertar(JSONObject obj) {
-		MateriasOfertadas objMateriasOfertadas = new MateriasOfertadas();
+	public int insertar(JSONObject json) {
+		MateriasOfertadas materiaOfertada = new MateriasOfertadas();
 
 		try {
-			String LGRUPO_ID = obj.getString("LGRUPO_ID");
-			if (!LGRUPO_ID.trim().equals("null")) {
-				objMateriasOfertadas.setLGRUPO_ID(obj.getInt("LGRUPO_ID"));
-			}
-			String LCENTRO_ID = obj.getString("LCENTRO_ID");
-			if (!LCENTRO_ID.trim().equals("null")) {
-				objMateriasOfertadas.setLCENTRO_ID(obj.getInt("LCENTRO_ID"));
-			}
-			objMateriasOfertadas.setSCENTRO_DSC(obj.getString("SCENTRO_DSC"));
-			objMateriasOfertadas.setSMATERIA_DSC(obj.getString("SMATERIA_DSC"));
-			objMateriasOfertadas.setLSEMESTRE(obj.getInt("LSEMESTRE"));
-			objMateriasOfertadas.setLCREDITOS(obj.getInt("LCREDITOS"));
-			objMateriasOfertadas.setLLABORATORIO(obj.getInt("LLABORATORIO"));
-			objMateriasOfertadas.setDOCENTE(obj.getString("DOCENTE"));
-			objMateriasOfertadas.setSCODMATERIA(obj.getString("SCODMATERIA"));
-			objMateriasOfertadas.setCASILLA(obj.getString("CASILLA"));
-			objMateriasOfertadas.setSCODGRUPO(obj.getString("SCODGRUPO"));
-			objMateriasOfertadas.setSSEMANA(obj.getString("SSEMANA"));
-
-			String LESTADOGRUPO_ID = obj.getString("LESTADOGRUPO_ID");
-			if (!LESTADOGRUPO_ID.trim().equals("null")) {
-				objMateriasOfertadas.setLESTADOGRUPO_ID(obj.getInt("LESTADOGRUPO_ID"));
-			}
-
-			objMateriasOfertadas.setSESTADOGRUPO_DSC(obj.getString("SESTADOGRUPO_DSC"));
-			objMateriasOfertadas.setSOBS1(obj.getString("SOBS1"));
-			objMateriasOfertadas.setLPERIODO_ID(obj.getInt("LPERIODO_ID"));
-			objMateriasOfertadas.setLCARRERA_ID(obj.getInt("LCARRERA_ID"));
+			if (!json.isNull("LGRUPO_ID")) materiaOfertada.setLGRUPO_ID(json.getInt("LGRUPO_ID"));
+			if (!json.isNull("LCENTRO_ID")) materiaOfertada.setLCENTRO_ID(json.getInt("LCENTRO_ID"));
+			materiaOfertada.setSCENTRO_DSC(json.isNull("SCENTRO_DSC") ? "" : json.getString("SCENTRO_DSC"));
+			materiaOfertada.setSMATERIA_DSC(json.isNull("SMATERIA_DSC") ? "" : json.getString("SMATERIA_DSC"));
+			if (!json.isNull("LSEMESTRE")) materiaOfertada.setLSEMESTRE(json.getInt("LSEMESTRE"));
+			if (!json.isNull("LCREDITOS")) materiaOfertada.setLCREDITOS(json.getInt("LCREDITOS"));
+			if (!json.isNull("LLABORATORIO")) materiaOfertada.setLLABORATORIO(json.getInt("LLABORATORIO"));
+			materiaOfertada.setDOCENTE(json.isNull("DOCENTE") ? "" : json.getString("DOCENTE"));
+			materiaOfertada.setSCODMATERIA(json.isNull("SCODMATERIA") ? "" : json.getString("SCODMATERIA"));
+			materiaOfertada.setCASILLA(json.isNull("CASILLA") ? "" : json.getString("CASILLA"));
+			materiaOfertada.setSCODGRUPO(json.isNull("SCODGRUPO") ? "" : json.getString("SCODGRUPO"));
+			materiaOfertada.setSSEMANA(json.isNull("SSEMANA") ? "" : json.getString("SSEMANA"));
+			if (!json.isNull("LESTADOGRUPO_ID")) materiaOfertada.setLESTADOGRUPO_ID(json.getInt("LESTADOGRUPO_ID"));
+			materiaOfertada.setSESTADOGRUPO_DSC(json.isNull("SESTADOGRUPO_DSC") ? "" : json.getString("SESTADOGRUPO_DSC"));
+			materiaOfertada.setSOBS1(json.isNull("SOBS1") ? "" : json.getString("SOBS1"));
+			if (!json.isNull("LPERIODO_ID")) materiaOfertada.setLPERIODO_ID(json.getInt("LPERIODO_ID"));
+			if (!json.isNull("LCARRERA_ID")) materiaOfertada.setLCARRERA_ID(json.getInt("LCARRERA_ID"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 
 		ContentValues valores = new ContentValues();
-		valores.put(LGRUPO_ID, objMateriasOfertadas.getLGRUPO_ID());
-		valores.put(LCENTRO_ID, objMateriasOfertadas.getLCENTRO_ID());
-		valores.put(SCENTRO_DSC, objMateriasOfertadas.getSCENTRO_DSC());
-		valores.put(SMATERIA_DSC, objMateriasOfertadas.getSMATERIA_DSC());
-		valores.put(LSEMESTRE, objMateriasOfertadas.getLSEMESTRE());
-		valores.put(LCREDITOS, objMateriasOfertadas.getLCREDITOS());
-		valores.put(LLABORATORIO, objMateriasOfertadas.getLLABORATORIO());
-		valores.put(DOCENTE, objMateriasOfertadas.getDOCENTE());
-		valores.put(SCODMATERIA, objMateriasOfertadas.getSCODMATERIA());
-		valores.put(CASILLA, objMateriasOfertadas.getCASILLA());
-		valores.put(SCODGRUPO, objMateriasOfertadas.getSCODGRUPO());
-		valores.put(SSEMANA, objMateriasOfertadas.getSSEMANA());
-		valores.put(LESTADOGRUPO_ID, objMateriasOfertadas.getLESTADOGRUPO_ID());
-		valores.put(SESTADOGRUPO_DSC, objMateriasOfertadas.getSESTADOGRUPO_DSC());
-		valores.put(SOBS1, objMateriasOfertadas.getSOBS1());
-		valores.put(LPERIODO_ID, objMateriasOfertadas.getLPERIODO_ID());
-		valores.put(LCARRERA_ID, objMateriasOfertadas.getLCARRERA_ID());
+		valores.put(LGRUPO_ID, materiaOfertada.getLGRUPO_ID());
+		valores.put(LCENTRO_ID, materiaOfertada.getLCENTRO_ID());
+		valores.put(SCENTRO_DSC, materiaOfertada.getSCENTRO_DSC());
+		valores.put(SMATERIA_DSC, materiaOfertada.getSMATERIA_DSC());
+		valores.put(LSEMESTRE, materiaOfertada.getLSEMESTRE());
+		valores.put(LCREDITOS, materiaOfertada.getLCREDITOS());
+		valores.put(LLABORATORIO, materiaOfertada.getLLABORATORIO());
+		valores.put(DOCENTE, materiaOfertada.getDOCENTE());
+		valores.put(SCODMATERIA, materiaOfertada.getSCODMATERIA());
+		valores.put(CASILLA, materiaOfertada.getCASILLA());
+		valores.put(SCODGRUPO, materiaOfertada.getSCODGRUPO());
+		valores.put(SSEMANA, materiaOfertada.getSSEMANA());
+		valores.put(LESTADOGRUPO_ID, materiaOfertada.getLESTADOGRUPO_ID());
+		valores.put(SESTADOGRUPO_DSC, materiaOfertada.getSESTADOGRUPO_DSC());
+		valores.put(SOBS1, materiaOfertada.getSOBS1());
+		valores.put(LPERIODO_ID, materiaOfertada.getLPERIODO_ID());
+		valores.put(LCARRERA_ID, materiaOfertada.getLCARRERA_ID());
 
 		Conexion con = Conexion.getOrCreate();
 		int ID = con.insertar(Tablas.MateriasOfertadas, valores);

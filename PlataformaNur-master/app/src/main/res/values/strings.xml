@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PlataformaNur</string>
+    <string name="app_name">Notas Nur</string>
 
     <string name="URL_service">http://sisnur.nur.edu:8085/api/Registros/</string>
     <string name="KeyService">A10BB4B705310FB670185286C2B2367365A1CA2C</string>

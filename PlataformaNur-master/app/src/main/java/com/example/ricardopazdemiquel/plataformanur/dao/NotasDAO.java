@@ -13,7 +13,7 @@ public abstract class NotasDAO implements IDAO {
      * Notas
      */
     public abstract List<Notas> seleccionarTodos();
-    public abstract void insertar(JSONObject obj);
+    public abstract int insertar(JSONObject obj);
     public abstract void actualizar(JSONObject obj);
     public abstract void truncate();
     public abstract List<Notas> seleccionar(int carrera, int periodo);

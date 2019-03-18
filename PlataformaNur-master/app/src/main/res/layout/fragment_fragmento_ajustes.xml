@@ -103,6 +103,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
+                    <!--TODO: quitar las carreras-->
                     <LinearLayout
                         android:visibility="gone"
                         android:layout_width="match_parent"

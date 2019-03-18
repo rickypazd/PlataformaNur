@@ -245,4 +245,17 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="RoundedInputLayoutStyle">
+        <item name="android:padding">8dp</item>
+        <item name="android:layout_margin">16dp</item>
+        <!-- b'cause I want it to be this color only when the input become selected -->
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="android:background">@drawable/border_input_layout</item>
+    </style>
+
+    <style name="RoundedInputStyle">
+        <item name="android:padding">8dp</item>
+        <item name="android:background">@drawable/border_input</item>
+    </style>
+
 </resources>

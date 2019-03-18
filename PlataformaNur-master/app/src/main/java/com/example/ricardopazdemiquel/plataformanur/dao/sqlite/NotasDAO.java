@@ -86,102 +86,6 @@ class NotasDAO extends com.example.ricardopazdemiquel.plataformanur.dao.NotasDAO
 
         Notas objNotas = (Notas) obj;
 
-//		if (objNotas.getLCENTRO_ID() <= 0) {
-//		    throw new IllegalArgumentException("El LCENTRO_ID no puede ser menor o igual que cero");
-//		}
-//
-//		if (objNotas.getSCODCENTRO().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El SCODCENTRO no puede estar vacio");
-//		}
-//
-//		if (objNotas.getSCENTRO_DSC().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El SCENTRO_DSC no puede estar vacio");
-//		}
-//
-//		if (objNotas.getSCODMATERIA().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El SCODMATERIA no puede estar vacio");
-//		}
-//
-//		if (objNotas.getSSIGLA().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El SSIGLA no puede estar vacio");
-//		}
-//
-//		if (objNotas.getSMATERIA_DSC().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El SMATERIA_DSC no puede estar vacio");
-//		}
-//
-//		if (objNotas.getSCODGRUPO().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El SCODGRUPO no puede estar vacio");
-//		}
-//
-//		if (objNotas.getDOCENTE().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El DOCENTE no puede estar vacio");
-//		}
-//
-//		if (objNotas.getPAR1().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El PAR1 no puede estar vacio");
-//		}
-//
-//		if (objNotas.getPAR2().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El PAR2 no puede estar vacio");
-//		}
-//
-//		if (objNotas.getEXFINAL().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El EXFINAL no puede estar vacio");
-//		}
-//
-//		if (objNotas.getFINAL().trim().isEmpty()) {
-//		    throw new IllegalArgumentException("El FINAL no puede estar vacio");
-//		}
-//
-//		if (objNotas.getFMES1() <= 0) {
-//		    throw new IllegalArgumentException("El FMES1 no puede ser menor o igual que cero");
-//		}
-//
-//		if (objNotas.getFMES2() <= 0) {
-//		    throw new IllegalArgumentException("El FMES2 no puede ser menor o igual que cero");
-//		}
-//
-//		if (objNotas.getFMES3() <= 0) {
-//		    throw new IllegalArgumentException("El FMES3 no puede ser menor o igual que cero");
-//		}
-//
-//		if (objNotas.getFMES4() <= 0) {
-//		    throw new IllegalArgumentException("El FMES4 no puede ser menor o igual que cero");
-//		}
-//
-//		if (objNotas.getFMES5() <= 0) {
-//		    throw new IllegalArgumentException("El FMES5 no puede ser menor o igual que cero");
-//		}
-//
-//		if (objNotas.getFMES6() <= 0) {
-//		    throw new IllegalArgumentException("El FMES6 no puede ser menor o igual que cero");
-//		}
-//
-//		if (objNotas.getFMES7() <= 0) {
-//		    throw new IllegalArgumentException("El FMES7 no puede ser menor o igual que cero");
-//		}
-//
-//		if (objNotas.getFMES8() <= 0) {
-//		    throw new IllegalArgumentException("El FMES8 no puede ser menor o igual que cero");
-//		}
-//
-//		if (objNotas.getFMES9() <= 0) {
-//		    throw new IllegalArgumentException("El FMES9 no puede ser menor o igual que cero");
-//		}
-//
-//		if (objNotas.getFMES10() <= 0) {
-//		    throw new IllegalArgumentException("El FMES10 no puede ser menor o igual que cero");
-//		}
-//
-//		if (objNotas.getFMES11() <= 0) {
-//		    throw new IllegalArgumentException("El FMES11 no puede ser menor o igual que cero");
-//		}
-//
-//		if (objNotas.getFMES12() <= 0) {
-//		    throw new IllegalArgumentException("El FMES12 no puede ser menor o igual que cero");
-//		}
-
         ContentValues valores = new ContentValues();
 		valores.put(LGRUPO_ID, objNotas.getLGRUPO_ID());
 		valores.put(LCENTRO_ID, objNotas.getLCENTRO_ID());
@@ -219,43 +123,74 @@ class NotasDAO extends com.example.ricardopazdemiquel.plataformanur.dao.NotasDAO
     }
 
 	@Override
-    public void insertar(JSONObject obj) {
+    public int insertar(JSONObject json) {
     	Notas nota = new Notas();
 
 		try {
-			nota.setLGRUPO_ID(obj.getInt("LGRUPO_ID"));
-			nota.setLCENTRO_ID(obj.getInt("LCENTRO_ID"));
-			nota.setSCODCENTRO(obj.getString("SCODCENTRO"));
-			nota.setSCENTRO_DSC(obj.getString("SCENTRO_DSC"));
-			nota.setSCODMATERIA(obj.getString("SCODMATERIA"));
-			nota.setSSIGLA(obj.getString("SSIGLA"));
-			nota.setSMATERIA_DSC(obj.getString("SMATERIA_DSC"));
-			nota.setSCODGRUPO(obj.getString("SCODGRUPO"));
-			nota.setDOCENTE(obj.getString("DOCENTE"));
-			nota.setPAR1(obj.getString("PAR1"));
-			nota.setPAR2(obj.getString("PAR2"));
-			nota.setEXFINAL(obj.getString("EXFINAL"));
-			nota.setFINAL(obj.getString("FINAL"));
-			nota.setFMES1(obj.getInt("FMES1"));
-			nota.setFMES2(obj.getInt("FMES2"));
-			nota.setFMES3(obj.getInt("FMES3"));
-			nota.setFMES4(obj.getInt("FMES4"));
-			nota.setFMES5(obj.getInt("FMES5"));
-			nota.setFMES6(obj.getInt("FMES6"));
-			nota.setFMES7(obj.getInt("FMES7"));
-			nota.setFMES8(obj.getInt("FMES8"));
-			nota.setFMES9(obj.getInt("FMES9"));
-			nota.setFMES10(obj.getInt("FMES10"));
-			nota.setFMES11(obj.getInt("FMES11"));
-			nota.setFMES12(obj.getInt("FMES12"));
+			if (!json.isNull("LGRUPO_ID")) nota.setLGRUPO_ID(json.getInt("LGRUPO_ID"));
+			if (!json.isNull("LCENTRO_ID")) nota.setLCENTRO_ID(json.getInt("LCENTRO_ID"));
+			nota.setSCODCENTRO(json.isNull("SCODCENTRO") ? "" : json.getString("SCODCENTRO"));
+			nota.setSCENTRO_DSC(json.isNull("SCENTRO_DSC") ? "" : json.getString("SCENTRO_DSC"));
+			nota.setSCODMATERIA(json.isNull("SCODMATERIA") ? "" : json.getString("SCODMATERIA"));
+			nota.setSSIGLA(json.isNull("SSIGLA") ? "" : json.getString("SSIGLA"));
+			nota.setSMATERIA_DSC(json.isNull("SMATERIA_DSC") ? "" : json.getString("SMATERIA_DSC"));
+			nota.setSCODGRUPO(json.isNull("SCODGRUPO") ? "" : json.getString("SCODGRUPO"));
+			nota.setDOCENTE(json.isNull("DOCENTE") ? "" : json.getString("DOCENTE"));
+			nota.setPAR1(json.isNull("PAR1") ? "" : json.getString("PAR1"));
+			nota.setPAR2(json.isNull("PAR2") ? "" : json.getString("PAR2"));
+			nota.setEXFINAL(json.isNull("EXFINAL") ? "" : json.getString("EXFINAL"));
+			nota.setFINAL(json.isNull("FINAL") ? "" : json.getString("FINAL"));
+			if (!json.isNull("FMES1")) nota.setFMES1(json.getInt("FMES1"));
+			if (!json.isNull("FMES2")) nota.setFMES2(json.getInt("FMES2"));
+			if (!json.isNull("FMES3")) nota.setFMES3(json.getInt("FMES3"));
+			if (!json.isNull("FMES4")) nota.setFMES4(json.getInt("FMES4"));
+			if (!json.isNull("FMES5")) nota.setFMES5(json.getInt("FMES5"));
+			if (!json.isNull("FMES6")) nota.setFMES6(json.getInt("FMES6"));
+			if (!json.isNull("FMES7")) nota.setFMES7(json.getInt("FMES7"));
+			if (!json.isNull("FMES8")) nota.setFMES8(json.getInt("FMES8"));
+			if (!json.isNull("FMES9")) nota.setFMES9(json.getInt("FMES9"));
+			if (!json.isNull("FMES10")) nota.setFMES10(json.getInt("FMES10"));
+			if (!json.isNull("FMES11")) nota.setFMES11(json.getInt("FMES11"));
+			if (!json.isNull("FMES12")) nota.setFMES12(json.getInt("FMES12"));
 
-			nota.setLPERIODO_ID(obj.getInt("LPERIODO_ID"));
-			nota.setLCARRERA_ID(obj.getInt("LCARRERA_ID"));
+			if (!json.isNull("LPERIODO_ID")) nota.setLPERIODO_ID(json.getInt("LPERIODO_ID"));
+			if (!json.isNull("LCARRERA_ID")) nota.setLCARRERA_ID(json.getInt("LCARRERA_ID"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 
-		insertar(nota);
+		ContentValues valores = new ContentValues();
+		valores.put(LGRUPO_ID, nota.getLGRUPO_ID());
+		valores.put(LCENTRO_ID, nota.getLCENTRO_ID());
+		valores.put(SCODCENTRO, nota.getSCODCENTRO());
+		valores.put(SCENTRO_DSC, nota.getSCENTRO_DSC());
+		valores.put(SSIGLA, nota.getSSIGLA());
+		valores.put(SMATERIA_DSC, nota.getSMATERIA_DSC());
+		valores.put(SCODGRUPO, nota.getSCODGRUPO());
+		valores.put(DOCENTE, nota.getDOCENTE());
+		valores.put(PAR1, nota.getPAR1());
+		valores.put(PAR2, nota.getPAR2());
+		valores.put(EXFINAL, nota.getEXFINAL());
+		valores.put(FINAL, nota.getFINAL());
+		valores.put(FMES1, nota.getFMES1());
+		valores.put(FMES2, nota.getFMES2());
+		valores.put(FMES3, nota.getFMES3());
+		valores.put(FMES4, nota.getFMES4());
+		valores.put(FMES5, nota.getFMES5());
+		valores.put(FMES6, nota.getFMES6());
+		valores.put(FMES7, nota.getFMES7());
+		valores.put(FMES8, nota.getFMES8());
+		valores.put(FMES9, nota.getFMES9());
+		valores.put(FMES10, nota.getFMES10());
+		valores.put(FMES11, nota.getFMES11());
+		valores.put(FMES12, nota.getFMES12());
+		valores.put(LPERIODO_ID, nota.getLPERIODO_ID());
+		valores.put(LCARRERA_ID, nota.getLCARRERA_ID());
+
+		Conexion con = Conexion.getOrCreate();
+		int ID = con.insertar(Tablas.Notas, valores);
+
+		return ID;
 	}
 
     @Override
