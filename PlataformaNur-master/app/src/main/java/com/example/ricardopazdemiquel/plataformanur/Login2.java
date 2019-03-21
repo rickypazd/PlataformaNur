@@ -4,9 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,12 +25,9 @@ import com.example.ricardopazdemiquel.plataformanur.Objs.AlumnoCarrera;
 import com.example.ricardopazdemiquel.plataformanur.Objs.Periodo;
 import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
 import com.example.ricardopazdemiquel.plataformanur.dao.FactoryDAO;
-import com.example.ricardopazdemiquel.plataformanur.dao.HorariosMateriasDAO;
-import com.example.ricardopazdemiquel.plataformanur.dao.HorariosOfertadosDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.MateriasDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.MateriasOfertadasDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.NotasDAO;
-import com.example.ricardopazdemiquel.plataformanur.dao.RequisitosMateriasDAO;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,7 +54,7 @@ public class Login2 extends AppCompatActivity { // 915 -
         et_pin = findViewById(R.id.et_pin);
         TextView tvIngresar = findViewById(R.id.tvIngresar);
 
-        TextInputLayout textInputLayout = findViewById(R.id.textInputLayout);
+        // TextInputLayout textInputLayout = findViewById(R.id.textInputLayout);
         // textInputLayout.setLayoutMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
 
 

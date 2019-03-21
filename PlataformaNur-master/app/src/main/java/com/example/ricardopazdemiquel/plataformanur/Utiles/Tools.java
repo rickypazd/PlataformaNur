@@ -1,7 +1,7 @@
 package com.example.ricardopazdemiquel.plataformanur.Utiles;
 
 import android.content.Context;
-import android.support.v4.widget.NestedScrollView;
+import androidx.core.widget.NestedScrollView;
 import android.view.View;
 public class Tools {
 

@@ -2,12 +2,11 @@ package com.example.ricardopazdemiquel.plataformanur.layouts;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,7 +18,6 @@ import com.example.ricardopazdemiquel.plataformanur.dao.FactoryDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.HorariosMateriasDAO;
 import com.example.ricardopazdemiquel.plataformanur.dto.HorariosMaterias;
 import com.example.ricardopazdemiquel.plataformanur.dto.Notas;
-import com.github.akashandroid90.imageletter.MaterialLetterIcon;
 
 import org.json.JSONArray;
 import org.json.JSONException;

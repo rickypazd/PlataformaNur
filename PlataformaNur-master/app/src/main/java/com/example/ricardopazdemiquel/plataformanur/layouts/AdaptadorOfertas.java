@@ -2,8 +2,8 @@ package com.example.ricardopazdemiquel.plataformanur.layouts;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
-import com.example.ricardopazdemiquel.plataformanur.Objs.AlumnoOferta;
 import com.example.ricardopazdemiquel.plataformanur.R;
 import com.example.ricardopazdemiquel.plataformanur.dao.FactoryDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.HorariosOfertadosDAO;
-import com.example.ricardopazdemiquel.plataformanur.dao.MateriasOfertadasDAO;
 import com.example.ricardopazdemiquel.plataformanur.dto.HorariosOfertados;
 import com.example.ricardopazdemiquel.plataformanur.dto.MateriasOfertadas;
-import com.example.ricardopazdemiquel.plataformanur.dto.Notas;
 
 import org.json.JSONArray;
 import org.json.JSONException;

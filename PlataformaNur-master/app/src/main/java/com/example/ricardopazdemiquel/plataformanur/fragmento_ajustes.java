@@ -4,7 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -27,8 +27,6 @@ import com.example.ricardopazdemiquel.plataformanur.dao.NotasDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.RequisitosMateriasDAO;
 
 import org.json.JSONArray;
-
-import java.util.ArrayList;
 
 
 public class fragmento_ajustes extends Fragment implements View.OnClickListener {

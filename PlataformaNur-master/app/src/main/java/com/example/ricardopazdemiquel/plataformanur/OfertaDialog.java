@@ -1,42 +1,23 @@
 package com.example.ricardopazdemiquel.plataformanur;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialogFragment;
-import android.util.Log;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDialogFragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.ricardopazdemiquel.plataformanur.Objs.Alumno;
-import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
 import com.example.ricardopazdemiquel.plataformanur.dao.FactoryDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.HorariosOfertadosDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.MateriasOfertadasDAO;
 import com.example.ricardopazdemiquel.plataformanur.dto.HorariosOfertados;
 import com.example.ricardopazdemiquel.plataformanur.dto.MateriasOfertadas;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class OfertaDialog extends AppCompatDialogFragment {
 
