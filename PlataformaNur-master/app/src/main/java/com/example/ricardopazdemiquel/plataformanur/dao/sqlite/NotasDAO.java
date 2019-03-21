@@ -2,6 +2,7 @@ package com.example.ricardopazdemiquel.plataformanur.dao.sqlite;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import com.example.ricardopazdemiquel.plataformanur.conexion.Tablas;
 import com.example.ricardopazdemiquel.plataformanur.dto.DTO;
 import com.example.ricardopazdemiquel.plataformanur.dto.Notas;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -483,4 +485,76 @@ class NotasDAO extends com.example.ricardopazdemiquel.plataformanur.dao.NotasDAO
 
 		return objNotas;
 	}
+
+	@Override
+	public void insercionMasiva(int carreraId, int periodoId, JSONArray jsonArray) {
+		Conexion conexion = Conexion.getOrCreate();
+		SQLiteDatabase bd = conexion.getWritableDatabase();
+
+		ContentValues values;
+		ContentValues horariosValues;
+
+		bd.beginTransaction();
+
+		try {
+			for (int i = 0; i < jsonArray.length(); i++) {
+				JSONObject json = jsonArray.getJSONObject(i);
+
+				values = new ContentValues();
+				values.put(LGRUPO_ID, json.isNull(LGRUPO_ID) ? 0 : json.getInt(LGRUPO_ID));
+				values.put(LCENTRO_ID, json.isNull(LCENTRO_ID) ? 0 : json.getInt(LCENTRO_ID));
+				values.put(SCODCENTRO, json.isNull(SCODCENTRO) ? "" : json.getString(SCODCENTRO));
+				values.put(SCENTRO_DSC, json.isNull(SCENTRO_DSC) ? "" : json.getString(SCENTRO_DSC));
+				values.put(SSIGLA, json.isNull(SSIGLA) ? "" : json.getString(SSIGLA));
+				values.put(SMATERIA_DSC, json.isNull(SMATERIA_DSC) ? "" : json.getString(SMATERIA_DSC));
+				values.put(SCODGRUPO, json.isNull(SCODGRUPO) ? "" : json.getString(SCODGRUPO));
+				values.put(DOCENTE, json.isNull(DOCENTE) ? "" : json.getString(DOCENTE));
+				values.put(PAR1, json.isNull(PAR1) ? "" : json.getString(PAR1));
+				values.put(PAR2, json.isNull(PAR2) ? "" : json.getString(PAR2));
+				values.put(EXFINAL, json.isNull(EXFINAL) ? "" : json.getString(EXFINAL));
+				values.put(FINAL, json.isNull(FINAL) ? "" : json.getString(FINAL));
+				values.put(FMES1, json.isNull(FMES1) ? 0 : json.getInt(FMES1));
+				values.put(FMES2, json.isNull(FMES2) ? 0 : json.getInt(FMES2));
+				values.put(FMES3, json.isNull(FMES3) ? 0 : json.getInt(FMES3));
+				values.put(FMES4, json.isNull(FMES4) ? 0 : json.getInt(FMES4));
+				values.put(FMES5, json.isNull(FMES5) ? 0 : json.getInt(FMES5));
+				values.put(FMES6, json.isNull(FMES6) ? 0 : json.getInt(FMES6));
+				values.put(FMES7, json.isNull(FMES7) ? 0 : json.getInt(FMES7));
+				values.put(FMES8, json.isNull(FMES8) ? 0 : json.getInt(FMES8));
+				values.put(FMES9, json.isNull(FMES9) ? 0 : json.getInt(FMES9));
+				values.put(FMES10, json.isNull(FMES10) ? 0 : json.getInt(FMES10));
+				values.put(FMES11, json.isNull(FMES11) ? 0 : json.getInt(FMES11));
+				values.put(FMES12, json.isNull(FMES12) ? 0 : json.getInt(FMES12));
+				values.put(LPERIODO_ID, periodoId);
+				values.put(LCARRERA_ID, carreraId);
+
+				bd.insertOrThrow(Tablas.Notas.toString(), null, values);
+
+				if (!json.isNull("HORARIO")) {
+					JSONArray horarios = json.getJSONArray("HORARIO");
+
+					for (int j = 0; j < horarios.length(); j++) {
+						JSONObject horario = horarios.getJSONObject(j);
+
+						horariosValues = new ContentValues();
+						horariosValues.put("LGRUPOHORARIO_ID", horario.isNull("LGRUPOHORARIO_ID") ? 0 : horario.getInt("LGRUPOHORARIO_ID"));
+						horariosValues.put("LGRUPO_ID", horario.isNull("LGRUPO_ID") ? 0 : horario.getInt("LGRUPO_ID"));
+						horariosValues.put("ENTRADA", horario.isNull("ENTRADA") ? "" : horario.getString("ENTRADA"));
+						horariosValues.put("SALIDA", horario.isNull("SALIDA") ? "" : horario.getString("SALIDA"));
+						horariosValues.put("LDIA", horario.isNull("LDIA") ? 0 : horario.getInt("LDIA"));
+						horariosValues.put("SDIA_DSC", horario.isNull("SDIA_DSC") ? "" : horario.getString("SDIA_DSC"));
+						horariosValues.put("SAULA_DSC", horario.isNull("SAULA_DSC") ? "" : horario.getString("SAULA_DSC"));
+
+						bd.insertOrThrow(Tablas.HorariosMaterias.toString(), null, horariosValues);
+					}
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		bd.setTransactionSuccessful();
+		bd.endTransaction();
+	}
+
 }

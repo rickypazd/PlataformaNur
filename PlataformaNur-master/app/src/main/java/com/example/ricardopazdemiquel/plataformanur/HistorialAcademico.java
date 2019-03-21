@@ -10,8 +10,8 @@ import android.view.View;
 import com.example.ricardopazdemiquel.plataformanur.Objs.AlumnoCarrera;
 import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
 import com.example.ricardopazdemiquel.plataformanur.dao.FactoryDAO;
-import com.example.ricardopazdemiquel.plataformanur.dao.NotasDAO;
-import com.example.ricardopazdemiquel.plataformanur.dto.Notas;
+import com.example.ricardopazdemiquel.plataformanur.dao.MateriasDAO;
+import com.example.ricardopazdemiquel.plataformanur.dto.Materias;
 import com.example.ricardopazdemiquel.plataformanur.layouts.AdaptadorHistorialAcademico;
 
 import java.util.List;
@@ -45,14 +45,10 @@ public class HistorialAcademico extends AppCompatActivity {
 
         });
 
-        AlumnoCarrera carrera = Preferences.getCarreraSeleccionada(this);
+        MateriasDAO materiaDao = FactoryDAO.getOrCreate().newMateriasDAO();
+        List<Materias> materias = materiaDao.seleccionarTodos();
 
-        if (carrera != null) {
-            NotasDAO dao = FactoryDAO.getOrCreate().newNotasDAO();
-
-            List<Notas> notas = dao.seleccionar(carrera.getLCARRERA_ID(), 126);
-            AdaptadorHistorialAcademico adaptador = new AdaptadorHistorialAcademico(this, notas);
-            recyclerView.setAdapter(adaptador);
-        }
+        AdaptadorHistorialAcademico adaptador = new AdaptadorHistorialAcademico(this, materias);
+        recyclerView.setAdapter(adaptador);
     }
 }

@@ -21,8 +21,10 @@ import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
 import com.example.ricardopazdemiquel.plataformanur.dao.FactoryDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.HorariosMateriasDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.HorariosOfertadosDAO;
+import com.example.ricardopazdemiquel.plataformanur.dao.MateriasDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.MateriasOfertadasDAO;
 import com.example.ricardopazdemiquel.plataformanur.dao.NotasDAO;
+import com.example.ricardopazdemiquel.plataformanur.dao.RequisitosMateriasDAO;
 
 import org.json.JSONArray;
 
@@ -62,11 +64,15 @@ public class fragmento_ajustes extends Fragment implements View.OnClickListener 
         textView_email = (TextView) view.findViewById(R.id.textView_email);
         textView_fecha_nac = (TextView) view.findViewById(R.id.textView_fecha_nac);
 
-        ImageView logo = view.findViewById(R.id.imgUser);
         String alumnoImagenStr = Preferences.getAlumnoImagenStr(getContext());
+        ImageView logo = view.findViewById(R.id.imgUser);
         byte[] imageByteArray = Base64.decode(alumnoImagenStr, Base64.DEFAULT);
 
-        Glide.with(this).load(imageByteArray).into(logo);
+        if (alumnoImagenStr.isEmpty()) {
+            Glide.with(this).load(R.drawable.ic_user).into(logo);
+        } else {
+            Glide.with(this).load(imageByteArray).into(logo);
+        }
 
         cargarPerfil();
 
@@ -129,10 +135,14 @@ public class fragmento_ajustes extends Fragment implements View.OnClickListener 
         MateriasOfertadasDAO materiasOfertadasDao = FactoryDAO.getOrCreate().newMateriasOfertadasDAO();
         HorariosOfertadosDAO horariosOfertadosDao = FactoryDAO.getOrCreate().newHorariosOfertadosDAO();
         HorariosMateriasDAO horariosMateriasDao = FactoryDAO.getOrCreate().newHorariosMateriasDAO();
+        MateriasDAO materiasDao = FactoryDAO.getOrCreate().newMateriasDAO();
+        RequisitosMateriasDAO requisitosDao = FactoryDAO.getOrCreate().newRequisitosMateriasDAO();
         notasDAO.truncate();
         materiasOfertadasDao.truncate();
         horariosOfertadosDao.truncate();
         horariosMateriasDao.truncate();
+        materiasDao.truncate();
+        requisitosDao.truncate();
 
         Intent intent = new Intent(getContext(), Login2.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

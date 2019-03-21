@@ -9,7 +9,9 @@ public enum Tablas {
     Notas("Notas"),
     MateriasOfertadas("MateriasOfertadas"),
     HorariosOfertados("HorariosOfertados"),
-    HorariosMaterias("HorariosMaterias");
+    HorariosMaterias("HorariosMaterias"),
+    Materias("Materias"),
+    RequisitosMaterias("RequisitosMaterias");
 
     private final String texto;
 

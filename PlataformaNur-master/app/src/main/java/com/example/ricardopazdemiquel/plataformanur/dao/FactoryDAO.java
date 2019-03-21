@@ -32,4 +32,8 @@ public abstract class FactoryDAO {
 
     public abstract HorariosMateriasDAO newHorariosMateriasDAO();
 
+    public abstract MateriasDAO newMateriasDAO();
+
+    public abstract RequisitosMateriasDAO newRequisitosMateriasDAO();
+
 }

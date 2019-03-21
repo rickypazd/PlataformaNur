@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.ricardopazdemiquel.plataformanur.dto.MateriasOfertadas;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public abstract class MateriasOfertadasDAO implements IDAO {
@@ -18,6 +19,7 @@ public abstract class MateriasOfertadasDAO implements IDAO {
     public abstract void truncate();
     public abstract List<MateriasOfertadas> seleccionar(int carrera, int periodo);
     public abstract MateriasOfertadas seleccionar(int carrera, int periodo, String materia);
+    public abstract void insercionMasiva(int carreraId, int periodoId, JSONArray jsonArray);
     protected String[] columnas;
 
     public MateriasOfertadasDAO(String... columnas) {

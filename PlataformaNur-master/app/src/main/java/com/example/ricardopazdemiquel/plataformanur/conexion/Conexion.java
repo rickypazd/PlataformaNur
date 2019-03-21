@@ -12,6 +12,10 @@ import java.util.StringTokenizer;
 import com.example.ricardopazdemiquel.plataformanur.R;
 import com.example.ricardopazdemiquel.plataformanur.Utiles.MyApp;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Conexion extends SQLiteOpenHelper {
 
     private final static String NOMBRE = "notas.nur";
@@ -106,5 +110,59 @@ public class Conexion extends SQLiteOpenHelper {
             bd.execSQL(sentencia);
         }
     }
+
+//    public void insertarMateri(Tablas tabla, ContentValues values, int cantidadColumnas) {
+//        SQLiteDatabase bd = getWritableDatabase();
+//
+//        bd.beginTransaction();
+//
+//        for (int i = 0; i < values.size(); i += cantidadColumnas) {
+//            bd.insertOrThrow(tabla.toString(), null, valores);
+//        }
+//
+//        try {
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//                JSONObject json = jsonArray.getJSONObject(i);
+//
+//                ContentValues values = new ContentValues();
+//                for (String columna: columnas) {
+//                    values.put(columna, json.get(columna));
+//                }
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        // StringTokenizer sentencias = new StringTokenizer(lote, ";");
+////        while (sentencias.hasMoreTokens()) {
+////            String sentencia = sentencias.nextToken();
+////            bd.insert()
+////        }
+//    }
+
+//    public void ejecutarLote(Tablas tabla, String[] columnas, JSONArray jsonArray) {
+//        SQLiteDatabase bd = getWritableDatabase();
+//
+//        bd.beginTransaction();
+//
+//        try {
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//                JSONObject json = jsonArray.getJSONObject(i);
+//
+//                ContentValues values = new ContentValues();
+//                for (String columna: columnas) {
+//                    values.put(columna, json.get(columna));
+//                }
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        // StringTokenizer sentencias = new StringTokenizer(lote, ";");
+////        while (sentencias.hasMoreTokens()) {
+////            String sentencia = sentencias.nextToken();
+////            bd.insert()
+////        }
+//    }
 
 }

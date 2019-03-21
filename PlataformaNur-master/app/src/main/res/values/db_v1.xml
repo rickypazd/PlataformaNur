@@ -73,5 +73,31 @@
             SAULA_DSC text,
             primary key(ID)
         );
+
+        create table Materias (
+            ID integer,
+            SSIGLACODIGO text,
+            SCENTRO text,
+            SMATERIA_DSC text,
+            LCREDITOS integer,
+            LNOTA integer,
+            SPERIODO_DSC text,
+            OBS text,
+            LPOSICION integer,
+            SNROCARRERA text,
+            LPENSUM integer,
+            CODMATERIA text,
+            LSEMESTRE integer,
+            LMATERIA_ID integer,
+            LCARRERA_ID integer,
+            primary key (ID)
+        );
+
+        create table RequisitosMaterias (
+            ID integer,
+            SMATERIA_DSC text,
+            MATERIA_ID integer,
+            primary key (ID)
+        );
     </string>
 </resources>

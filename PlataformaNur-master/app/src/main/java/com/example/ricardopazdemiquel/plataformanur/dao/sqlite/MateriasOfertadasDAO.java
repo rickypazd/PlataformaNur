@@ -2,6 +2,7 @@ package com.example.ricardopazdemiquel.plataformanur.dao.sqlite;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import com.example.ricardopazdemiquel.plataformanur.conexion.Tablas;
 import com.example.ricardopazdemiquel.plataformanur.dto.DTO;
 import com.example.ricardopazdemiquel.plataformanur.dto.MateriasOfertadas;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -315,6 +317,67 @@ class MateriasOfertadasDAO extends com.example.ricardopazdemiquel.plataformanur.
 		}
 
 		return objMateriasOfertadas;
+	}
+
+	@Override
+	public void insercionMasiva(int carreraId, int periodoId, JSONArray jsonArray) {
+		Conexion conexion = Conexion.getOrCreate();
+		SQLiteDatabase bd = conexion.getWritableDatabase();
+
+		ContentValues values;
+		ContentValues horariosValues;
+
+		bd.beginTransaction();
+
+		try {
+			for (int i = 0; i < jsonArray.length(); i++) {
+				JSONObject json = jsonArray.getJSONObject(i);
+
+				values = new ContentValues();
+				values.put(LGRUPO_ID, json.isNull(LGRUPO_ID) ? 0 : json.getInt(LGRUPO_ID));
+				values.put(LCENTRO_ID, json.isNull(LCENTRO_ID) ? 0 : json.getInt(LCENTRO_ID));
+				values.put(SCENTRO_DSC, json.isNull(SCENTRO_DSC) ? "" : json.getString(SCENTRO_DSC));
+				values.put(SMATERIA_DSC, json.isNull(SMATERIA_DSC) ? "" : json.getString(SMATERIA_DSC));
+				values.put(SCODGRUPO, json.isNull(SCODGRUPO) ? "" : json.getString(SCODGRUPO));
+				values.put(DOCENTE, json.isNull(DOCENTE) ? "" : json.getString(DOCENTE));
+				values.put(LSEMESTRE, json.isNull(LSEMESTRE) ? 0 : json.getInt(LSEMESTRE));
+				values.put(LCREDITOS, json.isNull(LCREDITOS) ? 0 : json.getInt(LCREDITOS));
+				values.put(LLABORATORIO, json.isNull(LLABORATORIO) ? 0 : json.getInt(LLABORATORIO));
+				values.put(SCODMATERIA, json.isNull(SCODMATERIA) ? "" : json.getString(SCODMATERIA));
+				values.put(CASILLA, json.isNull(CASILLA) ? "" : json.getString(CASILLA));
+				values.put(SCODGRUPO, json.isNull(SCODGRUPO) ? "" : json.getString(SCODGRUPO));
+				values.put(SSEMANA, json.isNull(SSEMANA) ? "" : json.getString(SSEMANA));
+				values.put(LESTADOGRUPO_ID, json.isNull(LESTADOGRUPO_ID) ? 0 : json.getInt(LESTADOGRUPO_ID));
+				values.put(SESTADOGRUPO_DSC, json.isNull(SESTADOGRUPO_DSC) ? "" : json.getString(SESTADOGRUPO_DSC));
+				values.put(SOBS1, json.isNull(SOBS1) ? "" : json.getString(SOBS1));
+				values.put(LPERIODO_ID, periodoId);
+				values.put(LCARRERA_ID, carreraId);
+
+				int ID = (int) bd.insertOrThrow(Tablas.MateriasOfertadas.toString(), null, values);
+
+				if (!json.isNull("HORARIO")) {
+					JSONArray horarios = json.getJSONArray("HORARIO");
+
+					for (int j = 0; j < horarios.length(); j++) {
+						JSONObject horario = horarios.getJSONObject(j);
+
+						horariosValues = new ContentValues();
+						horariosValues.put("LDIA_ID", horario.isNull("LDIA_ID") ? 0 : horario.getInt("LDIA_ID"));
+						horariosValues.put("SDIA_DSC", horario.isNull("SDIA_DSC") ? "" : horario.getString("SDIA_DSC"));
+						horariosValues.put("DTHRENTRADA", horario.isNull("DTHRENTRADA") ? "" : horario.getString("DTHRENTRADA"));
+						horariosValues.put("DTHRSALIDA", horario.isNull("DTHRSALIDA") ? "" : horario.getString("DTHRSALIDA"));
+						horariosValues.put("MAT_OFERTADA_ID", ID);
+
+						bd.insertOrThrow(Tablas.HorariosOfertados.toString(), null, horariosValues);
+					}
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		bd.setTransactionSuccessful();
+		bd.endTransaction();
 	}
 
 }
