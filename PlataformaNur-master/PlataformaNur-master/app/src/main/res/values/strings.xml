@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Notas Nur</string>
+
+    <string name="URL_service">http://sisnur.nur.edu:8085/api/Registros/</string>
+    <string name="KeyService">A10BB4B705310FB670185286C2B2367365A1CA2C</string>
+    <string name="title_activity_tab_bar">TabBarActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="primer_parcial">1
+        &lt;sup&gt;er&lt;/sup&gt;
+        parcial
+    </string>
+    <string name="segundo_parcial">1
+        &lt;sup&gt;do&lt;/sup&gt;
+        parcial
+    </string>
+    <string-array name="Games">
+        <item>League of Legends</item>
+        <item>Diablo III</item>
+        <item>God of War</item>
+        <item>Halo 4</item>
+        <item>StarCraft II</item>
+    </string-array>
+
+</resources>
