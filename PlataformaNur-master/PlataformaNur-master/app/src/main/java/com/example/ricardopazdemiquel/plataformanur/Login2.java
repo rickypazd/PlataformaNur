@@ -9,7 +9,12 @@ import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +58,20 @@ public class Login2 extends AppCompatActivity { // 915 -
         et_registro = findViewById(R.id.et_registro);
         et_pin = findViewById(R.id.et_pin);
         TextView tvIngresar = findViewById(R.id.tvIngresar);
+
+        LinearLayout formContainer = findViewById(R.id.formContainer);
+
+        Animation animFadein, animslideup;
+
+        animFadein = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        animslideup = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
+
+        final AnimationSet s = new AnimationSet(true);
+        s.setInterpolator(new AccelerateInterpolator());
+
+        s.addAnimation(animslideup);
+        s.addAnimation(animFadein);
+        formContainer.startAnimation(s);
 
         // TextInputLayout textInputLayout = findViewById(R.id.textInputLayout);
         // textInputLayout.setLayoutMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
