@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="db_v1">
+        create table Notas (
+            LGRUPO_ID integer,
+            LCENTRO_ID integer,
+            SCODCENTRO string,
+            SCENTRO_DSC string,
+            SCODMATERIA string,
+            SSIGLA string,
+            SMATERIA_DSC string,
+            SCODGRUPO string,
+            DOCENTE string,
+            PAR1 string,
+            PAR2 string,
+            EXFINAL string,
+            FINAL string,
+            FMES1 integer,
+            FMES2 integer,
+            FMES3 integer,
+            FMES4 integer,
+            FMES5 integer,
+            FMES6 integer,
+            FMES7 integer,
+            FMES8 integer,
+            FMES9 integer,
+            FMES10 integer,
+            FMES11 integer,
+            FMES12 integer,
+            LPERIODO_ID integer,
+	        LCARRERA_ID integer
+        );
+
+        create table MateriasOfertadas (
+            ID integer,
+            LGRUPO_ID integer,
+            LCENTRO_ID integer,
+            SCENTRO_DSC text,
+            SMATERIA_DSC text,
+            LSEMESTRE integer,
+            LCREDITOS integer,
+            LLABORATORIO integer,
+            DOCENTE text,
+            SCODMATERIA text,
+            CASILLA text,
+            SCODGRUPO text,
+            SSEMANA text,
+            LESTADOGRUPO_ID integer,
+            SESTADOGRUPO_DSC text,
+            SOBS1 text,
+            LPERIODO_ID integer,
+            LCARRERA_ID integer,
+            primary key(ID)
+        );
+
+        create table HorariosOfertados (
+            LDIA_ID integer,
+            SDIA_DSC text,
+            DTHRENTRADA text,
+            DTHRSALIDA text,
+            MAT_OFERTADA_ID integer
+        );
+
+        create table HorariosMaterias (
+            ID integer,
+            LGRUPOHORARIO_ID integer,
+            LGRUPO_ID integer,
+            ENTRADA text,
+            SALIDA text,
+            LDIA integer,
+            SDIA_DSC text,
+            SAULA_DSC text,
+            primary key(ID)
+        );
+
+        create table Materias (
+            ID integer,
+            SSIGLACODIGO text,
+            SCENTRO text,
+            SMATERIA_DSC text,
+            LCREDITOS integer,
+            LNOTA integer,
+            SPERIODO_DSC text,
+            OBS text,
+            LPOSICION integer,
+            SNROCARRERA text,
+            LPENSUM integer,
+            CODMATERIA text,
+            LSEMESTRE integer,
+            LMATERIA_ID integer,
+            LCARRERA_ID integer,
+            primary key (ID)
+        );
+
+        create table RequisitosMaterias (
+            ID integer,
+            SMATERIA_DSC text,
+            MATERIA_ID integer,
+            primary key (ID)
+        );
+    </string>
+</resources>
