@@ -9,7 +9,14 @@ import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,9 +61,31 @@ public class Login2 extends AppCompatActivity { // 915 -
         et_pin = findViewById(R.id.et_pin);
         TextView tvIngresar = findViewById(R.id.tvIngresar);
 
+        Animation fadeIn = new AlphaAnimation(0, 1);
+        fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
+        fadeIn.setDuration(1000);
+
+        AnimationSet animation = new AnimationSet(false); //change to false
+        animation.addAnimation(fadeIn);
+
+        LinearLayout formContainer = findViewById(R.id.formContainer);
+        // formContainer.setAnimation(animation);
+
+
+        Animation animFadein, animslideup;
+
+        animFadein = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        animslideup = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
+
+        final AnimationSet s = new AnimationSet(true);
+        s.setInterpolator(new AccelerateInterpolator());
+
+        s.addAnimation(animslideup);
+        s.addAnimation(animFadein);
+        formContainer.startAnimation(s);
         // TextInputLayout textInputLayout = findViewById(R.id.textInputLayout);
         // textInputLayout.setLayoutMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
-
+        // test();
 
         Typeface fontSegoePrint = Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf");
         tvIngresar.setTypeface(fontSegoePrint);
