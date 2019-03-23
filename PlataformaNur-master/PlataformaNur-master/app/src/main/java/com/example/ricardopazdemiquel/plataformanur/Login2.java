@@ -7,6 +7,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 
 import com.android.volley.NetworkError;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -92,8 +94,8 @@ public class Login2 extends AppCompatActivity { // 915 -
 
     public void loguearse() {
         boolean valido = true;
-        String registro = et_registro.getText().toString();
-        String ping = et_pin.getText().toString();
+        String registro = et_registro.getText().toString().trim();
+        String ping = et_pin.getText().toString().trim();
         if (registro.length() <= 0) {
             et_registro.setError("Debe introducir su número de registro");
             valido = false;
@@ -154,6 +156,10 @@ public class Login2 extends AppCompatActivity { // 915 -
 
                     if (error instanceof NetworkError) {
                         showNoNetworkDialog();
+                    } else if (error instanceof TimeoutError) {
+
+                    } else if (error instanceof ServerError) {
+                        Toast.makeText(Login2.this, "Crendenciales incorrectos", Toast.LENGTH_SHORT).show();
                     }
 
                     Log.e("LOG_VOLLEY", error.toString());
