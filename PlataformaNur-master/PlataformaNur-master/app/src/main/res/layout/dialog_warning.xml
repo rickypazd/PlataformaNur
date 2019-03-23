@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_middle"
-            android:text="No internet !"
+            android:text="No tienes internet!"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
@@ -67,7 +67,7 @@
             android:background="@drawable/btn_rounded_red"
             android:paddingLeft="@dimen/spacing_mlarge"
             android:paddingRight="@dimen/spacing_mlarge"
-            android:text="Retry"
+            android:text="Ok"
             android:textColor="@android:color/white" />
 
     </LinearLayout>

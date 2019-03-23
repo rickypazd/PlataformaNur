@@ -1,14 +1,20 @@
 package com.example.ricardopazdemiquel.plataformanur;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+
+import com.android.volley.NetworkError;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -72,10 +78,6 @@ public class Login2 extends AppCompatActivity { // 915 -
         s.addAnimation(animslideup);
         s.addAnimation(animFadein);
         formContainer.startAnimation(s);
-
-        // TextInputLayout textInputLayout = findViewById(R.id.textInputLayout);
-        // textInputLayout.setLayoutMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
-
 
         Typeface fontSegoePrint = Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf");
         tvIngresar.setTypeface(fontSegoePrint);
@@ -149,6 +151,11 @@ public class Login2 extends AppCompatActivity { // 915 -
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     progreso.dismiss();
+
+                    if (error instanceof NetworkError) {
+                        showNoNetworkDialog();
+                    }
+
                     Log.e("LOG_VOLLEY", error.toString());
                 }
             }) {
@@ -171,6 +178,29 @@ public class Login2 extends AppCompatActivity { // 915 -
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void showNoNetworkDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_warning);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     /* SERVICIOS BASE */
