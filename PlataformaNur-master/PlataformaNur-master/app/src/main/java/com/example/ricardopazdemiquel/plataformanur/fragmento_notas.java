@@ -103,14 +103,15 @@ public class fragmento_notas extends Fragment {
         contenedorSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             public void onRefresh() {
-                AlumnoCarrera carrera = Preferences.getCarreraSeleccionada(getContext());
-
-                if (carrera != null) {
-                    int periodoId = ((Periodo) spinnerPeriodos.getSelectedItem()).getLPERIODO_ID();
-                    int carreraId = carrera.getLCARRERA_ID();
-
-                    obtenerNotas(periodoId, carreraId);
-                }
+                contenedorSwipeRefreshLayout.setRefreshing(false);
+//                AlumnoCarrera carrera = Preferences.getCarreraSeleccionada(getContext());
+//
+//                if (carrera != null) {
+//                    int periodoId = ((Periodo) spinnerPeriodos.getSelectedItem()).getLPERIODO_ID();
+//                    int carreraId = carrera.getLCARRERA_ID();
+//
+//                    obtenerNotas(periodoId, carreraId);
+//                }
             }
 
         });

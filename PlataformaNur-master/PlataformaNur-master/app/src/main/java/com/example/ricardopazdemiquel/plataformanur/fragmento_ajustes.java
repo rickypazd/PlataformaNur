@@ -80,9 +80,9 @@ public class fragmento_ajustes extends Fragment implements View.OnClickListener 
         byte[] imageByteArray = Base64.decode(alumnoImagenStr, Base64.DEFAULT);
 
         if (alumnoImagenStr.isEmpty()) {
-            Glide.with(this).load(R.drawable.ic_user).into(logo);
+            Glide.with(getContext()).load(R.drawable.ic_user).into(logo);
         } else {
-            Glide.with(this).load(imageByteArray).into(logo);
+            Glide.with(getContext()).load(imageByteArray).into(logo);
         }
 
         cargarPerfil();

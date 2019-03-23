@@ -71,12 +71,14 @@ public class Preferences {
             alumno.setFechaNacimiento(json.isNull("DTFECHNAC") ? "" : json.get("DTFECHNAC").toString().trim());
             alumno.setSexo(json.isNull("SSEXO_DSC") ? "" : json.get("SSEXO_DSC").toString().trim());
             alumno.setCelular(json.isNull("SCELULAR") ? "" : json.get("SCELULAR").toString().trim());
+            alumno.setColegio(json.isNull("SCOLEGIO") ? "" : json.get("SCOLEGIO").toString().trim());
+            alumno.setTipoColegio(json.isNull("STIPOCOLEGIO") ? "" : json.get("STIPOCOLEGIO").toString().trim());
             alumno.setTelefono(json.isNull("STELEFONO") ? "" : json.get("STELEFONO").toString().trim());
             alumno.setEmail(json.isNull("SEMAIL") ? "" : json.get("SEMAIL").toString().trim());
             alumno.setEstadoCivil(json.isNull("SESTADOCIVIL_DSC") ? "" : json.get("SESTADOCIVIL_DSC").toString().trim());
             alumno.setTipoSangre(json.isNull("STIPOSANGRE_DSC") ? "" : json.get("STIPOSANGRE_DSC").toString().trim());
             if (!json.isNull("BOOLACTIVOPASIVO")) alumno.setActivoPasivo(json.getInt("BOOLACTIVOPASIVO") == 1);
-            if (!json.isNull("Data")) alumno.setHorasServicio(json.getInt("LHORASERVICIO"));
+            if (!json.isNull("LHORASERVICIO")) alumno.setHorasServicio(json.getInt("LHORASERVICIO"));
         } catch (Exception ignored) {
 
         }

@@ -13,6 +13,8 @@ public class Alumno {
     private String fechaNacimiento;
     private String sexo;
     private String celular;
+    private String colegio;
+    private String tipoColegio;
     private String telefono;
     private String email;
     private String estadoCivil;
@@ -150,5 +152,21 @@ public class Alumno {
 
     public void setHorasServicio(int horasServicio) {
         this.horasServicio = horasServicio;
+    }
+
+    public String getColegio() {
+        return colegio;
+    }
+
+    public void setColegio(String colegio) {
+        this.colegio = colegio;
+    }
+
+    public String getTipoColegio() {
+        return tipoColegio;
+    }
+
+    public void setTipoColegio(String tipoColegio) {
+        this.tipoColegio = tipoColegio;
     }
 }
