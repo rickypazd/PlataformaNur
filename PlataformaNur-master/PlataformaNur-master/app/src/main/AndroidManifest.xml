@@ -17,19 +17,28 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity android:name=".Carga">
+        <activity android:name=".Carga"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login2"></activity>
+        <activity android:name=".Login2"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"></activity>
         <activity
             android:name=".TabBarActivity"
-            android:label="@string/title_activity_tab_bar" />
-        <activity android:name=".DetalleMateriaActivity" />
-        <activity android:name=".HistorialAcademico"></activity>
+            android:label="@string/title_activity_tab_bar"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".DetalleMateriaActivity" android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".HistorialAcademico" android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"></activity>
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
+import com.bumptech.glide.Glide;
 import com.example.ricardopazdemiquel.plataformanur.Objs.Periodo;
 import com.example.ricardopazdemiquel.plataformanur.R;
 import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
@@ -115,14 +116,21 @@ public class AdaptadorNotas extends RecyclerView.Adapter<AdaptadorNotas.MyViewHo
             }
         });
 
-        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (onItemClickListener == null) return false;
-                onItemClickListener.onItemLongClick(view, obj, position);
-                return true;
-            }
-        });
+
+        int[] imagenes = {R.drawable.diagram,
+                R.drawable.flask,
+                R.drawable.form,
+                R.drawable.laptop,
+                R.drawable.rocket};
+
+        int random = (int) (Math.random() * imagenes.length);
+
+        if (position > imagenes.length) {
+            Glide.with(contexto).load(imagenes[random]).into(holder.imgMateria);
+        } else {
+            Glide.with(contexto).load(imagenes[position]).into(holder.imgMateria);
+        }
+
 
         if (obj.getSCENTRO_DSC().equals("PRESENCIAL")) {
             int faltas = getFaltas(obj);
@@ -244,7 +252,7 @@ public class AdaptadorNotas extends RecyclerView.Adapter<AdaptadorNotas.MyViewHo
         public TextView tvNombreMateria;
         public TextView tvNombreDocente;
         public TextView tvPeriodoMateria;
-        public ImageView image;
+        public ImageView image, imgMateria;
         public View vEstadoAsistencia;
         public CardView cardView;
 
@@ -257,6 +265,7 @@ public class AdaptadorNotas extends RecyclerView.Adapter<AdaptadorNotas.MyViewHo
             tvPeriodoMateria = v.findViewById(R.id.periodoMateria);
             vEstadoAsistencia = v.findViewById(R.id.estadoAsistencia);
             cardView = v.findViewById(R.id.cardView);
+            imgMateria = v.findViewById(R.id.imgMateria);
         }
     }
 
@@ -272,6 +281,5 @@ public class AdaptadorNotas extends RecyclerView.Adapter<AdaptadorNotas.MyViewHo
 
     public interface OnItemClickListener {
         void onItemClick(View view, Notas obj, int pos);
-        void onItemLongClick(View view, Notas obj, int pos);
     }
 }

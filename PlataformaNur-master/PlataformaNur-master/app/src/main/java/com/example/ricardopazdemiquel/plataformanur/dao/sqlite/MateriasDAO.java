@@ -3,6 +3,7 @@ package com.example.ricardopazdemiquel.plataformanur.dao.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -251,6 +252,7 @@ class MateriasDAO extends com.example.ricardopazdemiquel.plataformanur.dao.Mater
         ContentValues requisitosValues;
 
         bd.beginTransaction();
+        Log.i("com.example.ricardopaz", "bd.beginTransaction  of " + carreraId);
 
         try {
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -292,7 +294,9 @@ class MateriasDAO extends com.example.ricardopazdemiquel.plataformanur.dao.Mater
         }
 
         bd.setTransactionSuccessful();
+        Log.i("com.example.ricardopaz", "bd.setTransactionSuccessful  of " + carreraId);
         bd.endTransaction();
+        Log.i("com.example.ricardopaz", "bd.endTransaction  of " + carreraId);
     }
 
 }

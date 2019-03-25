@@ -592,23 +592,21 @@ public class Login2 extends AppCompatActivity { // 915 -
             PASOS_NECESARIOS_OFERTAS = carreras.size() * periodosOfertados.size();
             PASOS_NECESARIOS_HISTORIAL_ACADEMICO = carreras.size();
 
+            obtenerHistorialMateriasCursadas(carreras);
 
-            /* obtener notas e historial academico */
             for (int i = 0; i < carreras.size(); i++) {
                 AlumnoCarrera carrera = carreras.get(i);
 
-                obtenerHistorialMateriasCursadas(carrera.getLCARRERA_ID());
+                // obtenerHistorialMateriasCursadas(carrera.getLCARRERA_ID());
+                // Log.i("nur", "obtenerHistorialMateriasCursadas(" + carrera.getLCARRERA_ID() +");");
 
+                /* obtener notas */
                 for (int j = 0; j < periodos.size(); j++) {
                     Periodo periodo = periodos.get(j);
                     obtenerNotas(carrera.getLCARRERA_ID(), periodo.getLPERIODO_ID());
                 }
-            }
 
-            /* obtener periodos ofertados*/
-            for (int i = 0; i < carreras.size(); i++) {
-                AlumnoCarrera carrera = carreras.get(i);
-
+                /* obtener periodos ofertados*/
                 for (int j = 0; j < periodosOfertados.size(); j++) {
                     Periodo periodo = periodosOfertados.get(j);
                     obtenerMateriasOfertadas(carrera.getLCARRERA_ID(), periodo.getLPERIODO_ID());
@@ -635,22 +633,9 @@ public class Login2 extends AppCompatActivity { // 915 -
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    Log.i("com.example.ricardopaz", response);
                     try {
-                        JSONObject respuesta = new JSONObject(response);
-
-                        if (respuesta.getBoolean("Status")) {
-                            JSONObject datos = respuesta.getJSONObject("Data");
-
-                            MateriasDAO materiaDao = FactoryDAO.getOrCreate().newMateriasDAO();
-
-                            JSONArray materiasCursadas = datos.getJSONArray("CURSADAS");
-                            JSONArray materiasFaltantes = datos.getJSONArray("FALTANTES");
-
-                            materiaDao.insercionMasiva(carreraId, materiasCursadas);
-                            materiaDao.insercionMasiva(carreraId, materiasFaltantes, true);
-                        } else {
-                            Log.i("nur", "Status false en get alumno historial");
-                        }
+                        pensums.put(carreraId, new JSONObject(response));
 
                         pasosCompletadosHistorialAcademico += 1;
                         verificarCompletadoHistorialAcademico();
@@ -696,8 +681,114 @@ public class Login2 extends AppCompatActivity { // 915 -
         }
     }
 
+    public void obtenerHistorialMateriasCursadas(ArrayList<AlumnoCarrera> carreras) {
+        String url = getString(R.string.URL_service) + "GetAlumnoHistorial";
+
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+            for (AlumnoCarrera carrera: carreras) {
+                JSONObject jsonBody = new JSONObject();
+
+                final int carreraId = carrera.getLCARRERA_ID();
+                jsonBody.put("pCarreraId", carreraId);
+
+                progreso.setTitle("Obteniendo historial académico...");
+
+                final String mRequestBody = jsonBody.toString();
+
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject respuesta = new JSONObject(response);
+
+                            if (respuesta.getBoolean("Status")) {
+                                JSONObject datos = respuesta.getJSONObject("Data");
+
+                                MateriasDAO materiaDao = FactoryDAO.getOrCreate().newMateriasDAO();
+
+                                JSONArray materiasCursadas = datos.getJSONArray("CURSADAS");
+                                JSONArray materiasFaltantes = datos.getJSONArray("FALTANTES");
+
+                                materiaDao.insercionMasiva(carreraId, materiasCursadas);
+                                materiaDao.insercionMasiva(carreraId, materiasFaltantes, true);
+                            } else {
+                                Log.i("nur", "Status false en get alumno historial " + carreraId);
+                            }
+
+                            pasosCompletadosHistorialAcademico += 1;
+                            verificarCompletadoHistorialAcademico();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        pasosCompletadosHistorialAcademico += 1;
+                        verificarCompletadoHistorialAcademico();
+                    }
+                }) {
+                    @Override
+                    public String getBodyContentType() {
+                        return "application/json; charset=utf-8";
+                    }
+
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String, String> headers = new HashMap<>();
+                        headers.put("Authorization", "Bearer " + Preferences.getTokenAcceso(Login2.this));
+
+                        return headers;
+                    }
+
+                    @Override
+                    public byte[] getBody() throws AuthFailureError {
+                        try {
+                            return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                        } catch (UnsupportedEncodingException uee) {
+                            VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                            return null;
+                        }
+                    }
+                };
+
+                requestQueue.add(stringRequest);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    HashMap<Integer, JSONObject> pensums = new HashMap<>();
+
     public void verificarCompletadoHistorialAcademico() {
         if (pasosCompletadosHistorialAcademico == PASOS_NECESARIOS_HISTORIAL_ACADEMICO) {
+//            try {
+//                for (Map.Entry<Integer, JSONObject> entry : pensums.entrySet()) {
+//                    int carreraId = entry.getKey();
+//                    JSONObject respuesta = entry.getValue();
+//
+//                    if (respuesta.getBoolean("Status")) {
+//                        JSONObject datos = respuesta.getJSONObject("Data");
+//
+//                        MateriasDAO materiaDao = FactoryDAO.getOrCreate().newMateriasDAO();
+//
+//                        JSONArray materiasCursadas = datos.getJSONArray("CURSADAS");
+//                        JSONArray materiasFaltantes = datos.getJSONArray("FALTANTES");
+//
+//                        materiaDao.insercionMasiva(carreraId, materiasCursadas);
+//                        materiaDao.insercionMasiva(carreraId, materiasFaltantes, true);
+//                    } else {
+//                        Log.i("nur", "Status false en get alumno historial " + carreraId);
+//                    }
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+
             PASOS_NECESARIOS_HISTORIAL_ACADEMICO = 0;
             pasosCompletadosHistorialAcademico = 0;
 

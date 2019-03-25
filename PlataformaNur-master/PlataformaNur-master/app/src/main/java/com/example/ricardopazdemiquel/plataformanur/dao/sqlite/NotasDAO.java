@@ -7,6 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.ricardopazdemiquel.plataformanur.Objs.AlumnoCarrera;
+import com.example.ricardopazdemiquel.plataformanur.Objs.Periodo;
+import com.example.ricardopazdemiquel.plataformanur.Utiles.MyApp;
+import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
 import com.example.ricardopazdemiquel.plataformanur.conexion.Conexion;
 import com.example.ricardopazdemiquel.plataformanur.conexion.Tablas;
 import com.example.ricardopazdemiquel.plataformanur.dto.DTO;
@@ -557,4 +561,54 @@ class NotasDAO extends com.example.ricardopazdemiquel.plataformanur.dao.NotasDAO
 		bd.endTransaction();
 	}
 
+	@Override
+	public List<Periodo> seleccionarSemestresCursados() {
+		Conexion con = Conexion.getOrCreate();
+
+		AlumnoCarrera carreraSeleccionada = Preferences.getCarreraSeleccionada(MyApp.getInstancia());
+		ArrayList<Periodo> todosLosPeriodos = Preferences.getPeriodos(MyApp.getInstancia());
+		ArrayList<Periodo> periodosCursados = new ArrayList<>();
+
+		String where = "LCARRERA_ID = ?";
+		String[] parametrosWhere = { String.valueOf(carreraSeleccionada.getLCARRERA_ID()) };
+
+		Cursor cursor = con.ejecutarConsulta(Tablas.Notas, columnas, where, parametrosWhere);
+
+		while (cursor.moveToNext()) {
+			Notas objNotas = obtenerObjDeCursor(cursor);
+			int periodoId = objNotas.getLPERIODO_ID();
+
+			// recorro todos los peridos
+			for (int i = 0; i < todosLosPeriodos.size(); i++) {
+				Periodo objPeriodo = todosLosPeriodos.get(i);
+
+				// veo si esta materia se llevó en el peridoo
+				if (objPeriodo.getLPERIODO_ID() == periodoId) {
+					if (periodosCursados.size() > 0) { // para evitar tener periodos repetidos
+
+						boolean yaEstaEnLaLista = false;
+						for (int j = 0; j < periodosCursados.size(); j++) {
+							Periodo periodoCursado = periodosCursados.get(j);
+
+							if (periodoCursado.getLPERIODO_ID() == periodoId) {
+								yaEstaEnLaLista = true;
+								break;
+							}
+						}
+
+						if (!yaEstaEnLaLista) {
+							periodosCursados.add(objPeriodo);
+						}
+
+					} else { // agrego el periodo a la lista filtrada
+						periodosCursados.add(objPeriodo);
+					}
+
+					break;
+				}
+			}
+		}
+
+		return periodosCursados;
+	}
 }

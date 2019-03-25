@@ -8,11 +8,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.android.volley.TimeoutError;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,7 +32,6 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -52,7 +53,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +63,6 @@ public class fragmento_notas extends Fragment {
     private SwipeRefreshLayout contenedorSwipeRefreshLayout;
     private Spinner spinnerPeriodos;
     private RecyclerView notasRecyclerView;
-
     private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
 
@@ -73,7 +72,10 @@ public class fragmento_notas extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((TabBarActivity)getActivity()).getSupportActionBar().hide();
+
+        if (((TabBarActivity)getActivity()).getSupportActionBar() != null) {
+            ((TabBarActivity)getActivity()).getSupportActionBar().hide();
+        }
     }
 
     @Override
@@ -81,7 +83,7 @@ public class fragmento_notas extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fragmento_notas, container, false);
 
-        contenedorSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        // contenedorSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         spinnerPeriodos = view.findViewById(R.id.spinnerPeriodo);
         notasRecyclerView = view.findViewById(R.id.notasRecyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -100,10 +102,9 @@ public class fragmento_notas extends Fragment {
             }
         });
 
-        contenedorSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-
-            public void onRefresh() {
-                contenedorSwipeRefreshLayout.setRefreshing(false);
+//        contenedorSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//
+//            public void onRefresh() {
 //                AlumnoCarrera carrera = Preferences.getCarreraSeleccionada(getContext());
 //
 //                if (carrera != null) {
@@ -112,9 +113,9 @@ public class fragmento_notas extends Fragment {
 //
 //                    obtenerNotas(periodoId, carreraId);
 //                }
-            }
-
-        });
+//            }
+//
+//        });
 
         obtenerPeriodosCursados();
 
@@ -122,7 +123,9 @@ public class fragmento_notas extends Fragment {
     }
 
     public void obtenerPeriodosCursados() {
-        ArrayList<Periodo> periodos = Preferences.getPeriodos(getContext());
+        NotasDAO dao = FactoryDAO.getOrCreate().newNotasDAO();
+        List<Periodo> periodos = dao.seleccionarSemestresCursados();
+
 
         if (periodos != null) {
             spinnerPeriodos.setAdapter(new AdaptadorPeriodos(getContext(), periodos));
@@ -143,10 +146,6 @@ public class fragmento_notas extends Fragment {
                 @Override
                 public void onItemClick(View view, Notas obj, int pos) {
                     showBottomSheetDialog(obj);
-                }
-
-                @Override
-                public void onItemLongClick(View view, Notas obj, int pos) {
                 }
             });
         }
@@ -276,10 +275,10 @@ public class fragmento_notas extends Fragment {
 
                     if (error instanceof NetworkError) {
                         showCustomDialog();
-                    } else if (error instanceof NoConnectionError) {
-                        Toast.makeText(getContext(), "NoConnectionError", Toast.LENGTH_SHORT).show();
-                    } else {
+                    } else if (error instanceof AuthFailureError) {
                         loginAgain(Preferences.getRegistro(getContext()), Preferences.getPin(getContext()), periodoId, carreraId);
+                    } else if (error instanceof TimeoutError) {
+                        Log.i("nur", "TimeOutError al refrescar notas");
                     }
 
                     contenedorSwipeRefreshLayout.setRefreshing(false);
@@ -293,7 +292,7 @@ public class fragmento_notas extends Fragment {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", "Bearer " + Preferences.getTokenAcceso(getContext()) + "xyz");
+                    headers.put("Authorization", "Bearer " + Preferences.getTokenAcceso(getContext()));
 
                     return headers;
                 }

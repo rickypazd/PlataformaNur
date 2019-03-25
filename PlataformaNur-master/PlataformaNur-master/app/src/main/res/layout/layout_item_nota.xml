@@ -72,8 +72,10 @@
                 android:gravity="right">
 
                 <ImageView
+                    android:id="@+id/imgMateria"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
+                    android:padding="24dp"
                     android:src="@drawable/flask"/>
             </LinearLayout>
         </LinearLayout>

@@ -81,28 +81,28 @@ public class TabBarActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        if (Preferences.isFirstTime(this) && !estudiaUnaSolaCarrera()) {
-            /* Por defecto la primera carrera será seleccionada */
-            final ArrayList<AlumnoCarrera> carreras = Preferences.getAlumnoCarreras(this);
-
-            final CharSequence[] items = new CharSequence[carreras.size()];
-
-            for (int i = 0; i < carreras.size(); i++) {
-                AlumnoCarrera carrera = carreras.get(i);
-                items[i] = carrera.getSCARRERA_DSC();
-            }
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Selecciona una carrera")
-                    .setItems(items, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            AlumnoCarrera carreraSeleccionada = carreras.get(which);
-                            Preferences.setCarreraSeleccionada(TabBarActivity.this, carreraSeleccionada);
-                        }
-                    });
-
-            builder.show();
-        }
+//        if (Preferences.isFirstTime(this) && !estudiaUnaSolaCarrera()) {
+//            /* Por defecto la primera carrera será seleccionada */
+//            final ArrayList<AlumnoCarrera> carreras = Preferences.getAlumnoCarreras(this);
+//
+//            final CharSequence[] items = new CharSequence[carreras.size()];
+//
+//            for (int i = 0; i < carreras.size(); i++) {
+//                AlumnoCarrera carrera = carreras.get(i);
+//                items[i] = carrera.getSCARRERA_DSC();
+//            }
+//
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//            builder.setTitle("Selecciona una carrera")
+//                    .setItems(items, new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            AlumnoCarrera carreraSeleccionada = carreras.get(which);
+//                            Preferences.setCarreraSeleccionada(TabBarActivity.this, carreraSeleccionada);
+//                        }
+//                    });
+//
+//            builder.show();
+//        }
 
         seleccionarFragmento("nav_notas");
 
