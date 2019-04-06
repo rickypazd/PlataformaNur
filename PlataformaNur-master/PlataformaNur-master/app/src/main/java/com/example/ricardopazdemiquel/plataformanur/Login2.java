@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.android.volley.NetworkError;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
+import com.example.ricardopazdemiquel.plataformanur.Objs.PeriodoOferta;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -593,25 +594,26 @@ public class Login2 extends AppCompatActivity { // 915 -
             PASOS_NECESARIOS_HISTORIAL_ACADEMICO = carreras.size();
 
             obtenerHistorialMateriasCursadas(carreras);
+            obtenerNotasYOfertas(carreras, periodos, periodosOfertados);
 
-            for (int i = 0; i < carreras.size(); i++) {
-                AlumnoCarrera carrera = carreras.get(i);
+//            for (int i = 0; i < carreras.size(); i++) {
+//                AlumnoCarrera carrera = carreras.get(i);
 
                 // obtenerHistorialMateriasCursadas(carrera.getLCARRERA_ID());
                 // Log.i("nur", "obtenerHistorialMateriasCursadas(" + carrera.getLCARRERA_ID() +");");
 
                 /* obtener notas */
-                for (int j = 0; j < periodos.size(); j++) {
-                    Periodo periodo = periodos.get(j);
-                    obtenerNotas(carrera.getLCARRERA_ID(), periodo.getLPERIODO_ID());
-                }
+//                for (int j = 0; j < periodos.size(); j++) {
+//                    Periodo periodo = periodos.get(j);
+//                    obtenerNotas(carrera.getLCARRERA_ID(), periodo.getLPERIODO_ID());
+//                }
 
                 /* obtener periodos ofertados*/
-                for (int j = 0; j < periodosOfertados.size(); j++) {
-                    Periodo periodo = periodosOfertados.get(j);
-                    obtenerMateriasOfertadas(carrera.getLCARRERA_ID(), periodo.getLPERIODO_ID());
-                }
-            }
+//                for (int j = 0; j < periodosOfertados.size(); j++) {
+//                    Periodo periodo = periodosOfertados.get(j);
+//                    obtenerMateriasOfertadas(carrera.getLCARRERA_ID(), periodo.getLPERIODO_ID());
+//                }
+//            }
 
             pasosCompletadosBase = 0;
         }
@@ -865,6 +867,161 @@ public class Login2 extends AppCompatActivity { // 915 -
             };
 
             requestQueue.add(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void obtenerNotasYOfertas(ArrayList<AlumnoCarrera> carreras, ArrayList<Periodo> periodos, ArrayList<Periodo> periodosOfertados) {
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+            for (AlumnoCarrera carrera : carreras) {
+                final int carreraId = carrera.getLCARRERA_ID();
+
+                for (Periodo periodoOfertado : periodosOfertados) {
+                    final int periodoId = periodoOfertado.getLPERIODO_ID();
+
+                    String url = getString(R.string.URL_service) + "GetAlumnoOferta";
+
+                    JSONObject jsonBody = new JSONObject();
+
+                    jsonBody.put("pCarreraId", carreraId);
+                    jsonBody.put("pPeriodoId", periodoId);
+
+                    progreso.setTitle("Obteniendo materias ofertadas...");
+
+                    final String mRequestBody = jsonBody.toString();
+
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject respuesta = new JSONObject(response);
+
+                                if (respuesta.getBoolean("Status")) {
+                                    JSONArray ofertasJson = respuesta.getJSONArray("Data");
+
+                                    MateriasOfertadasDAO ofertasDao = FactoryDAO.getOrCreate().newMateriasOfertadasDAO();
+                                    ofertasDao.insercionMasiva(carreraId, periodoId, ofertasJson);
+                                } else {
+                                    Log.i("nur", "Status false en get notas");
+                                }
+
+                                pasosCompletadosOfertas += 1;
+                                verificarCompletadoOfertas();
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("LOG_VOLLEY", error.toString());
+
+                            pasosCompletadosOfertas += 1;
+                            verificarCompletadoOfertas();
+                        }
+                    }) {
+                        @Override
+                        public String getBodyContentType() {
+                            return "application/json; charset=utf-8";
+                        }
+
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> headers = new HashMap<>();
+                            headers.put("Authorization", "Bearer " + Preferences.getTokenAcceso(Login2.this));
+
+                            return headers;
+                        }
+
+                        @Override
+                        public byte[] getBody() throws AuthFailureError {
+                            try {
+                                return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                            } catch (UnsupportedEncodingException uee) {
+                                VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                                return null;
+                            }
+                        }
+                    };
+
+                    requestQueue.add(stringRequest);
+                }
+
+                for (Periodo periodo : periodos) {
+                    final int periodoId = periodo.getLPERIODO_ID();
+
+                    String url = getString(R.string.URL_service) + "GetNotasFaltas";
+
+                    JSONObject jsonBody = new JSONObject();
+
+                    jsonBody.put("pCarreraId", carreraId);
+                    jsonBody.put("pPeriodoId", periodoId);
+
+                    progreso.setTitle("Obteniendo notas...");
+
+                    final String mRequestBody = jsonBody.toString();
+
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject respuesta = new JSONObject(response);
+
+                                if (respuesta.getBoolean("Status")) {
+                                    JSONArray notasJson = respuesta.getJSONArray("Data");
+
+                                    NotasDAO dao = FactoryDAO.getOrCreate().newNotasDAO();
+                                    dao.insercionMasiva(carreraId, periodoId, notasJson);
+                                } else {
+                                    Log.i("nur", "Status false en get notas");
+                                }
+
+                                pasosCompletadosNotas += 1;
+                                verificarCompletadoNotas();
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            pasosCompletadosNotas += 1;
+                            verificarCompletadoNotas();
+                        }
+                    }) {
+                        @Override
+                        public String getBodyContentType() {
+                            return "application/json; charset=utf-8";
+                        }
+
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> headers = new HashMap<>();
+                            headers.put("Authorization", "Bearer " + Preferences.getTokenAcceso(Login2.this));
+
+                            return headers;
+                        }
+
+                        @Override
+                        public byte[] getBody() throws AuthFailureError {
+                            try {
+                                return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                            } catch (UnsupportedEncodingException uee) {
+                                VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                                return null;
+                            }
+                        }
+                    };
+
+
+                    requestQueue.add(stringRequest);
+                }
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -125,7 +125,7 @@ public class AdaptadorNotas extends RecyclerView.Adapter<AdaptadorNotas.MyViewHo
 
         int random = (int) (Math.random() * imagenes.length);
 
-        if (position > imagenes.length) {
+        if (position >= imagenes.length) {
             Glide.with(contexto).load(imagenes[random]).into(holder.imgMateria);
         } else {
             Glide.with(contexto).load(imagenes[position]).into(holder.imgMateria);

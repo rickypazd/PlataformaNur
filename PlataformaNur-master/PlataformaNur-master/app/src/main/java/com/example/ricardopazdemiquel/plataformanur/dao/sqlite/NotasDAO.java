@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.example.ricardopazdemiquel.plataformanur.Objs.AlumnoCarrera;
@@ -608,6 +610,19 @@ class NotasDAO extends com.example.ricardopazdemiquel.plataformanur.dao.NotasDAO
 				}
 			}
 		}
+
+		Collections.sort(periodosCursados, new Comparator<Periodo>() {
+			@Override
+			public int compare(Periodo o1, Periodo o2) {
+				if (o1.getLPERIODO_ID() > o2.getLPERIODO_ID())
+					return 1;
+
+				if (o1.getLPERIODO_ID() < o2.getLPERIODO_ID())
+					return -1;
+
+				return 0;
+			}
+		});
 
 		return periodosCursados;
 	}

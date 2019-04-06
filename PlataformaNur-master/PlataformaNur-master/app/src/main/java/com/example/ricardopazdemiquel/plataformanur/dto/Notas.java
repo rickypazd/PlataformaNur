@@ -32,6 +32,8 @@ public class Notas extends DTO {
 	private int LPERIODO_ID;
 	private int LCARRERA_ID;
 
+	private int LSEMESTRE;
+
 	public Notas() {
 	}
 
@@ -282,7 +284,15 @@ public class Notas extends DTO {
 	public void setLCARRERA_ID(int LCARRERA_ID) {
 		this.LCARRERA_ID = LCARRERA_ID;
 	}
-// </editor-fold>
+
+	public int getLSEMESTRE() {
+		return LSEMESTRE;
+	}
+
+	public void setLSEMESTRE(int LSEMESTRE) {
+		this.LSEMESTRE = LSEMESTRE;
+	}
+	// </editor-fold>
 
     @Override
     public String toString() {
