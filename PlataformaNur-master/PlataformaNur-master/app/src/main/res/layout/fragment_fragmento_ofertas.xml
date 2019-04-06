@@ -6,22 +6,6 @@
     android:orientation="vertical"
     tools:context=".fragmento_ofertas">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tvOferta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Materias ofertadas"
-            android:textSize="20dp"
-            android:layout_margin="16px"/>
-
-
-    </LinearLayout>
-
     <Spinner
         android:id="@+id/spinnerPeriodoOferta"
         android:layout_width="match_parent"

@@ -6,9 +6,11 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.core.content.ContextCompat;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ricardopazdemiquel.plataformanur.dao.FactoryDAO;
@@ -25,10 +27,24 @@ public class OfertaDialog extends AppCompatDialogFragment {
     private TextView tvSemestreOferta;
     private TextView tvCreditosOferta;
     private TextView tvDocenteOferta;
-    private TextView tvCodigoOferta;
     private TextView tvGrupoOferta;
-    private TextView tvHorarioOferta;
-    private TextView tvDiasOferta;
+    private TextView tvNombreMateria;
+
+    private TextView tvHorarioLunes;
+    private TextView tvHorarioMartes;
+    private TextView tvHorarioMiercoles;
+    private TextView tvHorarioJueves;
+    private TextView tvHorarioViernes;
+    private TextView tvHorarioSabado;
+    private TextView tvHorarioDomingo;
+
+    private LinearLayout lLLunes;
+    private LinearLayout lLMartes;
+    private LinearLayout lLMiercoles;
+    private LinearLayout lLJueves;
+    private LinearLayout lLViernes;
+    private LinearLayout lLSabado;
+    private LinearLayout lLDomingo;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -41,10 +57,24 @@ public class OfertaDialog extends AppCompatDialogFragment {
         tvSemestreOferta   = view.findViewById(R.id.tvSemestreOferta);
         tvCreditosOferta   = view.findViewById(R.id.tvCreditosOferta);
         tvDocenteOferta    = view.findViewById(R.id.tvDocenteOferta);
-        tvCodigoOferta     = view.findViewById(R.id.tvCodigoOferta);
         tvGrupoOferta      = view.findViewById(R.id.tvGrupoOferta);
-        tvHorarioOferta    = view.findViewById(R.id.tvHorarioOferta);
-        tvDiasOferta       = view.findViewById(R.id.tvDiasOferta);
+        tvNombreMateria    = view.findViewById(R.id.tvNombreMateria);
+
+        tvHorarioLunes      = view.findViewById(R.id.tvHorarioLunes);
+        tvHorarioMartes     = view.findViewById(R.id.tvHorarioMartes);
+        tvHorarioMiercoles  = view.findViewById(R.id.tvHorarioMiercoles);
+        tvHorarioJueves     = view.findViewById(R.id.tvHorarioJueves);
+        tvHorarioViernes    = view.findViewById(R.id.tvHorarioViernes);
+        tvHorarioSabado     = view.findViewById(R.id.tvHorarioSabado);
+        tvHorarioDomingo    = view.findViewById(R.id.tvHorarioDomingo);
+
+        lLLunes        = view.findViewById(R.id.lLLunes);
+        lLMartes       = view.findViewById(R.id.lLMartes);
+        lLMiercoles    = view.findViewById(R.id.lLMiercoles);
+        lLJueves       = view.findViewById(R.id.lLJueves);
+        lLViernes      = view.findViewById(R.id.lLViernes);
+        lLSabado       = view.findViewById(R.id.lLSabado);
+        lLDomingo      = view.findViewById(R.id.lLDomingo);
 
         int idCarrera = getArguments().getInt("idCarrera");
         int idPeriodo = getArguments().getInt("idPeriodo");
@@ -57,30 +87,49 @@ public class OfertaDialog extends AppCompatDialogFragment {
         tvSemestreOferta.setText(String.valueOf(materia.getLSEMESTRE()));
         tvCreditosOferta.setText(String.valueOf(materia.getLCREDITOS()));
         tvDocenteOferta.setText(materia.getDOCENTE());
-        tvCodigoOferta.setText(materia.getSCODMATERIA());
         tvGrupoOferta.setText(materia.getSCODGRUPO());
+        tvNombreMateria.setText(materia.getSMATERIA_DSC());
 
         HorariosOfertadosDAO daoHorario = FactoryDAO.getOrCreate().newHorariosOfertadosDAO();
         List<HorariosOfertados> horariosOfertados = daoHorario.seleccionar(materia.getID());
-        String dias = "";
         String horario = "";
         for (int i = 0; i < horariosOfertados.size(); i++) {
             horario = horariosOfertados.get(i).getDTHRENTRADA() + " - " + horariosOfertados.get(i).getDTHRSALIDA();
             String abr = String.valueOf(horariosOfertados.get(i).getSDIA_DSC().trim().charAt(0)) + String.valueOf(horariosOfertados.get(i).getSDIA_DSC().trim().charAt(1));
             abr = abr.toUpperCase();
-            dias +=  abr + "  ";
+            String dia =  abr;
+            if(dia.equals("LU")){
+                tvHorarioLunes.setText(horario);
+                tvHorarioLunes.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
+                lLLunes.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
+            }else if(dia.equals("MA")){
+                tvHorarioMartes.setText(horario);
+                tvHorarioMartes.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
+                lLMartes.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
+            }else if(dia.equals("MI")){
+                tvHorarioMiercoles.setText(horario);
+                tvHorarioMiercoles.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
+                lLMiercoles.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
+            }else if(dia.equals("JU")){
+                tvHorarioJueves.setText(horario);
+                tvHorarioJueves.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
+                lLJueves.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
+            }else if(dia.equals("VI")){
+                tvHorarioViernes.setText(horario);
+                tvHorarioViernes.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
+                lLViernes.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
+            }else if(dia.equals("SA") || dia.equals("SÁ")){
+                tvHorarioSabado.setText(horario);
+                tvHorarioSabado.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
+                lLSabado.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
+            }else if(dia.equals("DO")){
+                tvHorarioDomingo.setText(horario);
+                tvHorarioDomingo.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
+                lLDomingo.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
+            }
         }
-        tvHorarioOferta.setText(horario);
-        tvDiasOferta.setText(dias);
 
-        builder.setView(view)
-                .setTitle(materia.getSMATERIA_DSC().trim())
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
+        builder.setView(view);
 
         return builder.create();
     }
