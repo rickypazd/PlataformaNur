@@ -82,7 +82,7 @@ public class OfertaDialog extends AppCompatDialogFragment {
 
         int idCarrera = getArguments().getInt("idCarrera");
         int idPeriodo = getArguments().getInt("idPeriodo");
-        String idMateria = getArguments().getString("idMateria");
+        int idMateria = getArguments().getInt("idMateria");
         MateriasOfertadasDAO dao = FactoryDAO.getOrCreate().newMateriasOfertadasDAO();
         MateriasOfertadas materia = dao.seleccionar(idCarrera, idPeriodo, idMateria);
 

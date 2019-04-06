@@ -19,6 +19,7 @@ public abstract class MateriasOfertadasDAO implements IDAO {
     public abstract void truncate();
     public abstract List<MateriasOfertadas> seleccionar(int carrera, int periodo);
     public abstract MateriasOfertadas seleccionar(int carrera, int periodo, String materia);
+    public abstract MateriasOfertadas seleccionar(int carrera, int periodo, int materia);
     public abstract void insercionMasiva(int carreraId, int periodoId, JSONArray jsonArray);
     protected String[] columnas;
 

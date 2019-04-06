@@ -333,14 +333,14 @@ public class fragmento_ofertas extends Fragment {
     public void verMateria(MateriasOfertadas obj){
         int idCarrera = obj.getLCARRERA_ID();
         int idPeriodo = obj.getLPERIODO_ID();
-        String idMateria = obj.getSCODMATERIA();
+        int idMateria = obj.getID();
         OfertaDialog ofertaDialog = new OfertaDialog();
         ofertaDialog.show(fragmento_ofertas.this.getFragmentManager(), "Oferta");
 
         Bundle args = new Bundle();
         args.putInt("idCarrera", idCarrera);
         args.putInt("idPeriodo", idPeriodo);
-        args.putString("idMateria", idMateria);
+        args.putInt("idMateria", idMateria);
 
         ofertaDialog.setArguments(args);
     }

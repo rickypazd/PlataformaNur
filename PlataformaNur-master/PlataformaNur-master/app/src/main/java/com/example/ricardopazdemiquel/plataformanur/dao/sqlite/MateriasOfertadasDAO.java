@@ -319,6 +319,24 @@ class MateriasOfertadasDAO extends com.example.ricardopazdemiquel.plataformanur.
 		return objMateriasOfertadas;
 	}
 
+	public MateriasOfertadas seleccionar(int carrera, int periodo, int materia) {
+		Conexion con = Conexion.getOrCreate();
+
+		String where = "LPERIODO_ID = ? and LCARRERA_ID = ? and ID = ?";
+		String[] parametrosWhere = { String.valueOf(periodo),
+				String.valueOf(carrera), String.valueOf(materia) };
+
+		Cursor cursor = con.ejecutarConsulta(Tablas.MateriasOfertadas, columnas, where, parametrosWhere);
+
+		MateriasOfertadas objMateriasOfertadas = null;
+
+		if (cursor.moveToFirst()) {
+			objMateriasOfertadas = obtenerObjDeCursor(cursor);
+		}
+
+		return objMateriasOfertadas;
+	}
+
 	@Override
 	public void insercionMasiva(int carreraId, int periodoId, JSONArray jsonArray) {
 		Conexion conexion = Conexion.getOrCreate();
