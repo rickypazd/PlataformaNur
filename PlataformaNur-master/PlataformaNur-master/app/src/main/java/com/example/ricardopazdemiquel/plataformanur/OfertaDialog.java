@@ -48,6 +48,14 @@ public class OfertaDialog extends AppCompatDialogFragment {
     private LinearLayout lLSabado;
     private LinearLayout lLDomingo;
 
+    private final int ADMINISTRACION = 3;
+    private final int COMERCIAL = 6;
+    private final int COMUNICACION_SOCIAL = 2;
+    private final int DERECHO = 58;
+    private final int IDIOMAS = 5;
+    private final int RELACIONES_INTERNACIONALES = 10;
+    private final int SISTEMAS = 1;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -56,29 +64,30 @@ public class OfertaDialog extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.dialog_oferta, null);
 
         tvPresencialOferta = view.findViewById(R.id.tvPresencialOferta);
-        tvSemestreOferta   = view.findViewById(R.id.tvSemestreOferta);
-        tvCreditosOferta   = view.findViewById(R.id.tvCreditosOferta);
-        tvDocenteOferta    = view.findViewById(R.id.tvDocenteOferta);
-        tvGrupoOferta      = view.findViewById(R.id.tvGrupoOferta);
-        tvNombreMateria    = view.findViewById(R.id.tvNombreMateria);
+        tvSemestreOferta = view.findViewById(R.id.tvSemestreOferta);
+        tvCreditosOferta = view.findViewById(R.id.tvCreditosOferta);
+        tvDocenteOferta = view.findViewById(R.id.tvDocenteOferta);
+        tvGrupoOferta = view.findViewById(R.id.tvGrupoOferta);
+        tvNombreMateria = view.findViewById(R.id.tvNombreMateria);
 
-        tvHorarioLunes      = view.findViewById(R.id.tvHorarioLunes);
-        tvHorarioMartes     = view.findViewById(R.id.tvHorarioMartes);
-        tvHorarioMiercoles  = view.findViewById(R.id.tvHorarioMiercoles);
-        tvHorarioJueves     = view.findViewById(R.id.tvHorarioJueves);
-        tvHorarioViernes    = view.findViewById(R.id.tvHorarioViernes);
-        tvHorarioSabado     = view.findViewById(R.id.tvHorarioSabado);
-        tvHorarioDomingo    = view.findViewById(R.id.tvHorarioDomingo);
+        tvHorarioLunes = view.findViewById(R.id.tvHorarioLunes);
+        tvHorarioMartes = view.findViewById(R.id.tvHorarioMartes);
+        tvHorarioMiercoles = view.findViewById(R.id.tvHorarioMiercoles);
+        tvHorarioJueves = view.findViewById(R.id.tvHorarioJueves);
+        tvHorarioViernes = view.findViewById(R.id.tvHorarioViernes);
+        tvHorarioSabado = view.findViewById(R.id.tvHorarioSabado);
+        tvHorarioDomingo = view.findViewById(R.id.tvHorarioDomingo);
 
-        lLLunes        = view.findViewById(R.id.lLLunes);
-        lLMartes       = view.findViewById(R.id.lLMartes);
-        lLMiercoles    = view.findViewById(R.id.lLMiercoles);
-        lLJueves       = view.findViewById(R.id.lLJueves);
-        lLViernes      = view.findViewById(R.id.lLViernes);
-        lLSabado       = view.findViewById(R.id.lLSabado);
-        lLDomingo      = view.findViewById(R.id.lLDomingo);
+        lLLunes = view.findViewById(R.id.lLLunes);
+        lLMartes = view.findViewById(R.id.lLMartes);
+        lLMiercoles = view.findViewById(R.id.lLMiercoles);
+        lLJueves = view.findViewById(R.id.lLJueves);
+        lLViernes = view.findViewById(R.id.lLViernes);
+        lLSabado = view.findViewById(R.id.lLSabado);
+        lLDomingo = view.findViewById(R.id.lLDomingo);
 
         TextView tvGrupo = view.findViewById(R.id.tvGrupo);
+        LinearLayout llOferta = view.findViewById(R.id.llOferta);
 
         int idCarrera = getArguments().getInt("idCarrera");
         int idPeriodo = getArguments().getInt("idPeriodo");
@@ -101,32 +110,32 @@ public class OfertaDialog extends AppCompatDialogFragment {
             horario = horariosOfertados.get(i).getDTHRENTRADA() + " - " + horariosOfertados.get(i).getDTHRSALIDA();
             String abr = String.valueOf(horariosOfertados.get(i).getSDIA_DSC().trim().charAt(0)) + String.valueOf(horariosOfertados.get(i).getSDIA_DSC().trim().charAt(1));
             abr = abr.toUpperCase();
-            String dia =  abr;
-            if(dia.equals("LU")){
+            String dia = abr;
+            if (dia.equals("LU")) {
                 tvHorarioLunes.setText(horario);
                 tvHorarioLunes.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
                 lLLunes.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
-            }else if(dia.equals("MA")){
+            } else if (dia.equals("MA")) {
                 tvHorarioMartes.setText(horario);
                 tvHorarioMartes.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
                 lLMartes.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
-            }else if(dia.equals("MI")){
+            } else if (dia.equals("MI")) {
                 tvHorarioMiercoles.setText(horario);
                 tvHorarioMiercoles.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
                 lLMiercoles.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
-            }else if(dia.equals("JU")){
+            } else if (dia.equals("JU")) {
                 tvHorarioJueves.setText(horario);
                 tvHorarioJueves.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
                 lLJueves.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
-            }else if(dia.equals("VI")){
+            } else if (dia.equals("VI")) {
                 tvHorarioViernes.setText(horario);
                 tvHorarioViernes.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
                 lLViernes.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
-            }else if(dia.equals("SA") || dia.equals("SÁ")){
+            } else if (dia.equals("SA") || dia.equals("SÁ")) {
                 tvHorarioSabado.setText(horario);
                 tvHorarioSabado.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
                 lLSabado.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
-            }else if(dia.equals("DO")){
+            } else if (dia.equals("DO")) {
                 tvHorarioDomingo.setText(horario);
                 tvHorarioDomingo.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
                 lLDomingo.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
@@ -136,6 +145,38 @@ public class OfertaDialog extends AppCompatDialogFragment {
         if (materia.getSCODGRUPO().equals("")) {
             tvGrupo.setVisibility(View.GONE);
             tvGrupoOferta.setVisibility(View.GONE);
+        }
+
+        switch (materia.getLCARRERA_ID()) {
+            case ADMINISTRACION:
+                llOferta.setBackground(getActivity().getDrawable(R.drawable.bg_adm));
+                break;
+
+            case COMERCIAL:
+                llOferta.setBackground(getActivity().getDrawable(R.drawable.bg_comer));
+                break;
+
+            case DERECHO:
+                llOferta.setBackground(getActivity().getDrawable(R.drawable.bg_der));
+                break;
+
+            case COMUNICACION_SOCIAL:
+                llOferta.setBackground(getActivity().getDrawable(R.drawable.bg_comun));
+                break;
+
+            case IDIOMAS:
+                break;
+
+            case RELACIONES_INTERNACIONALES:
+                llOferta.setBackground(getActivity().getDrawable(R.drawable.bg_int));
+                break;
+
+            case SISTEMAS:
+                llOferta.setBackground(getActivity().getDrawable(R.drawable.bg_sis));
+                break;
+
+            default:
+                break;
         }
 
         builder.setView(view);

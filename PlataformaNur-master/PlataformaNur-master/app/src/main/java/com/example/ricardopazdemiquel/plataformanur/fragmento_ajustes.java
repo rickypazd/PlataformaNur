@@ -96,9 +96,9 @@ public class fragmento_ajustes extends Fragment implements View.OnClickListener 
         textView_nombre.setText(alumno.getNombre() + " " + alumno.getApellidoPaterno() + " " + alumno.getApellidoMaterno());
         textView_registro.setText(alumno.getRegistro());
         textView_horas.setText(String.valueOf(alumno.getHorasServicio()));
-        textView_celular.setText(alumno.getCelular());
-        textView_telefono.setText(alumno.getTelefono());
-        textView_email.setText(alumno.getEmail());
+        if (!alumno.getCelular().equals("0")) textView_celular.setText(alumno.getCelular());
+        if (!alumno.getTelefono().equals("0")) textView_telefono.setText(alumno.getTelefono());
+        if (!alumno.getEmail().equals("0")) textView_email.setText(alumno.getEmail());
         textView_fecha_nac.setText(alumno.getFechaNacimiento());
     }
 
