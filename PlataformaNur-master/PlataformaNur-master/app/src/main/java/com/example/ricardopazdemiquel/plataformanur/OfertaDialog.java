@@ -19,6 +19,8 @@ import com.example.ricardopazdemiquel.plataformanur.dao.MateriasOfertadasDAO;
 import com.example.ricardopazdemiquel.plataformanur.dto.HorariosOfertados;
 import com.example.ricardopazdemiquel.plataformanur.dto.MateriasOfertadas;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class OfertaDialog extends AppCompatDialogFragment {
@@ -76,6 +78,8 @@ public class OfertaDialog extends AppCompatDialogFragment {
         lLSabado       = view.findViewById(R.id.lLSabado);
         lLDomingo      = view.findViewById(R.id.lLDomingo);
 
+        TextView tvGrupo = view.findViewById(R.id.tvGrupo);
+
         int idCarrera = getArguments().getInt("idCarrera");
         int idPeriodo = getArguments().getInt("idPeriodo");
         String idMateria = getArguments().getString("idMateria");
@@ -129,8 +133,14 @@ public class OfertaDialog extends AppCompatDialogFragment {
             }
         }
 
+        if (materia.getSCODGRUPO().equals("")) {
+            tvGrupo.setVisibility(View.GONE);
+            tvGrupoOferta.setVisibility(View.GONE);
+        }
+
         builder.setView(view);
 
         return builder.create();
     }
+
 }
