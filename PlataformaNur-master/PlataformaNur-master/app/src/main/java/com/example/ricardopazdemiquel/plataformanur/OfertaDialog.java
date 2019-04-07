@@ -88,6 +88,13 @@ public class OfertaDialog extends AppCompatDialogFragment {
 
         TextView tvGrupo = view.findViewById(R.id.tvGrupo);
         LinearLayout llOferta = view.findViewById(R.id.llOferta);
+        TextView tvLunes = view.findViewById(R.id.tvLunes);
+        TextView tvMartes = view.findViewById(R.id.tvMartes);
+        TextView tvMiercoles = view.findViewById(R.id.tvMiercoles);
+        TextView tvJueves = view.findViewById(R.id.tvJueves);
+        TextView tvViernes = view.findViewById(R.id.tvViernes);
+        TextView tvSabado = view.findViewById(R.id.tvSabado);
+        TextView tvDomingo = view.findViewById(R.id.tvDomingo);
 
         int idCarrera = getArguments().getInt("idCarrera");
         int idPeriodo = getArguments().getInt("idPeriodo");
@@ -95,7 +102,7 @@ public class OfertaDialog extends AppCompatDialogFragment {
         MateriasOfertadasDAO dao = FactoryDAO.getOrCreate().newMateriasOfertadasDAO();
         MateriasOfertadas materia = dao.seleccionar(idCarrera, idPeriodo, idMateria);
 
-        tvPresencialOferta.setText(materia.getSCENTRO_DSC());
+        tvPresencialOferta.setText(primeraMayuscula(materia.getSCENTRO_DSC()));
 
         tvSemestreOferta.setText(String.valueOf(materia.getLSEMESTRE()));
         tvCreditosOferta.setText(String.valueOf(materia.getLCREDITOS()));
@@ -114,74 +121,87 @@ public class OfertaDialog extends AppCompatDialogFragment {
             if (dia.equals("LU")) {
                 tvHorarioLunes.setText(horario);
                 tvHorarioLunes.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
-                lLLunes.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
+                tvLunes.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
+                lLLunes.setBackground(ContextCompat.getDrawable(view.getContext(), getDrawableCarrera(materia.getLCARRERA_ID())));
             } else if (dia.equals("MA")) {
                 tvHorarioMartes.setText(horario);
                 tvHorarioMartes.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
-                lLMartes.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
+                tvMartes.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
+                lLMartes.setBackground(ContextCompat.getDrawable(view.getContext(), getDrawableCarrera(materia.getLCARRERA_ID())));
             } else if (dia.equals("MI")) {
                 tvHorarioMiercoles.setText(horario);
                 tvHorarioMiercoles.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
-                lLMiercoles.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
+                tvMiercoles.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
+                lLMiercoles.setBackground(ContextCompat.getDrawable(view.getContext(), getDrawableCarrera(materia.getLCARRERA_ID())));
             } else if (dia.equals("JU")) {
                 tvHorarioJueves.setText(horario);
                 tvHorarioJueves.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
-                lLJueves.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
+                tvJueves.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
+                lLJueves.setBackground(ContextCompat.getDrawable(view.getContext(), getDrawableCarrera(materia.getLCARRERA_ID())));
             } else if (dia.equals("VI")) {
                 tvHorarioViernes.setText(horario);
                 tvHorarioViernes.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
-                lLViernes.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
+                tvViernes.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
+                lLViernes.setBackground(ContextCompat.getDrawable(view.getContext(), getDrawableCarrera(materia.getLCARRERA_ID())));
             } else if (dia.equals("SA") || dia.equals("SÁ")) {
                 tvHorarioSabado.setText(horario);
                 tvHorarioSabado.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
-                lLSabado.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
+                tvSabado.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
+                lLSabado.setBackground(ContextCompat.getDrawable(view.getContext(), getDrawableCarrera(materia.getLCARRERA_ID())));
             } else if (dia.equals("DO")) {
                 tvHorarioDomingo.setText(horario);
                 tvHorarioDomingo.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
-                lLDomingo.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.backgroundcolorcardprofile));
+                tvDomingo.setTextColor(ContextCompat.getColor(view.getContext(), R.color.overlay_light_90));
+                lLDomingo.setBackground(ContextCompat.getDrawable(view.getContext(), getDrawableCarrera(materia.getLCARRERA_ID())));
             }
         }
 
-        if (materia.getSCODGRUPO().equals("")) {
+        if (materia.getSCODGRUPO().isEmpty()) {
             tvGrupo.setVisibility(View.GONE);
             tvGrupoOferta.setVisibility(View.GONE);
         }
 
-        switch (materia.getLCARRERA_ID()) {
-            case ADMINISTRACION:
-                llOferta.setBackground(getActivity().getDrawable(R.drawable.bg_adm));
-                break;
-
-            case COMERCIAL:
-                llOferta.setBackground(getActivity().getDrawable(R.drawable.bg_comer));
-                break;
-
-            case DERECHO:
-                llOferta.setBackground(getActivity().getDrawable(R.drawable.bg_der));
-                break;
-
-            case COMUNICACION_SOCIAL:
-                llOferta.setBackground(getActivity().getDrawable(R.drawable.bg_comun));
-                break;
-
-            case IDIOMAS:
-                break;
-
-            case RELACIONES_INTERNACIONALES:
-                llOferta.setBackground(getActivity().getDrawable(R.drawable.bg_int));
-                break;
-
-            case SISTEMAS:
-                llOferta.setBackground(getActivity().getDrawable(R.drawable.bg_sis));
-                break;
-
-            default:
-                break;
-        }
+        llOferta.setBackground(getActivity().getDrawable(getDrawableCarrera(materia.getLCARRERA_ID())));
 
         builder.setView(view);
 
         return builder.create();
+    }
+
+    public int getDrawableCarrera(int carreraId) {
+        switch (carreraId) {
+            case ADMINISTRACION:
+                return R.drawable.bg_adm;
+
+            case COMERCIAL:
+                return R.drawable.bg_comer;
+
+            case DERECHO:
+                return R.drawable.bg_der;
+
+            case COMUNICACION_SOCIAL:
+                return R.drawable.bg_comun;
+
+//            case IDIOMAS:
+//                break;
+
+            case RELACIONES_INTERNACIONALES:
+                return R.drawable.bg_int;
+
+            case SISTEMAS:
+                return R.drawable.bg_sis;
+
+            default:
+                return R.drawable.backgroundcolorcardprofile;
+        }
+    }
+
+    public String primeraMayuscula(String texto) {
+        if (texto.isEmpty()) {
+            return "";
+        }
+
+        return texto.substring(0,1).toUpperCase() + texto.substring(1).toLowerCase();
     }
 
 }
