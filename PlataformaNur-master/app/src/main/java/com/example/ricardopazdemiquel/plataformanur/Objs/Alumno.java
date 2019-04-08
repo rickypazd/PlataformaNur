@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.plataformanur.Objs;
+package com.nur.notas.notasnur.Objs;
 
 import java.util.Date;
 

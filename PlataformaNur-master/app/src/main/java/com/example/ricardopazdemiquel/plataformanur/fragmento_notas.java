@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.plataformanur;
+package com.nur.notas.notasnur;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -38,14 +38,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ricardopazdemiquel.plataformanur.Objs.AlumnoCarrera;
-import com.example.ricardopazdemiquel.plataformanur.Objs.Periodo;
-import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
-import com.example.ricardopazdemiquel.plataformanur.dao.FactoryDAO;
-import com.example.ricardopazdemiquel.plataformanur.dao.NotasDAO;
-import com.example.ricardopazdemiquel.plataformanur.dto.Notas;
-import com.example.ricardopazdemiquel.plataformanur.layouts.AdaptadorNotas;
-import com.example.ricardopazdemiquel.plataformanur.layouts.AdaptadorPeriodos;
+import com.nur.notas.notasnur.Objs.AlumnoCarrera;
+import com.nur.notas.notasnur.Objs.Periodo;
+import com.nur.notas.notasnur.Utiles.Preferences;
+import com.nur.notas.notasnur.dao.FactoryDAO;
+import com.nur.notas.notasnur.dao.NotasDAO;
+import com.nur.notas.notasnur.dto.Notas;
+import com.nur.notas.notasnur.layouts.AdaptadorNotas;
+import com.nur.notas.notasnur.layouts.AdaptadorPeriodos;
 
 import org.json.JSONArray;
 import org.json.JSONException;

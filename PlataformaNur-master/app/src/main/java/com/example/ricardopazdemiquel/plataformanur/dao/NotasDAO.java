@@ -1,8 +1,8 @@
-package com.example.ricardopazdemiquel.plataformanur.dao;
+package com.nur.notas.notasnur.dao;
 
 import java.util.List;
 
-import com.example.ricardopazdemiquel.plataformanur.dto.Notas;
+import com.nur.notas.notasnur.dto.Notas;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

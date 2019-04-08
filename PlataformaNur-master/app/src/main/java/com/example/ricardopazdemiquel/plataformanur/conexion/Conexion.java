@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.plataformanur.conexion;
+package com.nur.notas.notasnur.conexion;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,8 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.io.File;
 import java.util.StringTokenizer;
 
-import com.example.ricardopazdemiquel.plataformanur.R;
-import com.example.ricardopazdemiquel.plataformanur.Utiles.MyApp;
+import com.nur.notas.notasnur.R;
+import com.nur.notas.notasnur.Utiles.MyApp;
 
 import org.json.JSONArray;
 import org.json.JSONException;

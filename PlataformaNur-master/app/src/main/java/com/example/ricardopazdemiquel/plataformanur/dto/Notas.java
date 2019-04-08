@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.plataformanur.dto;
+package com.nur.notas.notasnur.dto;
 
 public class Notas extends DTO {
 

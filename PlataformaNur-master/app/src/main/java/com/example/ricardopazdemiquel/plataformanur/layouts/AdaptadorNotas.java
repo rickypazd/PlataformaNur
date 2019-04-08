@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.plataformanur.layouts;
+package com.nur.notas.notasnur.layouts;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,13 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
-import com.example.ricardopazdemiquel.plataformanur.Objs.Periodo;
-import com.example.ricardopazdemiquel.plataformanur.R;
-import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
-import com.example.ricardopazdemiquel.plataformanur.dao.FactoryDAO;
-import com.example.ricardopazdemiquel.plataformanur.dao.HorariosMateriasDAO;
-import com.example.ricardopazdemiquel.plataformanur.dto.HorariosMaterias;
-import com.example.ricardopazdemiquel.plataformanur.dto.Notas;
+import com.nur.notas.notasnur.Objs.Periodo;
+import com.nur.notas.notasnur.R;
+import com.nur.notas.notasnur.Utiles.Preferences;
+import com.nur.notas.notasnur.dao.FactoryDAO;
+import com.nur.notas.notasnur.dao.HorariosMateriasDAO;
+import com.nur.notas.notasnur.dto.HorariosMaterias;
+import com.nur.notas.notasnur.dto.Notas;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.plataformanur;
+package com.nur.notas.notasnur;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,16 +15,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.ricardopazdemiquel.plataformanur.Objs.Alumno;
-import com.example.ricardopazdemiquel.plataformanur.Objs.AlumnoCarrera;
-import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
-import com.example.ricardopazdemiquel.plataformanur.dao.FactoryDAO;
-import com.example.ricardopazdemiquel.plataformanur.dao.HorariosMateriasDAO;
-import com.example.ricardopazdemiquel.plataformanur.dao.HorariosOfertadosDAO;
-import com.example.ricardopazdemiquel.plataformanur.dao.MateriasDAO;
-import com.example.ricardopazdemiquel.plataformanur.dao.MateriasOfertadasDAO;
-import com.example.ricardopazdemiquel.plataformanur.dao.NotasDAO;
-import com.example.ricardopazdemiquel.plataformanur.dao.RequisitosMateriasDAO;
+import com.nur.notas.notasnur.Objs.Alumno;
+import com.nur.notas.notasnur.Objs.AlumnoCarrera;
+import com.nur.notas.notasnur.Utiles.Preferences;
+import com.nur.notas.notasnur.dao.FactoryDAO;
+import com.nur.notas.notasnur.dao.HorariosMateriasDAO;
+import com.nur.notas.notasnur.dao.HorariosOfertadosDAO;
+import com.nur.notas.notasnur.dao.MateriasDAO;
+import com.nur.notas.notasnur.dao.MateriasOfertadasDAO;
+import com.nur.notas.notasnur.dao.NotasDAO;
+import com.nur.notas.notasnur.dao.RequisitosMateriasDAO;
 
 import org.json.JSONArray;
 

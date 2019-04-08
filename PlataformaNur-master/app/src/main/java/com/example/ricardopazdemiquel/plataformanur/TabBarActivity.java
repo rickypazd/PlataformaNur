@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.plataformanur;
+package com.nur.notas.notasnur;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -17,9 +17,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
-import com.example.ricardopazdemiquel.plataformanur.Objs.AlumnoCarrera;
-import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
-import com.example.ricardopazdemiquel.plataformanur.layouts.AdaptadorCarreras;
+import com.nur.notas.notasnur.Objs.AlumnoCarrera;
+import com.nur.notas.notasnur.Utiles.Preferences;
+import com.nur.notas.notasnur.layouts.AdaptadorCarreras;
 
 import java.util.ArrayList;
 

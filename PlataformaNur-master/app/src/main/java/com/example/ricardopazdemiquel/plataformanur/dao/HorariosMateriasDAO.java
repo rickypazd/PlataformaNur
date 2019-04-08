@@ -1,7 +1,7 @@
-package com.example.ricardopazdemiquel.plataformanur.dao;
+package com.nur.notas.notasnur.dao;
 
-import com.example.ricardopazdemiquel.plataformanur.dto.HorariosMaterias;
-import com.example.ricardopazdemiquel.plataformanur.dto.HorariosOfertados;
+import com.nur.notas.notasnur.dto.HorariosMaterias;
+import com.nur.notas.notasnur.dto.HorariosOfertados;
 
 import org.json.JSONObject;
 

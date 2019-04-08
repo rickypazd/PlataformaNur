@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.plataformanur;
+package com.nur.notas.notasnur;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -11,11 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.ricardopazdemiquel.plataformanur.dao.FactoryDAO;
-import com.example.ricardopazdemiquel.plataformanur.dao.HorariosOfertadosDAO;
-import com.example.ricardopazdemiquel.plataformanur.dao.MateriasOfertadasDAO;
-import com.example.ricardopazdemiquel.plataformanur.dto.HorariosOfertados;
-import com.example.ricardopazdemiquel.plataformanur.dto.MateriasOfertadas;
+import com.nur.notas.notasnur.dao.FactoryDAO;
+import com.nur.notas.notasnur.dao.HorariosOfertadosDAO;
+import com.nur.notas.notasnur.dao.MateriasOfertadasDAO;
+import com.nur.notas.notasnur.dto.HorariosOfertados;
+import com.nur.notas.notasnur.dto.MateriasOfertadas;
 
 import java.util.List;
 
