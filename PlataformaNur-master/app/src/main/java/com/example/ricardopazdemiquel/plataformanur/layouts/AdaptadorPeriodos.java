@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.plataformanur.layouts;
+package com.nur.notas.notasnur.layouts;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.ricardopazdemiquel.plataformanur.Objs.Periodo;
-import com.example.ricardopazdemiquel.plataformanur.R;
+import com.nur.notas.notasnur.Objs.Periodo;
+import com.nur.notas.notasnur.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

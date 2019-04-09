@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.plataformanur.dao.sqlite;
+package com.nur.notas.notasnur.dao.sqlite;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -7,10 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.ricardopazdemiquel.plataformanur.conexion.Conexion;
-import com.example.ricardopazdemiquel.plataformanur.conexion.Tablas;
-import com.example.ricardopazdemiquel.plataformanur.dto.DTO;
-import com.example.ricardopazdemiquel.plataformanur.dto.MateriasOfertadas;
+import com.nur.notas.notasnur.conexion.Conexion;
+import com.nur.notas.notasnur.conexion.Tablas;
+import com.nur.notas.notasnur.dto.DTO;
+import com.nur.notas.notasnur.dto.MateriasOfertadas;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +19,7 @@ import org.json.JSONObject;
 /**
  * La implementacion DAO para SQLite de la tabla MateriasOfertadas
  */
-class MateriasOfertadasDAO extends com.example.ricardopazdemiquel.plataformanur.dao.MateriasOfertadasDAO {
+class MateriasOfertadasDAO extends com.nur.notas.notasnur.dao.MateriasOfertadasDAO {
 
     private static final String ID = "ID";
     private static final String LGRUPO_ID = "LGRUPO_ID";

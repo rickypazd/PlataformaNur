@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.plataformanur.layouts;
+package com.nur.notas.notasnur.layouts;
 
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.ricardopazdemiquel.plataformanur.R;
-import com.example.ricardopazdemiquel.plataformanur.dto.Materias;
+import com.nur.notas.notasnur.R;
+import com.nur.notas.notasnur.dto.Materias;
 
 import java.util.List;
 

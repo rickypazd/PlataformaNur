@@ -1,6 +1,6 @@
-package com.example.ricardopazdemiquel.plataformanur.dao;
+package com.nur.notas.notasnur.dao;
 
-import com.example.ricardopazdemiquel.plataformanur.dto.HorariosMaterias;
+import com.nur.notas.notasnur.dto.HorariosMaterias;
 
 /**
  * La idea es que a la hora de migrar a otro SGBD (a futuro) no
@@ -15,7 +15,7 @@ public abstract class FactoryDAO {
 
     public static FactoryDAO getOrCreate() {
 		if (instancia == null) {
-		    instancia = new com.example.ricardopazdemiquel.plataformanur.dao.sqlite.FactoryDAO();
+		    instancia = new com.nur.notas.notasnur.dao.sqlite.FactoryDAO();
 		}
 
 		return instancia;

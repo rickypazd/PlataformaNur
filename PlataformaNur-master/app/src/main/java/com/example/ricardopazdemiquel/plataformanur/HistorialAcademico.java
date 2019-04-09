@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.plataformanur;
+package com.nur.notas.notasnur;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 
-import com.example.ricardopazdemiquel.plataformanur.dao.FactoryDAO;
-import com.example.ricardopazdemiquel.plataformanur.dao.MateriasDAO;
-import com.example.ricardopazdemiquel.plataformanur.dto.Materias;
-import com.example.ricardopazdemiquel.plataformanur.layouts.AdaptadorHistorialAcademico;
+import com.nur.notas.notasnur.dao.FactoryDAO;
+import com.nur.notas.notasnur.dao.MateriasDAO;
+import com.nur.notas.notasnur.dto.Materias;
+import com.nur.notas.notasnur.layouts.AdaptadorHistorialAcademico;
 
 import java.util.List;
 

@@ -1,12 +1,12 @@
-package com.example.ricardopazdemiquel.plataformanur.Utiles;
+package com.nur.notas.notasnur.Utiles;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.ricardopazdemiquel.plataformanur.Objs.Alumno;
-import com.example.ricardopazdemiquel.plataformanur.Objs.AlumnoCarrera;
-import com.example.ricardopazdemiquel.plataformanur.Objs.Periodo;
-import com.example.ricardopazdemiquel.plataformanur.Objs.PeriodoOferta;
+import com.nur.notas.notasnur.Objs.Alumno;
+import com.nur.notas.notasnur.Objs.AlumnoCarrera;
+import com.nur.notas.notasnur.Objs.Periodo;
+import com.nur.notas.notasnur.Objs.PeriodoOferta;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
