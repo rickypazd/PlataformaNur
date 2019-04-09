@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.plataformanur;
+package com.nur.notas.notasnur;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -7,8 +7,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -24,10 +26,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ricardopazdemiquel.plataformanur.Objs.Alumno;
-import com.example.ricardopazdemiquel.plataformanur.Objs.Link;
-import com.example.ricardopazdemiquel.plataformanur.Utiles.Preferences;
 import com.google.android.material.textfield.TextInputEditText;
+import com.nur.notas.notasnur.Objs.Link;
+import com.nur.notas.notasnur.Utiles.Preferences;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +40,7 @@ import java.util.Map;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.core.content.ContextCompat;
 
 public class LinksDialog extends AppCompatDialogFragment {
 
@@ -65,21 +67,26 @@ public class LinksDialog extends AppCompatDialogFragment {
             TextView tvTitulo = new TextView(this.getContext());
             TextView tvLink = new TextView(this.getContext());
             tvTitulo.setText(links.get(i).getTITULO());
-
+            String titulo = links.get(i).getTITULO();
             String link = links.get(i).getLINK();
-            String html = "<a href=\"" + link + "\">" + link + "</a>";
+            String html = "<a href=\"" + link + "\">" + titulo + "</a>";
+            tvLink.setMovementMethod(LinkMovementMethod.getInstance());
             tvLink.setText(Html.fromHtml(html));
-            tvLink.setAutoLinkMask(Linkify.WEB_URLS);
-            tvLink.setLinksClickable(true);
-            linearLayout.addView(tvTitulo);
+            tvLink.setLinkTextColor(ContextCompat.getColor(view.getContext(), R.color.colorAccent));
+            tvLink.setGravity(View.TEXT_ALIGNMENT_CENTER);
+            tvLink.setGravity(Gravity.CENTER);
+
+            //linearLayout.addView(tvTitulo);
             linearLayout.addView(tvLink);
-
-
-
         }
 
+        TextView title = new TextView(view.getContext());
+        title.setText("Páginas informativas");
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(ContextCompat.getColor(view.getContext(), R.color.colorPrimaryDark));
+        title.setTextSize(20);
         builder.setView(view)
-                .setTitle("Páginas informativas");
+                .setCustomTitle(title);
         return builder.create();
     }
 }

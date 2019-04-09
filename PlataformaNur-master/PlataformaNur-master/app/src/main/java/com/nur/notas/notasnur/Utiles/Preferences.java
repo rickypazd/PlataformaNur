@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import com.nur.notas.notasnur.Objs.Alumno;
 import com.nur.notas.notasnur.Objs.AlumnoCarrera;
+import com.nur.notas.notasnur.Objs.Link;
 import com.nur.notas.notasnur.Objs.Periodo;
 import com.nur.notas.notasnur.Objs.PeriodoOferta;
 import com.google.gson.Gson;

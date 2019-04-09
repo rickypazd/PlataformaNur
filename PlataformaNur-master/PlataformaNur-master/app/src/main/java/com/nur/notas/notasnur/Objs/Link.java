@@ -1,4 +1,5 @@
-package com.example.ricardopazdemiquel.plataformanur.Objs;
+//package com.example.ricardopazdemiquel.plataformanur.Objs;
+package com.nur.notas.notasnur.Objs;
 
 public class Link {
     private String TITULO;
