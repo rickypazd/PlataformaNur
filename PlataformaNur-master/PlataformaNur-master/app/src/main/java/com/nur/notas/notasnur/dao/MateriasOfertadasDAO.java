@@ -2,6 +2,7 @@ package com.nur.notas.notasnur.dao;
 
 import java.util.List;
 
+import com.nur.notas.notasnur.Objs.Periodo;
 import com.nur.notas.notasnur.dto.MateriasOfertadas;
 
 import org.json.JSONArray;
@@ -21,6 +22,7 @@ public abstract class MateriasOfertadasDAO implements IDAO {
     public abstract MateriasOfertadas seleccionar(int carrera, int periodo, String materia);
     public abstract MateriasOfertadas seleccionar(int carrera, int periodo, int materia);
     public abstract void insercionMasiva(int carreraId, int periodoId, JSONArray jsonArray);
+    public abstract List<Periodo> seleccionarSemestresOfertados();
     protected String[] columnas;
 
     public MateriasOfertadasDAO(String... columnas) {

@@ -5,12 +5,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import com.nur.notas.notasnur.Objs.AlumnoCarrera;
+import com.nur.notas.notasnur.Objs.Periodo;
+import com.nur.notas.notasnur.Objs.PeriodoOferta;
+import com.nur.notas.notasnur.Utiles.MyApp;
+import com.nur.notas.notasnur.Utiles.Preferences;
 import com.nur.notas.notasnur.conexion.Conexion;
 import com.nur.notas.notasnur.conexion.Tablas;
 import com.nur.notas.notasnur.dto.DTO;
 import com.nur.notas.notasnur.dto.MateriasOfertadas;
+import com.nur.notas.notasnur.dto.Notas;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -396,6 +404,70 @@ class MateriasOfertadasDAO extends com.nur.notas.notasnur.dao.MateriasOfertadasD
 
 		bd.setTransactionSuccessful();
 		bd.endTransaction();
+	}
+
+	@Override
+	public List<Periodo> seleccionarSemestresOfertados() {
+		Conexion con = Conexion.getOrCreate();
+
+		AlumnoCarrera carreraSeleccionada = Preferences.getCarreraSeleccionada(MyApp.getInstancia());
+		ArrayList<Periodo> todosLosPeriodos = Preferences.getPeriodosOferta(MyApp.getInstancia());
+		ArrayList<Periodo> periodosCursados = new ArrayList<>();
+
+		String where = "LCARRERA_ID = ?";
+		String[] parametrosWhere = { String.valueOf(carreraSeleccionada.getLCARRERA_ID()) };
+
+		Cursor cursor = con.ejecutarConsulta(Tablas.MateriasOfertadas, columnas, where, parametrosWhere);
+
+		while (cursor.moveToNext()) {
+			MateriasOfertadas objMateria = obtenerObjDeCursor(cursor);
+			int periodoId = objMateria.getLPERIODO_ID();
+
+			// recorro todos los peridos
+			for (int i = 0; i < todosLosPeriodos.size(); i++) {
+				Periodo objPeriodo = todosLosPeriodos.get(i);
+
+				// veo si esta materia se llevó en el periodo
+				if (objPeriodo.getLPERIODO_ID() == periodoId) {
+					if (periodosCursados.size() > 0) { // para evitar tener periodos repetidos
+
+						boolean yaEstaEnLaLista = false;
+						for (int j = 0; j < periodosCursados.size(); j++) {
+							Periodo periodoCursado = periodosCursados.get(j);
+
+							if (periodoCursado.getLPERIODO_ID() == periodoId) {
+								yaEstaEnLaLista = true;
+								break;
+							}
+						}
+
+						if (!yaEstaEnLaLista) {
+							periodosCursados.add(objPeriodo);
+						}
+
+					} else { // agrego el periodo a la lista filtrada
+						periodosCursados.add(objPeriodo);
+					}
+
+					break;
+				}
+			}
+		}
+
+		Collections.sort(periodosCursados, new Comparator<Periodo>() {
+			@Override
+			public int compare(Periodo o1, Periodo o2) {
+				if (o1.getLPERIODO_ID() > o2.getLPERIODO_ID())
+					return 1;
+
+				if (o1.getLPERIODO_ID() < o2.getLPERIODO_ID())
+					return -1;
+
+				return 0;
+			}
+		});
+
+		return periodosCursados;
 	}
 
 }

@@ -106,10 +106,13 @@ public class fragmento_ofertas extends Fragment {
     }
 
     public void obtenerPeriodosOfertados() {
-        ArrayList<Periodo> periodos = Preferences.getPeriodosOferta(getContext());
-        spinnerPeriodos.setAdapter(new AdaptadorPeriodos(getContext(), periodos));
+        MateriasOfertadasDAO dao = FactoryDAO.getOrCreate().newMateriasOfertadasDAO();
+        List<Periodo> periodos = dao.seleccionarSemestresOfertados();
 
-        spinnerPeriodos.setSelection(periodos.size() - 1);
+        if (periodos != null) {
+            spinnerPeriodos.setAdapter(new AdaptadorPeriodos(getContext(), periodos));
+            spinnerPeriodos.setSelection(periodos.size() - 1);
+        }
     }
 
     public void obtenerMateriasOfertadas(int periodoId) {

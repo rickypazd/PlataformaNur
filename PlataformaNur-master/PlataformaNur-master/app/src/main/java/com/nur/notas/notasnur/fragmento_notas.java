@@ -126,7 +126,6 @@ public class fragmento_notas extends Fragment {
         NotasDAO dao = FactoryDAO.getOrCreate().newNotasDAO();
         List<Periodo> periodos = dao.seleccionarSemestresCursados();
 
-
         if (periodos != null) {
             spinnerPeriodos.setAdapter(new AdaptadorPeriodos(getContext(), periodos));
             spinnerPeriodos.setSelection(periodos.size() - 1);
