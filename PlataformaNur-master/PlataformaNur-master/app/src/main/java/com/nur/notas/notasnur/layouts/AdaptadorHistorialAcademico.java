@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nur.notas.notasnur.R;
@@ -91,9 +90,8 @@ public class AdaptadorHistorialAcademico extends RecyclerView.Adapter<AdaptadorH
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvSemestre, tvMaterias;
+        public TextView tvSemestre;
         public TimelineView timelineView;
-        public LinearLayout linearLayoutMaterias, linearLayoutItem;
         public ImageView checkImageView;
         public RecyclerView recyclerView;
 
@@ -101,11 +99,8 @@ public class AdaptadorHistorialAcademico extends RecyclerView.Adapter<AdaptadorH
             super(v);
 
             tvSemestre = v.findViewById(R.id.text_timeline_date);
-            tvMaterias = v.findViewById(R.id.text_timeline_title);
             timelineView = v.findViewById(R.id.timeline);
             timelineView.initLine(viewType);
-            linearLayoutMaterias = v.findViewById(R.id.ly_materias);
-            linearLayoutItem = v.findViewById(R.id.ly_item);
             checkImageView = v.findViewById(R.id.checkImageView);
 
             recyclerView = v.findViewById(R.id.recyclerView);

@@ -183,7 +183,7 @@ public class OfertaDialog extends AppCompatDialogFragment {
 
 //            case IDIOMAS:
 //                break;
-            
+
             case FINANCIERA:
                 return R.drawable.bg_fin;
 
