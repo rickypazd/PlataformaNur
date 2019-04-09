@@ -148,6 +148,7 @@ public class Login2 extends AppCompatActivity { // 915 -
                         obtenerPeriodosOfertados();
                         obtenerPerfil();
                         obtenerFotoDePerfil();
+                        obtenerLinks();
                     }
                 }
             }, new Response.ErrorListener() {
@@ -1108,6 +1109,66 @@ public class Login2 extends AppCompatActivity { // 915 -
                     return headers;
                 }
 
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+
+            requestQueue.add(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void obtenerLinks() {
+        String url = getString(R.string.URL_service) + "GetLinks";
+
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            JSONObject jsonBody = new JSONObject();
+
+            jsonBody.put("", "");
+
+            progreso.setTitle("Obteniendo links...");
+
+            final String mRequestBody = jsonBody.toString();
+
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject respuesta = new JSONObject(response);
+
+                        if (respuesta.getBoolean("Status")) {
+                            JSONArray listaLinks = respuesta.getJSONArray("Data");
+                            Preferences.setLinksNur(Login2.this, listaLinks);
+                        } else {
+                            Log.i("nur", "Status false en get links");
+                        }
+
+                        pasosCompletadosBase += 1;
+                        verificarCompletadoBase();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    pasosCompletadosBase += 1;
+                    verificarCompletadoBase();
+                }
+            }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
                 @Override
                 public byte[] getBody() throws AuthFailureError {
                     try {

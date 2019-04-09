@@ -106,6 +106,12 @@ public class fragmento_ajustes extends Fragment implements View.OnClickListener 
     public void onClick(View view) {
     }
 
+    public void verLinks(){
+        LinksDialog linksDialog = new LinksDialog();
+        linksDialog.setContext(getContext());
+        linksDialog.show(fragmento_ajustes.this.getFragmentManager(), "Páginas informativas");
+    }
+
     public void editarPerfil(){
         EditarPerfilDialog editarPerfilDialog = new EditarPerfilDialog();
         editarPerfilDialog.setContext(getContext());
@@ -165,6 +171,10 @@ public class fragmento_ajustes extends Fragment implements View.OnClickListener 
         switch (item.getItemId()) {
             case R.id.action_ver_historial:
                 verHistorial();
+                break;
+
+            case R.id.action_ver_links:
+                verLinks();
                 break;
 
             case R.id.action_editar_perfil:

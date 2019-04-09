@@ -9,20 +9,26 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_editar_perfil"
+        android:id="@+id/action_ver_links"
         android:orderInCategory="100"
+        android:title="Páginas Nur"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_editar_perfil"
+        android:orderInCategory="101"
         android:title="Editar perfil"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_cambiar_pin"
-        android:orderInCategory="101"
+        android:orderInCategory="102"
         android:title="Cambiar pin"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_cerrar_sesion"
-        android:orderInCategory="102"
+        android:orderInCategory="103"
         android:title="Cerrar sesión"
         app:showAsAction="never" />
 </menu>

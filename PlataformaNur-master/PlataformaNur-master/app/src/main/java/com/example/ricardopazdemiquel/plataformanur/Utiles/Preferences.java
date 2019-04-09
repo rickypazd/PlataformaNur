@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.example.ricardopazdemiquel.plataformanur.Objs.Alumno;
 import com.example.ricardopazdemiquel.plataformanur.Objs.AlumnoCarrera;
+import com.example.ricardopazdemiquel.plataformanur.Objs.Link;
 import com.example.ricardopazdemiquel.plataformanur.Objs.Periodo;
 import com.example.ricardopazdemiquel.plataformanur.Objs.PeriodoOferta;
 import com.google.gson.Gson;
@@ -27,7 +28,7 @@ public class Preferences {
         }
     }
 
-    public static void setTokenAcceso(Context context,String usrLog) {
+    public static void setTokenAcceso(Context context, String usrLog) {
         SharedPreferences pref = context.getSharedPreferences("myPref", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
         edit.putString("Token_Acceso", usrLog.toString());
@@ -77,8 +78,10 @@ public class Preferences {
             alumno.setEmail(json.isNull("SEMAIL") ? "" : json.get("SEMAIL").toString().trim());
             alumno.setEstadoCivil(json.isNull("SESTADOCIVIL_DSC") ? "" : json.get("SESTADOCIVIL_DSC").toString().trim());
             alumno.setTipoSangre(json.isNull("STIPOSANGRE_DSC") ? "" : json.get("STIPOSANGRE_DSC").toString().trim());
-            if (!json.isNull("BOOLACTIVOPASIVO")) alumno.setActivoPasivo(json.getInt("BOOLACTIVOPASIVO") == 1);
-            if (!json.isNull("LHORASERVICIO")) alumno.setHorasServicio(json.getInt("LHORASERVICIO"));
+            if (!json.isNull("BOOLACTIVOPASIVO"))
+                alumno.setActivoPasivo(json.getInt("BOOLACTIVOPASIVO") == 1);
+            if (!json.isNull("LHORASERVICIO"))
+                alumno.setHorasServicio(json.getInt("LHORASERVICIO"));
         } catch (Exception ignored) {
 
         }
@@ -108,7 +111,8 @@ public class Preferences {
             return null;
         } else {
             Gson gson = new Gson();
-            ArrayList<AlumnoCarrera> obj =  gson.fromJson(alumnoJson, new TypeToken<ArrayList<AlumnoCarrera>>(){}.getType());
+            ArrayList<AlumnoCarrera> obj = gson.fromJson(alumnoJson, new TypeToken<ArrayList<AlumnoCarrera>>() {
+            }.getType());
 
             return obj;
         }
@@ -121,21 +125,28 @@ public class Preferences {
         ArrayList<AlumnoCarrera> alumnoCarreras = new ArrayList<>();
 
         try {
-            for(int i = 0; i < carreras.length(); i++){
+            for (int i = 0; i < carreras.length(); i++) {
                 JSONObject objJson = carreras.getJSONObject(i);
 
                 AlumnoCarrera alumnoCarrera = new AlumnoCarrera();
-                if (!objJson.isNull("LCARRERA_ID")) alumnoCarrera.setLCARRERA_ID(objJson.getInt("LCARRERA_ID"));
+                if (!objJson.isNull("LCARRERA_ID"))
+                    alumnoCarrera.setLCARRERA_ID(objJson.getInt("LCARRERA_ID"));
                 alumnoCarrera.setSCODCENTRO(objJson.isNull("SCODCENTRO") ? "" : objJson.getString("SCODCENTRO"));
                 alumnoCarrera.setSCENTRO_DSC(objJson.isNull("SCENTRO_DSC") ? "" : objJson.getString("SCENTRO_DSC"));
                 alumnoCarrera.setSCODCARRERA(objJson.isNull("SCODCARRERA") ? "" : objJson.getString("SCODCARRERA"));
                 alumnoCarrera.setSCARRERA_DSC(objJson.isNull("SCARRERA_DSC") ? "" : objJson.getString("SCARRERA_DSC"));
-                if (!objJson.isNull("LCODPENSUM")) alumnoCarrera.setLCODPENSUM(objJson.getInt("LCODPENSUM"));
-                if (!objJson.isNull("LCREDVENCIDOS")) alumnoCarrera.setLCREDVENCIDOS(objJson.getInt("LCREDVENCIDOS"));
-                if (!objJson.isNull("LPERIODOINICIO")) alumnoCarrera.setLPERIODOINICIO(objJson.getString("LPERIODOINICIO"));
-                if (!objJson.isNull("LPERIODOACTUAL_ID")) alumnoCarrera.setLPERIODOACTUAL_ID(objJson.getInt("LPERIODOACTUAL_ID"));
-                if (!objJson.isNull("LPERIODOACTUAL")) alumnoCarrera.setLPERIODOACTUAL(objJson.getString("LPERIODOACTUAL"));
-                if (!objJson.isNull("LPERIODOFIN")) alumnoCarrera.setLPERIODOFIN(objJson.getString("LPERIODOFIN"));
+                if (!objJson.isNull("LCODPENSUM"))
+                    alumnoCarrera.setLCODPENSUM(objJson.getInt("LCODPENSUM"));
+                if (!objJson.isNull("LCREDVENCIDOS"))
+                    alumnoCarrera.setLCREDVENCIDOS(objJson.getInt("LCREDVENCIDOS"));
+                if (!objJson.isNull("LPERIODOINICIO"))
+                    alumnoCarrera.setLPERIODOINICIO(objJson.getString("LPERIODOINICIO"));
+                if (!objJson.isNull("LPERIODOACTUAL_ID"))
+                    alumnoCarrera.setLPERIODOACTUAL_ID(objJson.getInt("LPERIODOACTUAL_ID"));
+                if (!objJson.isNull("LPERIODOACTUAL"))
+                    alumnoCarrera.setLPERIODOACTUAL(objJson.getString("LPERIODOACTUAL"));
+                if (!objJson.isNull("LPERIODOFIN"))
+                    alumnoCarrera.setLPERIODOFIN(objJson.getString("LPERIODOFIN"));
                 alumnoCarrera.setDTFECHADMISION(objJson.isNull("DTFECHADMISION") ? "" : objJson.getString("DTFECHADMISION"));
                 alumnoCarrera.setDTFECHEGRESO(objJson.isNull("DTFECHEGRESO") ? "" : objJson.getString("DTFECHEGRESO"));
                 alumnoCarrera.setDTFECHTITULACION(objJson.isNull("DTFECHTITULACION") ? "" : objJson.getString("DTFECHTITULACION"));
@@ -161,7 +172,8 @@ public class Preferences {
             return null;
         } else {
             Gson gson = new Gson();
-            ArrayList<Periodo> periodos =  gson.fromJson(periodosJson, new TypeToken<ArrayList<Periodo>>(){}.getType());
+            ArrayList<Periodo> periodos = gson.fromJson(periodosJson, new TypeToken<ArrayList<Periodo>>() {
+            }.getType());
 
             return periodos;
         }
@@ -174,11 +186,12 @@ public class Preferences {
         ArrayList<Periodo> periodos = new ArrayList<>();
 
         try {
-            for(int i = 0; i < periodosJson.length(); i++){
+            for (int i = 0; i < periodosJson.length(); i++) {
                 JSONObject objJson = periodosJson.getJSONObject(i);
 
                 Periodo periodo = new Periodo();
-                if (!objJson.isNull("LPERIODO_ID")) periodo.setLPERIODO_ID(objJson.getInt("LPERIODO_ID"));
+                if (!objJson.isNull("LPERIODO_ID"))
+                    periodo.setLPERIODO_ID(objJson.getInt("LPERIODO_ID"));
                 periodo.setSPERIODO_DSC(objJson.isNull("SPERIODO_DSC") ? "" : objJson.getString("SPERIODO_DSC"));
 
                 periodos.add(periodo);
@@ -228,10 +241,14 @@ public class Preferences {
             carrera.setSCODCARRERA(json.isNull("SCODCARRERA") ? "" : json.getString("SCODCARRERA"));
             carrera.setSCARRERA_DSC(json.isNull("SCARRERA_DSC") ? "" : json.getString("SCARRERA_DSC"));
             if (!json.isNull("LCODPENSUM")) carrera.setLCODPENSUM(json.getInt("LCODPENSUM"));
-            if (!json.isNull("LCREDVENCIDOS")) carrera.setLCREDVENCIDOS(json.getInt("LCREDVENCIDOS"));
-            if (!json.isNull("LPERIODOINICIO")) carrera.setLPERIODOINICIO(json.getString("LPERIODOINICIO"));
-            if (!json.isNull("LPERIODOACTUAL_ID")) carrera.setLPERIODOACTUAL_ID(json.getInt("LPERIODOACTUAL_ID"));
-            if (!json.isNull("LPERIODOACTUAL")) carrera.setLPERIODOACTUAL(json.getString("LPERIODOACTUAL"));
+            if (!json.isNull("LCREDVENCIDOS"))
+                carrera.setLCREDVENCIDOS(json.getInt("LCREDVENCIDOS"));
+            if (!json.isNull("LPERIODOINICIO"))
+                carrera.setLPERIODOINICIO(json.getString("LPERIODOINICIO"));
+            if (!json.isNull("LPERIODOACTUAL_ID"))
+                carrera.setLPERIODOACTUAL_ID(json.getInt("LPERIODOACTUAL_ID"));
+            if (!json.isNull("LPERIODOACTUAL"))
+                carrera.setLPERIODOACTUAL(json.getString("LPERIODOACTUAL"));
             if (!json.isNull("LPERIODOFIN")) carrera.setLPERIODOFIN(json.getString("LPERIODOFIN"));
             carrera.setDTFECHADMISION(json.isNull("DTFECHADMISION") ? "" : json.getString("DTFECHADMISION"));
             carrera.setDTFECHEGRESO(json.isNull("DTFECHEGRESO") ? "" : json.getString("DTFECHEGRESO"));
@@ -273,7 +290,8 @@ public class Preferences {
             return null;
         } else {
             Gson gson = new Gson();
-            ArrayList<Periodo> obj =  gson.fromJson(objJson, new TypeToken<ArrayList<Periodo>>(){}.getType());
+            ArrayList<Periodo> obj = gson.fromJson(objJson, new TypeToken<ArrayList<Periodo>>() {
+            }.getType());
             return obj;
         }
     }
@@ -285,7 +303,7 @@ public class Preferences {
         ArrayList<PeriodoOferta> periodos = new ArrayList<>();
 
         try {
-            for(int i = 0; i < periodosJson.length(); i++){
+            for (int i = 0; i < periodosJson.length(); i++) {
                 JSONObject json = periodosJson.getJSONObject(i);
 
                 PeriodoOferta periodo = new PeriodoOferta();
@@ -301,6 +319,41 @@ public class Preferences {
         Gson gson = new Gson();
 
         editor.putString("periodos_oferta", gson.toJson(periodos));
+        editor.commit();
+    }
+
+    public static ArrayList<Link> getLinksNur(Context context) {
+        SharedPreferences pref = context.getSharedPreferences("myPref", context.MODE_PRIVATE);
+        String linksNur = pref.getString("links_nur", "");
+        if (linksNur.length() <= 0) {
+            return null;
+        } else {
+            Gson gson = new Gson();
+            ArrayList<Link> obj = gson.fromJson(linksNur, new TypeToken<ArrayList<Link>>() {
+            }.getType());
+            return obj;
+        }
+    }
+
+    public static void setLinksNur(Context context, JSONArray jsonLinks) {
+        SharedPreferences pref = context.getSharedPreferences("myPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+
+        ArrayList<Link> links = new ArrayList<>();
+
+        try {
+            for (int i = 0; i < jsonLinks.length(); i++) {
+                JSONObject objJson = jsonLinks.getJSONObject(i);
+                Link link = new Link();
+                link.setTITULO(objJson.isNull("TITULO") ? "" : objJson.getString("TITULO"));
+                link.setLINK(objJson.isNull("LINK") ? "" : objJson.getString("LINK"));
+                links.add(link);
+            }
+        } catch (Exception ignored) {
+
+        }
+        Gson gson = new Gson();
+        editor.putString("links_nur", gson.toJson(links));
         editor.commit();
     }
 
