@@ -35,7 +35,7 @@
                 android:visibility="gone"/>
 
             <LinearLayout
-                android:layout_weight="0.5"
+                android:layout_weight="0.35"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -46,7 +46,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    tools:text="Nombre de la materia"/>
+                    android:lines="1"
+                    android:ellipsize="end"
+                    tools:text="Politica y Estrategia empresarial"/>
 
                 <TextView
                     android:id="@+id/periodoMateria"
@@ -61,7 +63,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:text="Nombre del docente"/>
-
             </LinearLayout>
 
             <LinearLayout
