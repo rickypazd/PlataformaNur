@@ -60,7 +60,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class fragmento_notas extends Fragment {
+public class FragmentoNotas extends Fragment {
 
     private SwipeRefreshLayout contenedorSwipeRefreshLayout, swipeRefreshLayoutEmptyState;
     private Spinner spinnerPeriodos;
@@ -68,7 +68,7 @@ public class fragmento_notas extends Fragment {
     private BottomSheetBehavior mBehavior;
     private BottomSheetDialog mBottomSheetDialog;
 
-    public fragmento_notas() {
+    public FragmentoNotas() {
     }
 
     @Override

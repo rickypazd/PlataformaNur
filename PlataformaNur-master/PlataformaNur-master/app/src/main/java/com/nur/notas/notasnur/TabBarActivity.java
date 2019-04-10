@@ -50,15 +50,15 @@ public class TabBarActivity extends AppCompatActivity {
 
         switch (fragmento) {
             case "nav_ofertas":
-                fragmentoGenerico = new fragmento_ofertas();
+                fragmentoGenerico = new FragmentoOfertas();
                 break;
 
             case "nav_notas":
-                fragmentoGenerico = new fragmento_notas();
+                fragmentoGenerico = new FragmentoNotas();
                 break;
 
             case "nav_ajustes":
-                fragmentoGenerico = new fragmento_ajustes();
+                fragmentoGenerico = new FragmentoPerfil();
                 break;
         }
 

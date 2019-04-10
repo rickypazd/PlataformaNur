@@ -160,6 +160,9 @@ public class OfertaDialog extends AppCompatDialogFragment {
             tvGrupoOferta.setVisibility(View.GONE);
         }
 
+        tvCreditosOferta.setBackground(getActivity().getDrawable(getDrawableCarrera(materia.getLCARRERA_ID())));
+        tvSemestreOferta.setBackground(getActivity().getDrawable(getDrawableCarrera(materia.getLCARRERA_ID())));
+
         llOferta.setBackground(getActivity().getDrawable(getDrawableCarrera(materia.getLCARRERA_ID())));
 
         builder.setView(view);

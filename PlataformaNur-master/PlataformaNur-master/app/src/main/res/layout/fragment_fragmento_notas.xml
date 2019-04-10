@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".fragmento_notas"
+    tools:context=".FragmentoNotas"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,9 +22,7 @@
             android:paddingBottom="8dp"/>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:visibility="gone"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+            android:visibility="visible"
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -37,6 +35,7 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:visibility="gone"
             android:id="@+id/swipeRefreshLayoutEmptyState"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

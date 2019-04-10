@@ -29,7 +29,7 @@ import com.nur.notas.notasnur.dao.RequisitosMateriasDAO;
 import org.json.JSONArray;
 
 
-public class fragmento_ajustes extends Fragment implements View.OnClickListener {
+public class FragmentoPerfil extends Fragment implements View.OnClickListener {
 
     private TextView textView_nombre;
     private TextView textView_registro;
@@ -40,7 +40,7 @@ public class fragmento_ajustes extends Fragment implements View.OnClickListener 
     private TextView textView_fecha_nac;
     private Spinner spinnerCarrera;
 
-    public fragmento_ajustes() {
+    public FragmentoPerfil() {
     }
 
     @Override
@@ -88,7 +88,7 @@ public class fragmento_ajustes extends Fragment implements View.OnClickListener 
     }
 
     public void cargarPerfil(){
-        Alumno alumno = Preferences.getAlumno(fragmento_ajustes.this.getContext());
+        Alumno alumno = Preferences.getAlumno(FragmentoPerfil.this.getContext());
 
         textView_nombre.setText(alumno.getNombre() + " " + alumno.getApellidoPaterno() + " " + alumno.getApellidoMaterno());
         textView_registro.setText(alumno.getRegistro());
@@ -106,18 +106,18 @@ public class fragmento_ajustes extends Fragment implements View.OnClickListener 
     public void verLinks(){
         LinksDialog linksDialog = new LinksDialog();
         linksDialog.setContext(getContext());
-        linksDialog.show(fragmento_ajustes.this.getFragmentManager(), "Páginas informativas");
+        linksDialog.show(FragmentoPerfil.this.getFragmentManager(), "Páginas informativas");
     }
 
     public void editarPerfil(){
         EditarPerfilDialog editarPerfilDialog = new EditarPerfilDialog();
         editarPerfilDialog.setContext(getContext());
-        editarPerfilDialog.show(fragmento_ajustes.this.getFragmentManager(), "Editar perfil");
+        editarPerfilDialog.show(FragmentoPerfil.this.getFragmentManager(), "Editar perfil");
     }
 
     public void cambiarPin(){
         CambiarPinDialog cambiarPinDialog = new CambiarPinDialog();
-        cambiarPinDialog.show(fragmento_ajustes.this.getFragmentManager(), "Cambiar pin");
+        cambiarPinDialog.show(FragmentoPerfil.this.getFragmentManager(), "Cambiar pin");
     }
 
     private void confirmarCerrarSesion() {

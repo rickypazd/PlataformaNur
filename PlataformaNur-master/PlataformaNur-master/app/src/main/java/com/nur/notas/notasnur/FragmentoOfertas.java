@@ -48,13 +48,13 @@ import java.util.List;
 import java.util.Map;
 
 
-public class fragmento_ofertas extends Fragment {
+public class FragmentoOfertas extends Fragment {
 
     private SwipeRefreshLayout contenedorSwipeRefreshLayout;
     private Spinner spinnerPeriodos;
     private RecyclerView ofertasRecyclerView;
 
-    public fragmento_ofertas() {
+    public FragmentoOfertas() {
         // Required empty public constructor
     }
 
@@ -327,7 +327,7 @@ public class fragmento_ofertas extends Fragment {
         int idPeriodo = obj.getLPERIODO_ID();
         int idMateria = obj.getID();
         OfertaDialog ofertaDialog = new OfertaDialog();
-        ofertaDialog.show(fragmento_ofertas.this.getFragmentManager(), "Oferta");
+        ofertaDialog.show(FragmentoOfertas.this.getFragmentManager(), "Oferta");
 
         Bundle args = new Bundle();
         args.putInt("idCarrera", idCarrera);
