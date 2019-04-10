@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.nur.notas.notasnur.Utiles.Preferences;
+import com.nur.notas.notasnur.utiles.Preferences;
 
 public class Carga extends AppCompatActivity {
 

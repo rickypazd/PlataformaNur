@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.StringTokenizer;
 
 import com.nur.notas.notasnur.R;
-import com.nur.notas.notasnur.Utiles.MyApp;
+import com.nur.notas.notasnur.utiles.MyApp;
 
 import org.json.JSONArray;
 import org.json.JSONException;

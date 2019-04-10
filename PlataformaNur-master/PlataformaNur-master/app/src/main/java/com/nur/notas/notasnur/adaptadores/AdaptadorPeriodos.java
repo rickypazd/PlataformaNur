@@ -81,7 +81,7 @@ public class AdaptadorPeriodos extends BaseAdapter {
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         View view = super.getDropDownView(position, convertView, parent);
 
-        view.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryLight));
+        view.setBackgroundColor(context.getResources().getColor(R.color.colorAccent));
 
         return view;
     }

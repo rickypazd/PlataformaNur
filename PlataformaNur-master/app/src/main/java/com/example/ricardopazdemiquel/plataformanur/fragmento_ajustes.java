@@ -15,9 +15,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.nur.notas.notasnur.Objs.Alumno;
-import com.nur.notas.notasnur.Objs.AlumnoCarrera;
-import com.nur.notas.notasnur.Utiles.Preferences;
+import com.nur.notas.notasnur.objetos.Alumno;
+import com.nur.notas.notasnur.objetos.AlumnoCarrera;
+import com.nur.notas.notasnur.utiles.Preferences;
 import com.nur.notas.notasnur.dao.FactoryDAO;
 import com.nur.notas.notasnur.dao.HorariosMateriasDAO;
 import com.nur.notas.notasnur.dao.HorariosOfertadosDAO;

@@ -9,10 +9,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.nur.notas.notasnur.Objs.AlumnoCarrera;
-import com.nur.notas.notasnur.Objs.Periodo;
-import com.nur.notas.notasnur.Utiles.MyApp;
-import com.nur.notas.notasnur.Utiles.Preferences;
+import com.nur.notas.notasnur.objetos.AlumnoCarrera;
+import com.nur.notas.notasnur.objetos.Periodo;
+import com.nur.notas.notasnur.utiles.MyApp;
+import com.nur.notas.notasnur.utiles.Preferences;
 import com.nur.notas.notasnur.conexion.Conexion;
 import com.nur.notas.notasnur.conexion.Tablas;
 import com.nur.notas.notasnur.dto.DTO;

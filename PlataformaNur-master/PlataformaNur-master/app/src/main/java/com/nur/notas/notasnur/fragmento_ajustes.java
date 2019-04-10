@@ -15,9 +15,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.nur.notas.notasnur.Objs.Alumno;
-import com.nur.notas.notasnur.Objs.AlumnoCarrera;
-import com.nur.notas.notasnur.Utiles.Preferences;
+import com.nur.notas.notasnur.objetos.Alumno;
+import com.nur.notas.notasnur.objetos.AlumnoCarrera;
+import com.nur.notas.notasnur.utiles.Preferences;
 import com.nur.notas.notasnur.dao.FactoryDAO;
 import com.nur.notas.notasnur.dao.HorariosMateriasDAO;
 import com.nur.notas.notasnur.dao.HorariosOfertadosDAO;
@@ -158,7 +158,7 @@ public class fragmento_ajustes extends Fragment implements View.OnClickListener 
         materiasDao.truncate();
         requisitosDao.truncate();
 
-        Intent intent = new Intent(getContext(), Login2.class);
+        Intent intent = new Intent(getContext(), Login.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

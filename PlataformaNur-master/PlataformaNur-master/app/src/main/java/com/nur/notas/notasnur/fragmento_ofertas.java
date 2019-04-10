@@ -1,25 +1,26 @@
 package com.nur.notas.notasnur;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
+
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -27,22 +28,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.nur.notas.notasnur.Objs.AlumnoCarrera;
-import com.nur.notas.notasnur.Objs.Periodo;
-import com.nur.notas.notasnur.Utiles.Preferences;
+import com.nur.notas.notasnur.objetos.AlumnoCarrera;
+import com.nur.notas.notasnur.objetos.Periodo;
+import com.nur.notas.notasnur.utiles.Preferences;
 import com.nur.notas.notasnur.dao.FactoryDAO;
 import com.nur.notas.notasnur.dao.HorariosOfertadosDAO;
 import com.nur.notas.notasnur.dao.MateriasOfertadasDAO;
 import com.nur.notas.notasnur.dto.MateriasOfertadas;
-import com.nur.notas.notasnur.layouts.AdaptadorOfertas;
-import com.nur.notas.notasnur.layouts.AdaptadorPeriodos;
+import com.nur.notas.notasnur.adaptadores.AdaptadorOfertas;
+import com.nur.notas.notasnur.adaptadores.AdaptadorPeriodos;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,8 +53,6 @@ public class fragmento_ofertas extends Fragment {
     private SwipeRefreshLayout contenedorSwipeRefreshLayout;
     private Spinner spinnerPeriodos;
     private RecyclerView ofertasRecyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-
 
     public fragmento_ofertas() {
         // Required empty public constructor
@@ -74,7 +72,7 @@ public class fragmento_ofertas extends Fragment {
         contenedorSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayoutOferta);
         spinnerPeriodos = view.findViewById(R.id.spinnerPeriodoOferta);
         ofertasRecyclerView = view.findViewById(R.id.ofertasRecyclerView);
-        layoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         ofertasRecyclerView.setLayoutManager(layoutManager);
 
         spinnerPeriodos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -93,10 +91,7 @@ public class fragmento_ofertas extends Fragment {
 
             @Override
             public void onRefresh() {
-                int periodoId = ((Periodo) spinnerPeriodos.getSelectedItem()).getLPERIODO_ID();
-                int carreraId = Preferences.getCarreraSeleccionada(getContext()).getLCARRERA_ID();
-
-                obtenerMateriasOfertadas(periodoId, carreraId);
+                obtenerMateriasOfertadas();
             }
         });
 
@@ -116,10 +111,7 @@ public class fragmento_ofertas extends Fragment {
     }
 
     public void obtenerMateriasOfertadas(int periodoId) {
-        ArrayList<AlumnoCarrera> carreras = Preferences.getAlumnoCarreras(getContext());
-
-        AlumnoCarrera carrera = estudiaUnaSolaCarrera() ? carreras.get(0) :
-                Preferences.getCarreraSeleccionada(getContext());
+        AlumnoCarrera carrera = Preferences.getCarreraSeleccionada(getContext());
 
         MateriasOfertadasDAO dao = FactoryDAO.getOrCreate().newMateriasOfertadasDAO();
         List<MateriasOfertadas> ofertas = dao.seleccionar(carrera.getLCARRERA_ID(), periodoId);
@@ -132,24 +124,21 @@ public class fragmento_ofertas extends Fragment {
                 verMateria(obj);
             }
         });
-
     }
 
-    public void obtenerMateriasOfertadas(final int periodoId, final int carreraId) {
-        String url = getString(R.string.URL_service) + "GetAlumnoOferta";
+    /* de los servicios */
+    public void obtenerMateriasOfertadas() {
+        String url = getString(R.string.url_materias_ofertadas);
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getContext());
             JSONObject jsonBody = new JSONObject();
 
+            final int periodoId = ((Periodo) spinnerPeriodos.getSelectedItem()).getLPERIODO_ID();
+            final int carreraId = Preferences.getCarreraSeleccionada(getContext()).getLCARRERA_ID();
+
             jsonBody.put("pCarreraId", carreraId);
             jsonBody.put("pPeriodoId", periodoId);
-
-            final ProgressDialog progreso = new ProgressDialog(getContext());
-            progreso.setIndeterminate(true);
-            progreso.setTitle("Esperando respuesta...");
-            progreso.setCancelable(false);
-            progreso.show();
 
             final String mRequestBody = jsonBody.toString();
 
@@ -188,22 +177,26 @@ public class fragmento_ofertas extends Fragment {
                                 }
                             }
 
+                            obtenerMateriasOfertadas(periodoId);
                         } else {
                             Log.i("nur", "Status false en get notas");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
                     contenedorSwipeRefreshLayout.setRefreshing(false);
-                    progreso.dismiss();
                 }
             }, new Response.ErrorListener() {
                 @Override
-                public void onErrorResponse(VolleyError error) {
-                    showLoginDialog(periodoId, carreraId);
-                    progreso.dismiss();
-                    Log.e("LOG_VOLLEY", error.toString());
+                public void onErrorResponse(VolleyError volleyError) {
                     contenedorSwipeRefreshLayout.setRefreshing(false);
+
+                    if (volleyError instanceof NetworkError) {
+                        showNoNetworkDialog();
+                    } else if (volleyError instanceof AuthFailureError) {
+                        loginAgain();
+                    }
                 }
             }) {
                 @Override
@@ -236,40 +229,38 @@ public class fragmento_ofertas extends Fragment {
         }
     }
 
-    public boolean estudiaUnaSolaCarrera() {
-        return Preferences.getAlumnoCarreras(getContext()).size() == 1;
-    }
+    private void showNoNetworkDialog() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_no_internet);
+        dialog.setCancelable(true);
 
-    public void showLoginDialog(final int periodoId, final int carreraId) {
-        final View inflatedView = LayoutInflater.from(getContext())
-                .inflate(R.layout.dialog_login, (ViewGroup) getView(), false);
-        final EditText etRegistro = inflatedView.findViewById(R.id.registro);
-        final EditText etPin = inflatedView.findViewById(R.id.pin);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setView(inflatedView);
 
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                String registro = etRegistro.getText().toString();
-                String pin = etPin.getText().toString();
-
-                if (!registro.trim().isEmpty() && !pin.trim().isEmpty()) {
-                    loginAgain(registro, pin, periodoId, carreraId);
-                }
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
 
-        builder.show();
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
-    public void loginAgain(String registro, String pin, final int periodoId, final int carreraId) {
-        String url = getString(R.string.URL_service) + "Login";
+    public void loginAgain() {
+        String url = getString(R.string.url_login);
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getContext());
             JSONObject jsonBody = new JSONObject();
+
+            String registro = Preferences.getRegistro(getContext());
+            String pin = Preferences.getPin(getContext());
 
             jsonBody.put("username", registro);
             jsonBody.put("password", pin);
@@ -286,30 +277,28 @@ public class fragmento_ofertas extends Fragment {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    progreso.dismiss();
-
                     response = response.replace('"', ' ').trim();
 
                     if (response.equals("Bloqueo. Tiene deuda pendiente.")) {
                         Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
                     } else {
                         Preferences.setTokenAcceso(getContext(), response);
-                        obtenerMateriasOfertadas(periodoId, carreraId);
+                        obtenerMateriasOfertadas();
                     }
+
+                    progreso.dismiss();
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-                    if (volleyError instanceof NetworkError) {
-                        Toast.makeText(getContext(), "NetworkError", Toast.LENGTH_SHORT).show();
-                    } else if (volleyError instanceof NoConnectionError) {
-                        Toast.makeText(getContext(), "NoConnectionError", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getContext(), "Credenciales incorrectos.", Toast.LENGTH_SHORT).show();
+                    /* acá el error mas probable son credenciales incorrectos, debido a un cambio
+                    en el pin, que no fue realizado desde la app */
+                    if (volleyError instanceof AuthFailureError) {
+                        String error = "Hubo un error al obtener el pensum. Si cambió su pin, cierre sesión y vuelva ingresar.";
+                        Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
                     }
 
                     progreso.dismiss();
-                    Log.e("LOG_VOLLEY", volleyError.toString());
                 }
             }) {
                 @Override

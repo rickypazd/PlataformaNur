@@ -41,14 +41,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.nur.notas.notasnur.Objs.AlumnoCarrera;
-import com.nur.notas.notasnur.Objs.Periodo;
-import com.nur.notas.notasnur.Utiles.Preferences;
+import com.nur.notas.notasnur.objetos.AlumnoCarrera;
+import com.nur.notas.notasnur.objetos.Periodo;
+import com.nur.notas.notasnur.utiles.Preferences;
 import com.nur.notas.notasnur.dao.FactoryDAO;
 import com.nur.notas.notasnur.dao.NotasDAO;
 import com.nur.notas.notasnur.dto.Notas;
-import com.nur.notas.notasnur.layouts.AdaptadorNotas;
-import com.nur.notas.notasnur.layouts.AdaptadorPeriodos;
+import com.nur.notas.notasnur.adaptadores.AdaptadorNotas;
+import com.nur.notas.notasnur.adaptadores.AdaptadorPeriodos;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -260,7 +260,7 @@ public class fragmento_notas extends Fragment {
 
     // de los servicios
     private void obtenerNotas() {
-        String url = getString(R.string.URL_service) + "GetNotasFaltas";
+        String url = getString(R.string.url_notas);
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getContext());
@@ -351,7 +351,7 @@ public class fragmento_notas extends Fragment {
     private void showNoNetworkDialog() {
         final Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_warning);
+        dialog.setContentView(R.layout.dialog_no_internet);
         dialog.setCancelable(true);
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
@@ -372,7 +372,7 @@ public class fragmento_notas extends Fragment {
     }
 
     public void loginAgain() {
-        String url = getString(R.string.URL_service) + "Login";
+        String url = getString(R.string.url_login);
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getContext());

@@ -32,11 +32,11 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.nur.notas.notasnur.Utiles.Preferences;
+import com.nur.notas.notasnur.utiles.Preferences;
 import com.nur.notas.notasnur.dao.FactoryDAO;
 import com.nur.notas.notasnur.dao.MateriasDAO;
 import com.nur.notas.notasnur.dto.Materias;
-import com.nur.notas.notasnur.layouts.AdaptadorHistorialAcademico;
+import com.nur.notas.notasnur.adaptadores.AdaptadorHistorialAcademico;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -146,7 +146,7 @@ public class HistorialAcademico extends AppCompatActivity {
     }
 
     public void obtenerHistorialMateriasCursadas() {
-        String url = getString(R.string.URL_service) + "GetAlumnoHistorial";
+        String url = getString(R.string.url_historial_academico);
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -243,7 +243,7 @@ public class HistorialAcademico extends AppCompatActivity {
     private void showNoNetworkDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_warning);
+        dialog.setContentView(R.layout.dialog_no_internet);
         dialog.setCancelable(true);
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
@@ -264,7 +264,7 @@ public class HistorialAcademico extends AppCompatActivity {
     }
 
     public void loginAgain() {
-        String url = getString(R.string.URL_service) + "Login";
+        String url = getString(R.string.url_login);
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(this);

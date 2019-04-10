@@ -1,8 +1,9 @@
 package com.nur.notas.notasnur.adaptadores;
 
 import android.content.Context;
-import android.graphics.Color;
+
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,7 +98,11 @@ public class AdaptadorOfertas extends RecyclerView.Adapter<AdaptadorOfertas.MyVi
             }
         });
 
-        holder.image.setImageDrawable(TextDrawable.builder().buildRound(obj.getSMATERIA_DSC().charAt(0) + "", Color.LTGRAY));
+        //holder.image.setImageDrawable(TextDrawable.builder().buildRound(obj.getSMATERIA_DSC().charAt(0) + "", Color.LTGRAY));
+        String grupo = obj.getSCODGRUPO();
+        if(grupo.isEmpty())
+            grupo = obj.getSMATERIA_DSC().charAt(0) + "";
+        holder.image.setImageDrawable(TextDrawable.builder().buildRound(grupo, ContextCompat.getColor(contexto, R.color.colorPrimary)));
 
         HorariosOfertadosDAO dao = FactoryDAO.getOrCreate().newHorariosOfertadosDAO();
         List<HorariosOfertados> horariosOfertados = dao.seleccionar(obj.getID());

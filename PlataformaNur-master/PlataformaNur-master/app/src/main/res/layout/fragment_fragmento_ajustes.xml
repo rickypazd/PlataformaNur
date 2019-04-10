@@ -96,7 +96,7 @@
                             android:layout_height="48dp"
                             android:layout_centerVertical="true"
                             android:layout_gravity="end"
-                            android:src="@drawable/icons8_phone_50" />
+                            android:src="@drawable/ic_phone" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -145,7 +145,7 @@
                                 <ImageView
                                     android:layout_width="48dp"
                                     android:layout_height="48dp"
-                                    android:src="@drawable/icons8_clock_50_2" />
+                                    android:src="@drawable/ic_clock" />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
@@ -200,7 +200,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_gravity="end"
-                                android:src="@drawable/icons8_secured_letter_50" />
+                                android:src="@drawable/ic_secured_letter" />
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

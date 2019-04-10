@@ -17,9 +17,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
-import com.nur.notas.notasnur.Objs.AlumnoCarrera;
-import com.nur.notas.notasnur.Utiles.Preferences;
-import com.nur.notas.notasnur.layouts.AdaptadorCarreras;
+import com.nur.notas.notasnur.objetos.AlumnoCarrera;
+import com.nur.notas.notasnur.utiles.Preferences;
+import com.nur.notas.notasnur.adaptadores.AdaptadorCarreras;
 
 import java.util.ArrayList;
 

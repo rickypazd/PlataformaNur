@@ -1,29 +1,20 @@
 <resources>
     <string name="app_name">Notas Nur</string>
 
-    <string name="URL_service">http://wsnotas.nur.edu:8880/api/Registros/</string>
+    <string name="url_login">http://wsnotas.nur.edu:8880/api/Registros/Login</string>
+    <string name="url_alumno_info">http://wsnotas.nur.edu:8880/api/Registros/GetAlumnoInfo</string>
+    <string name="url_periodos_cursados">http://wsnotas.nur.edu:8880/api/Registros/GetPeriodosCursados</string>
+    <string name="url_carreras">http://wsnotas.nur.edu:8880/api/Registros/GetAlumnoCarreras</string>
+    <string name="url_notas">http://wsnotas.nur.edu:8880/api/Registros/GetNotasFaltas</string>
+    <string name="url_documentos">http://wsnotas.nur.edu:8880/api/Registros/GetAlumnoDoc</string>
+    <string name="url_periodos_ofertados">http://wsnotas.nur.edu:8880/api/Registros/GetPeriodosOferta</string>
+    <string name="url_materias_ofertadas">http://wsnotas.nur.edu:8880/api/Registros/GetAlumnoOferta</string>
+    <string name="url_actualizar_pin">http://wsnotas.nur.edu:8880/api/Registros/UpdatePin</string>
+    <string name="url_actualizar_email_telefono">http://wsnotas.nur.edu:8880/api/Registros/UpdateEmailTelefono</string>
+    <string name="url_historial_academico">http://wsnotas.nur.edu:8880/api/Registros/GetAlumnoHistorial</string>
+    <string name="url_foto_perfil">http://wsnotas.nur.edu:8880/api/Registros/GetAlumnoImagen</string>
+    <string name="url_enlaces">http://wsnotas.nur.edu:8880/api/Registros/GetLinks</string>
     <string name="KeyService">A10BB4B705310FB670185286C2B2367365A1CA2C</string>
     <string name="title_activity_tab_bar">TabBarActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="primer_parcial">1
-        &lt;sup&gt;er&lt;/sup&gt;
-        parcial
-    </string>
-    <string name="segundo_parcial">1
-        &lt;sup&gt;do&lt;/sup&gt;
-        parcial
-    </string>
-    <string-array name="Games">
-        <item>League of Legends</item>
-        <item>Diablo III</item>
-        <item>God of War</item>
-        <item>Halo 4</item>
-        <item>StarCraft II</item>
-    </string-array>
 
 </resources>

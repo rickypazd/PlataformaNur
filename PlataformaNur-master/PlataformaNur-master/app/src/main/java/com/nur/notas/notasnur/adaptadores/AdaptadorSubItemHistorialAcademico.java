@@ -34,11 +34,26 @@ public class AdaptadorSubItemHistorialAcademico extends RecyclerView.Adapter<Ada
     public void onBindViewHolder(AdaptadorSubItemHistorialAcademico.MyViewHolder holder, int position) {
         final Materias materia = listaMaterias.get(position);
 
-        String upperString = materia.getSMATERIA_DSC().substring(0,1).toUpperCase() + materia.getSMATERIA_DSC().substring(1).toLowerCase();
+        String upperString = aMayusculas(materia.getSMATERIA_DSC());
+
+        upperString = upperString.replaceAll("\\b" + "i" + "\\b", "I");
+        upperString = upperString.replaceAll("\\b" + "ii" + "\\b", "II");
+        upperString = upperString.replaceAll("\\b" + "iii" + "\\b", "III");
+        upperString = upperString.replaceAll("\\b" + "iv" + "\\b", "IV");
+        upperString = upperString.replaceAll("\\b" + "v" + "\\b", "V");
+
         holder.tvMaterias.setText(upperString);
         if (materia.getOBS().equals("FALTANTE")) {
             holder.checkImageView.setVisibility(View.GONE);
         }
+    }
+
+    private String aMayusculas(String texto) {
+        if (texto.isEmpty()) {
+            return "";
+        }
+
+        return texto.substring(0,1).toUpperCase() + texto.substring(1).toLowerCase();
     }
 
     @Override

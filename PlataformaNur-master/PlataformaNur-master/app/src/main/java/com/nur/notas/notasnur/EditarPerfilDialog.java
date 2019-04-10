@@ -23,8 +23,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.nur.notas.notasnur.Objs.Alumno;
-import com.nur.notas.notasnur.Utiles.Preferences;
+import com.nur.notas.notasnur.objetos.Alumno;
+import com.nur.notas.notasnur.utiles.Preferences;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -83,7 +83,7 @@ public class EditarPerfilDialog extends AppCompatDialogFragment {
     }
 
     public void editInfo() throws JSONException{
-        String url = getString(R.string.URL_service) + "UpdateEmailTelefono";
+        String url = getString(R.string.url_actualizar_email_telefono);
         final String celular = et_celular.getText().toString();
         final String telefono = et_telefono.getText().toString();
         final String correo = et_correo.getText().toString();

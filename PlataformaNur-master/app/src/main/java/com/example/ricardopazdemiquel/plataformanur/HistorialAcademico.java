@@ -10,7 +10,7 @@ import android.view.View;
 import com.nur.notas.notasnur.dao.FactoryDAO;
 import com.nur.notas.notasnur.dao.MateriasDAO;
 import com.nur.notas.notasnur.dto.Materias;
-import com.nur.notas.notasnur.layouts.AdaptadorHistorialAcademico;
+import com.nur.notas.notasnur.adaptadores.AdaptadorHistorialAcademico;
 
 import java.util.List;
 

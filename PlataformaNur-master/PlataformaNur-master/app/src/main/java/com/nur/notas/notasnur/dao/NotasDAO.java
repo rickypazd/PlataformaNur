@@ -2,7 +2,7 @@ package com.nur.notas.notasnur.dao;
 
 import java.util.List;
 
-import com.nur.notas.notasnur.Objs.Periodo;
+import com.nur.notas.notasnur.objetos.Periodo;
 import com.nur.notas.notasnur.dto.Notas;
 
 import org.json.JSONArray;
