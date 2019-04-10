@@ -16,13 +16,14 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import com.nur.notas.notasnur.objetos.AlumnoCarrera;
+import com.nur.notas.notasnur.utiles.Constantes;
 import com.nur.notas.notasnur.utiles.Preferences;
 import com.nur.notas.notasnur.adaptadores.AdaptadorCarreras;
 
 import java.util.ArrayList;
 
 public class TabBarActivity extends AppCompatActivity {
-    int ii = 1;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -30,13 +31,13 @@ public class TabBarActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.nav_ofertas:
-                    seleccionarFragmento("nav_ofertas");
+                    seleccionarFragmento(Constantes.TAB_OFERTAS);
                     return true;
                 case R.id.nav_notas:
-                    seleccionarFragmento("nav_notas");
+                    seleccionarFragmento(Constantes.TAB_NOTAS);
                     return true;
                 case R.id.nav_ajustes:
-                    seleccionarFragmento("nav_ajustes");
+                    seleccionarFragmento(Constantes.TAB_PERFIL);
                     return true;
             }
             return false;
@@ -49,15 +50,15 @@ public class TabBarActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         switch (fragmento) {
-            case "nav_ofertas":
+            case Constantes.TAB_OFERTAS:
                 fragmentoGenerico = new FragmentoOfertas();
                 break;
 
-            case "nav_notas":
+            case Constantes.TAB_NOTAS:
                 fragmentoGenerico = new FragmentoNotas();
                 break;
 
-            case "nav_ajustes":
+            case Constantes.TAB_PERFIL:
                 fragmentoGenerico = new FragmentoPerfil();
                 break;
         }
@@ -79,30 +80,7 @@ public class TabBarActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-//        if (Preferences.isFirstTime(this) && !estudiaUnaSolaCarrera()) {
-//            /* Por defecto la primera carrera será seleccionada */
-//            final ArrayList<AlumnoCarrera> carreras = Preferences.getAlumnoCarreras(this);
-//
-//            final CharSequence[] items = new CharSequence[carreras.size()];
-//
-//            for (int i = 0; i < carreras.size(); i++) {
-//                AlumnoCarrera carrera = carreras.get(i);
-//                items[i] = carrera.getSCARRERA_DSC();
-//            }
-//
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//            builder.setTitle("Selecciona una carrera")
-//                    .setItems(items, new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            AlumnoCarrera carreraSeleccionada = carreras.get(which);
-//                            Preferences.setCarreraSeleccionada(TabBarActivity.this, carreraSeleccionada);
-//                        }
-//                    });
-//
-//            builder.show();
-//        }
-
-        seleccionarFragmento("nav_notas");
+        seleccionarFragmento(Constantes.TAB_NOTAS);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -122,33 +100,16 @@ public class TabBarActivity extends AppCompatActivity {
         spinnerCarrera.setAdapter(adaptador);
         final View lyt_expand_text = findViewById(R.id.lyt_expand_text);
         lyt_expand_text.setVisibility(View.GONE);
-        final NestedScrollView nested_scroll_view = findViewById(R.id.nested_scroll_view);
 
         spinnerCarrera.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.i("nur", "onItemSelected");
-
                 AlumnoCarrera carrera = (AlumnoCarrera) spinnerCarrera.getSelectedItem();
                 Preferences.setCarreraSeleccionada(TabBarActivity.this, carrera);
-//                if (ii == 1) {
-//                    ii++;
-//                    return;
-//                }
-//                ViewAnimation.expand(lyt_expand_text, new ViewAnimation.AnimListener() {
-//                    @Override
-//                    public void onFinish() {
-//                        Tools.nestedScrollTo(nested_scroll_view, lyt_expand_text);
-//                    }
-//                });
-//
-
-                // ViewAnimation.collapse(lyt_expand_text);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                Log.i("nur", "onNothingSelected");
             }
         });
         for (int i = 0; i < carreras.size(); i++) {

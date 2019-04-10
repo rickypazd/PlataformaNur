@@ -1,6 +1,5 @@
 package com.nur.notas.notasnur;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -11,12 +10,9 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -41,6 +37,7 @@ import com.nur.notas.notasnur.dao.FactoryDAO;
 import com.nur.notas.notasnur.dao.MateriasDAO;
 import com.nur.notas.notasnur.dao.MateriasOfertadasDAO;
 import com.nur.notas.notasnur.dao.NotasDAO;
+import com.nur.notas.notasnur.utiles.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -156,7 +153,7 @@ public class Login extends AppCompatActivity { // 915 -
                     progreso.dismiss();
 
                     if (error instanceof NetworkError) {
-                        showNoNetworkDialog();
+                        Util.mostrarDialogoSinInternet(Login.this);
                     } else if (error instanceof TimeoutError) {
 
                     } else if (error instanceof ServerError) {
@@ -185,29 +182,6 @@ public class Login extends AppCompatActivity { // 915 -
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    private void showNoNetworkDialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_no_internet);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-
-        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
     }
 
     /* SERVICIOS BASE */

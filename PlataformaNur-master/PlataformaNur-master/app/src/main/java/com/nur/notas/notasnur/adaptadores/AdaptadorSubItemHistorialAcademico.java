@@ -10,8 +10,10 @@ import android.widget.TextView;
 
 import com.nur.notas.notasnur.R;
 import com.nur.notas.notasnur.dto.Materias;
+import com.nur.notas.notasnur.utiles.Util;
 
 import java.util.List;
+
 
 public class AdaptadorSubItemHistorialAcademico extends RecyclerView.Adapter<AdaptadorSubItemHistorialAcademico.MyViewHolder> {
 
@@ -34,7 +36,7 @@ public class AdaptadorSubItemHistorialAcademico extends RecyclerView.Adapter<Ada
     public void onBindViewHolder(AdaptadorSubItemHistorialAcademico.MyViewHolder holder, int position) {
         final Materias materia = listaMaterias.get(position);
 
-        String upperString = aMayusculas(materia.getSMATERIA_DSC());
+        String upperString = Util.primeraMayuscula(materia.getSMATERIA_DSC());
 
         upperString = upperString.replaceAll("\\b" + "i" + "\\b", "I");
         upperString = upperString.replaceAll("\\b" + "ii" + "\\b", "II");
@@ -46,14 +48,6 @@ public class AdaptadorSubItemHistorialAcademico extends RecyclerView.Adapter<Ada
         if (materia.getOBS().equals("FALTANTE")) {
             holder.checkImageView.setVisibility(View.GONE);
         }
-    }
-
-    private String aMayusculas(String texto) {
-        if (texto.isEmpty()) {
-            return "";
-        }
-
-        return texto.substring(0,1).toUpperCase() + texto.substring(1).toLowerCase();
     }
 
     @Override

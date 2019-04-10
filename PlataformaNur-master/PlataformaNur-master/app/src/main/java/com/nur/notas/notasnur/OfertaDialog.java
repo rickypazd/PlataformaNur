@@ -17,43 +17,12 @@ import com.nur.notas.notasnur.dao.HorariosOfertadosDAO;
 import com.nur.notas.notasnur.dao.MateriasOfertadasDAO;
 import com.nur.notas.notasnur.dto.HorariosOfertados;
 import com.nur.notas.notasnur.dto.MateriasOfertadas;
+import com.nur.notas.notasnur.utiles.Constantes;
+import com.nur.notas.notasnur.utiles.Util;
 
 import java.util.List;
 
 public class OfertaDialog extends AppCompatDialogFragment {
-
-    private TextView tvPresencialOferta;
-    private TextView tvSemestreOferta;
-    private TextView tvCreditosOferta;
-    private TextView tvDocenteOferta;
-    private TextView tvGrupoOferta;
-    private TextView tvNombreMateria;
-
-    private TextView tvHorarioLunes;
-    private TextView tvHorarioMartes;
-    private TextView tvHorarioMiercoles;
-    private TextView tvHorarioJueves;
-    private TextView tvHorarioViernes;
-    private TextView tvHorarioSabado;
-    private TextView tvHorarioDomingo;
-
-    private LinearLayout lLLunes;
-    private LinearLayout lLMartes;
-    private LinearLayout lLMiercoles;
-    private LinearLayout lLJueves;
-    private LinearLayout lLViernes;
-    private LinearLayout lLSabado;
-    private LinearLayout lLDomingo;
-
-    private final int ADMINISTRACION = 3;
-    private final int COMERCIAL = 6;
-    private final int COMUNICACION_SOCIAL = 2;
-    private final int DERECHO = 58;
-    private final int FINANCIERA = 57;
-    private final int IDIOMAS = 5;
-    private final int MARKETING = 56;
-    private final int RELACIONES_INTERNACIONALES = 10;
-    private final int SISTEMAS = 1;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -62,28 +31,28 @@ public class OfertaDialog extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_oferta, null);
 
-        tvPresencialOferta = view.findViewById(R.id.tvPresencialOferta);
-        tvSemestreOferta = view.findViewById(R.id.tvSemestreOferta);
-        tvCreditosOferta = view.findViewById(R.id.tvCreditosOferta);
-        tvDocenteOferta = view.findViewById(R.id.tvDocenteOferta);
-        tvGrupoOferta = view.findViewById(R.id.tvGrupoOferta);
-        tvNombreMateria = view.findViewById(R.id.tvNombreMateria);
+        TextView tvPresencialOferta = view.findViewById(R.id.tvPresencialOferta);
+        TextView tvSemestreOferta = view.findViewById(R.id.tvSemestreOferta);
+        TextView tvCreditosOferta = view.findViewById(R.id.tvCreditosOferta);
+        TextView tvDocenteOferta = view.findViewById(R.id.tvDocenteOferta);
+        TextView tvGrupoOferta = view.findViewById(R.id.tvGrupoOferta);
+        TextView tvNombreMateria = view.findViewById(R.id.tvNombreMateria);
 
-        tvHorarioLunes = view.findViewById(R.id.tvHorarioLunes);
-        tvHorarioMartes = view.findViewById(R.id.tvHorarioMartes);
-        tvHorarioMiercoles = view.findViewById(R.id.tvHorarioMiercoles);
-        tvHorarioJueves = view.findViewById(R.id.tvHorarioJueves);
-        tvHorarioViernes = view.findViewById(R.id.tvHorarioViernes);
-        tvHorarioSabado = view.findViewById(R.id.tvHorarioSabado);
-        tvHorarioDomingo = view.findViewById(R.id.tvHorarioDomingo);
+        TextView tvHorarioLunes = view.findViewById(R.id.tvHorarioLunes);
+        TextView tvHorarioMartes = view.findViewById(R.id.tvHorarioMartes);
+        TextView tvHorarioMiercoles = view.findViewById(R.id.tvHorarioMiercoles);
+        TextView tvHorarioJueves = view.findViewById(R.id.tvHorarioJueves);
+        TextView tvHorarioViernes = view.findViewById(R.id.tvHorarioViernes);
+        TextView tvHorarioSabado = view.findViewById(R.id.tvHorarioSabado);
+        TextView tvHorarioDomingo = view.findViewById(R.id.tvHorarioDomingo);
 
-        lLLunes = view.findViewById(R.id.lLLunes);
-        lLMartes = view.findViewById(R.id.lLMartes);
-        lLMiercoles = view.findViewById(R.id.lLMiercoles);
-        lLJueves = view.findViewById(R.id.lLJueves);
-        lLViernes = view.findViewById(R.id.lLViernes);
-        lLSabado = view.findViewById(R.id.lLSabado);
-        lLDomingo = view.findViewById(R.id.lLDomingo);
+        TextView lLLunes = view.findViewById(R.id.lLLunes);
+        TextView lLMartes = view.findViewById(R.id.lLMartes);
+        TextView lLMiercoles = view.findViewById(R.id.lLMiercoles);
+        TextView lLJueves = view.findViewById(R.id.lLJueves);
+        TextView lLViernes = view.findViewById(R.id.lLViernes);
+        TextView lLSabado = view.findViewById(R.id.lLSabado);
+        TextView lLDomingo = view.findViewById(R.id.lLDomingo);
 
         TextView tvGrupo = view.findViewById(R.id.tvGrupo);
         LinearLayout llOferta = view.findViewById(R.id.llOferta);
@@ -95,13 +64,13 @@ public class OfertaDialog extends AppCompatDialogFragment {
         TextView tvSabado = view.findViewById(R.id.tvSabado);
         TextView tvDomingo = view.findViewById(R.id.tvDomingo);
 
-        int idCarrera = getArguments().getInt("idCarrera");
-        int idPeriodo = getArguments().getInt("idPeriodo");
-        int idMateria = getArguments().getInt("idMateria");
+        int idCarrera = getArguments() != null ? getArguments().getInt("idCarrera") : 0;
+        int idPeriodo = getArguments() != null ? getArguments().getInt("idPeriodo") : 0;
+        int idMateria = getArguments() != null ? getArguments().getInt("idMateria") : 0;
         MateriasOfertadasDAO dao = FactoryDAO.getOrCreate().newMateriasOfertadasDAO();
         MateriasOfertadas materia = dao.seleccionar(idCarrera, idPeriodo, idMateria);
 
-        tvPresencialOferta.setText(primeraMayuscula(materia.getSCENTRO_DSC()));
+        tvPresencialOferta.setText(Util.primeraMayuscula(materia.getSCENTRO_DSC()));
 
         tvSemestreOferta.setText(String.valueOf(materia.getLSEMESTRE()));
         tvCreditosOferta.setText(String.valueOf(materia.getLCREDITOS()));
@@ -170,46 +139,38 @@ public class OfertaDialog extends AppCompatDialogFragment {
         return builder.create();
     }
 
-    public int getDrawableCarrera(int carreraId) {
+    private int getDrawableCarrera(int carreraId) {
         switch (carreraId) {
-            case ADMINISTRACION:
+            case Constantes.ADMINISTRACION:
                 return R.drawable.bg_adm;
 
-            case COMERCIAL:
+            case Constantes.COMERCIAL:
                 return R.drawable.bg_comer;
 
-            case DERECHO:
+            case Constantes.DERECHO:
                 return R.drawable.bg_der;
 
-            case COMUNICACION_SOCIAL:
+            case Constantes.COMUNICACION_SOCIAL:
                 return R.drawable.bg_comun;
 
-//            case IDIOMAS:
+//            case Constantes.IDIOMAS:
 //                break;
 
-            case FINANCIERA:
+            case Constantes.FINANCIERA:
                 return R.drawable.bg_fin;
 
-            case MARKETING:
+            case Constantes.MARKETING:
                 return R.drawable.bg_mar;
 
-            case RELACIONES_INTERNACIONALES:
+            case Constantes.RELACIONES_INTERNACIONALES:
                 return R.drawable.bg_int;
 
-            case SISTEMAS:
+            case Constantes.SISTEMAS:
                 return R.drawable.bg_sis;
 
             default:
                 return R.drawable.backgroundcolorcardprofile;
         }
-    }
-
-    public String primeraMayuscula(String texto) {
-        if (texto.isEmpty()) {
-            return "";
-        }
-
-        return texto.substring(0,1).toUpperCase() + texto.substring(1).toLowerCase();
     }
 
 }

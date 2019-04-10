@@ -37,6 +37,7 @@ import com.nur.notas.notasnur.dao.MateriasOfertadasDAO;
 import com.nur.notas.notasnur.dto.MateriasOfertadas;
 import com.nur.notas.notasnur.adaptadores.AdaptadorOfertas;
 import com.nur.notas.notasnur.adaptadores.AdaptadorPeriodos;
+import com.nur.notas.notasnur.utiles.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -193,7 +194,7 @@ public class FragmentoOfertas extends Fragment {
                     contenedorSwipeRefreshLayout.setRefreshing(false);
 
                     if (volleyError instanceof NetworkError) {
-                        showNoNetworkDialog();
+                        Util.mostrarDialogoSinInternet(getContext());
                     } else if (volleyError instanceof AuthFailureError) {
                         loginAgain();
                     }
@@ -227,29 +228,6 @@ public class FragmentoOfertas extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    private void showNoNetworkDialog() {
-        final Dialog dialog = new Dialog(getContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_no_internet);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-
-        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
     }
 
     public void loginAgain() {
