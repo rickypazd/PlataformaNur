@@ -1,5 +1,6 @@
 package com.nur.notas.notasnur;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -9,7 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.android.volley.TimeoutError;
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -26,6 +27,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,7 +62,7 @@ import java.util.Map;
 
 public class fragmento_notas extends Fragment {
 
-    private SwipeRefreshLayout contenedorSwipeRefreshLayout;
+    private SwipeRefreshLayout contenedorSwipeRefreshLayout, swipeRefreshLayoutEmptyState;
     private Spinner spinnerPeriodos;
     private RecyclerView notasRecyclerView;
     private BottomSheetBehavior mBehavior;
@@ -83,13 +85,17 @@ public class fragmento_notas extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fragmento_notas, container, false);
 
-        // contenedorSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        contenedorSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayoutEmptyState = view.findViewById(R.id.swipeRefreshLayoutEmptyState);
         spinnerPeriodos = view.findViewById(R.id.spinnerPeriodo);
         notasRecyclerView = view.findViewById(R.id.notasRecyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         notasRecyclerView.setLayoutManager(layoutManager);
         View bottom_sheet = view.findViewById(R.id.bottom_sheet);
         mBehavior = BottomSheetBehavior.from(bottom_sheet);
+
+        ImageView imgEmptyState = view.findViewById(R.id.imgEmptyState);
+        Glide.with(getContext()).load(R.drawable.empty_state_pensum).into(imgEmptyState);
 
         spinnerPeriodos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -102,20 +108,20 @@ public class fragmento_notas extends Fragment {
             }
         });
 
-//        contenedorSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//
-//            public void onRefresh() {
-//                AlumnoCarrera carrera = Preferences.getCarreraSeleccionada(getContext());
-//
-//                if (carrera != null) {
-//                    int periodoId = ((Periodo) spinnerPeriodos.getSelectedItem()).getLPERIODO_ID();
-//                    int carreraId = carrera.getLCARRERA_ID();
-//
-//                    obtenerNotas(periodoId, carreraId);
-//                }
-//            }
-//
-//        });
+        contenedorSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            public void onRefresh() {
+                confirmarActualizarNotas();
+            }
+
+        });
+
+        swipeRefreshLayoutEmptyState.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                confirmarActualizarNotas();
+            }
+        });
 
         obtenerPeriodosCursados();
 
@@ -147,6 +153,9 @@ public class fragmento_notas extends Fragment {
                     showBottomSheetDialog(obj);
                 }
             });
+
+            contenedorSwipeRefreshLayout.setVisibility(notas.isEmpty() ? View.GONE : View.VISIBLE);
+            swipeRefreshLayoutEmptyState.setVisibility(notas.isEmpty() ? View.VISIBLE: View.GONE);
         }
     }
 
@@ -221,13 +230,50 @@ public class fragmento_notas extends Fragment {
         });
     }
 
+    private void confirmarActualizarNotas() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("¿Actualizar las notas?");
+        builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                obtenerNotas();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                contenedorSwipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayoutEmptyState.setRefreshing(false);
+            }
+        });
+
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                contenedorSwipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayoutEmptyState.setRefreshing(false);
+            }
+        });
+
+        builder.show();
+    }
+
     // de los servicios
-    public void obtenerNotas(final int periodoId, final int carreraId) {
+    private void obtenerNotas() {
         String url = getString(R.string.URL_service) + "GetNotasFaltas";
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getContext());
             JSONObject jsonBody = new JSONObject();
+
+            AlumnoCarrera carrera = Preferences.getCarreraSeleccionada(getContext());
+
+            if (carrera == null) {
+                return;
+            }
+
+            final int periodoId = ((Periodo) spinnerPeriodos.getSelectedItem()).getLPERIODO_ID();
+            final int carreraId = carrera.getLCARRERA_ID();
 
             jsonBody.put("pCarreraId", carreraId);
             jsonBody.put("pPeriodoId", periodoId);
@@ -244,19 +290,10 @@ public class fragmento_notas extends Fragment {
                             JSONArray notas = respuesta.getJSONArray("Data");
 
                             NotasDAO dao = FactoryDAO.getOrCreate().newNotasDAO();
+                            dao.eliminar(carreraId, periodoId);
+                            dao.insercionMasiva(carreraId, periodoId, notas);
 
-                            for (int i = 0; i < notas.length(); i++) {
-                                JSONObject nota = notas.getJSONObject(i);
-
-                                nota.put("LPERIODO_ID", periodoId);
-                                nota.put("LCARRERA_ID", carreraId);
-
-                                /* Mi id son: LPERIODO_ID, LCARRERA_ID y SCODMATERIA */
-                                dao.actualizar(nota);
-                            }
-
-                            AdaptadorNotas adaptador = new AdaptadorNotas(getContext(), notas);
-                            notasRecyclerView.setAdapter(adaptador);
+                            obtenerNotas(periodoId);
                         } else {
                             Log.i("nur", "Status false en get notas");
                         }
@@ -266,21 +303,19 @@ public class fragmento_notas extends Fragment {
                     }
 
                     contenedorSwipeRefreshLayout.setRefreshing(false);
+                    swipeRefreshLayoutEmptyState.setRefreshing(false);
                 }
             }, new Response.ErrorListener() {
                 @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("LOG_VOLLEY", error.toString());
-
-                    if (error instanceof NetworkError) {
-                        showCustomDialog();
-                    } else if (error instanceof AuthFailureError) {
-                        loginAgain(Preferences.getRegistro(getContext()), Preferences.getPin(getContext()), periodoId, carreraId);
-                    } else if (error instanceof TimeoutError) {
-                        Log.i("nur", "TimeOutError al refrescar notas");
-                    }
-
+                public void onErrorResponse(VolleyError volleyError) {
                     contenedorSwipeRefreshLayout.setRefreshing(false);
+                    swipeRefreshLayoutEmptyState.setRefreshing(false);
+
+                    if (volleyError instanceof NetworkError) {
+                        showNoNetworkDialog();
+                    } else if (volleyError instanceof AuthFailureError) {
+                        loginAgain();
+                    }
                 }
             }) {
                 @Override
@@ -313,7 +348,7 @@ public class fragmento_notas extends Fragment {
         }
     }
 
-    private void showCustomDialog() {
+    private void showNoNetworkDialog() {
         final Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
         dialog.setContentView(R.layout.dialog_warning);
@@ -336,12 +371,15 @@ public class fragmento_notas extends Fragment {
         dialog.getWindow().setAttributes(lp);
     }
 
-    public void loginAgain(String registro, String pin, final int periodoId, final int carreraId) {
+    public void loginAgain() {
         String url = getString(R.string.URL_service) + "Login";
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getContext());
             JSONObject jsonBody = new JSONObject();
+
+            String registro = Preferences.getRegistro(getContext());
+            String pin = Preferences.getPin(getContext());
 
             jsonBody.put("username", registro);
             jsonBody.put("password", pin);
@@ -363,17 +401,20 @@ public class fragmento_notas extends Fragment {
                     response = response.replace('"', ' ').trim();
 
                     if (response.equals("Bloqueo. Tiene deuda pendiente.")) {
-                        Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), response, Toast.LENGTH_SHORT).show();
                     } else {
                         Preferences.setTokenAcceso(getContext(), response);
-                        obtenerNotas(periodoId, carreraId);
+                        obtenerNotas();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-                    if (volleyError instanceof NetworkError) {
-                        showCustomDialog();
+                    /* acá el error mas probable son credenciales incorrectos, debido a un cambio
+                    en el pin, que no fue realizado desde la app */
+                    if (volleyError instanceof AuthFailureError) {
+                        String error = "Hubo un error al obtener el pensum. Si cambió su pin, cierre sesión y vuelva ingresar.";
+                        Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
                     }
 
                     progreso.dismiss();

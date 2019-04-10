@@ -64,7 +64,6 @@ public class HistorialAcademico extends AppCompatActivity {
         contenedorSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayoutEmptyState = findViewById(R.id.swipeRefreshLayoutEmptyState);
 
-        // emptyStateContainer = findViewById(R.id.emptyStateContainer);
         ImageView imgEmptyState = findViewById(R.id.imgEmptyState);
         Glide.with(this).load(R.drawable.empty_state_pensum).into(imgEmptyState);
 
@@ -119,18 +118,30 @@ public class HistorialAcademico extends AppCompatActivity {
     private void confirmarActualizarMateriasCursadas() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("¿Actualizar pensum?");
+
         builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 obtenerHistorialMateriasCursadas();
             }
         });
+
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 contenedorSwipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayoutEmptyState.setRefreshing(false);
             }
         });
+
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                contenedorSwipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayoutEmptyState.setRefreshing(false);
+            }
+        });
+
         builder.show();
     }
 

@@ -626,4 +626,23 @@ class NotasDAO extends com.nur.notas.notasnur.dao.NotasDAO {
 
 		return periodosCursados;
 	}
+
+	@Override
+	public void eliminar(int carrera, int periodo) {
+		Conexion con = Conexion.getOrCreate();
+
+    	String eliminarHorariosString = "DELETE FROM " + Tablas.HorariosMaterias + " " +
+				"WHERE LGRUPO_ID IN (" +
+				"SELECT " + LGRUPO_ID + " " +
+				"FROM " + Tablas.Notas + " " +
+				"WHERE " + LCARRERA_ID + " = " + carrera + " AND " + LPERIODO_ID + " = " + periodo +
+				")";
+
+    	con.ejecutarSentencia(eliminarHorariosString);
+
+		String where = "LCARRERA_ID = ? and LPERIODO_ID = ?";
+		String[] parametrosWhere = { String.valueOf(carrera), String.valueOf(periodo) };
+
+		con.eliminar(Tablas.Notas, where, parametrosWhere);
+	}
 }

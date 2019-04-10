@@ -22,6 +22,7 @@ public abstract class NotasDAO implements IDAO {
     public abstract Notas seleccionar(int carrera, int periodo, String materia);
     public abstract void insercionMasiva(int carreraId, int periodoId, JSONArray jsonArray);
     public abstract List<Periodo> seleccionarSemestresCursados();
+    public abstract void eliminar(int carrera, int periodo);
     protected String[] columnas;
 
     public NotasDAO(String... columnas) {
