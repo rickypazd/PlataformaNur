@@ -50,16 +50,6 @@ public class FragmentoPerfil extends Fragment implements View.OnClickListener {
         ((TabBarActivity)getActivity()).getSupportActionBar().show();
     }
 
-    /*
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        ActionBar actionBar = ;
-        menu.
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
-    }*/
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fragmento_ajustes, container, false);

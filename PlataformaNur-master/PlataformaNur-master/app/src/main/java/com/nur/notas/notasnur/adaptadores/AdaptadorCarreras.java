@@ -42,12 +42,9 @@ public class AdaptadorCarreras extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_spinner_carrera, viewGroup, false);
-            // view.setBackgroundColor(context.getResources().getColor(R.color.mdtp_white));
         }
 
         TextView textView = view.findViewById(R.id.textview);
-        // textView.setTextSize(22);
-        // textView.setTextColor(Color.WHITE);
         textView.setText(carreras.get(i).getSCARRERA_DSC());
 
         return view;
@@ -59,7 +56,6 @@ public class AdaptadorCarreras extends BaseAdapter {
 
         TextView textView = view.findViewById(R.id.textview);
         textView.setPadding(15, 16, 16, 16);
-        // view.setBackgroundColor(context.getResources().getColor(R.color.mdtp_white));
 
         return view;
     }

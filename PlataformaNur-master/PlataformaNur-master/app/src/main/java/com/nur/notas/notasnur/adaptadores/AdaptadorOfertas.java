@@ -98,7 +98,6 @@ public class AdaptadorOfertas extends RecyclerView.Adapter<AdaptadorOfertas.MyVi
             }
         });
 
-        //holder.image.setImageDrawable(TextDrawable.builder().buildRound(obj.getSMATERIA_DSC().charAt(0) + "", Color.LTGRAY));
         String grupo = obj.getSCODGRUPO();
         if(grupo.isEmpty())
             grupo = obj.getSMATERIA_DSC().charAt(0) + "";

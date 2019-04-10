@@ -46,13 +46,13 @@ public class OfertaDialog extends AppCompatDialogFragment {
         TextView tvHorarioSabado = view.findViewById(R.id.tvHorarioSabado);
         TextView tvHorarioDomingo = view.findViewById(R.id.tvHorarioDomingo);
 
-        TextView lLLunes = view.findViewById(R.id.lLLunes);
-        TextView lLMartes = view.findViewById(R.id.lLMartes);
-        TextView lLMiercoles = view.findViewById(R.id.lLMiercoles);
-        TextView lLJueves = view.findViewById(R.id.lLJueves);
-        TextView lLViernes = view.findViewById(R.id.lLViernes);
-        TextView lLSabado = view.findViewById(R.id.lLSabado);
-        TextView lLDomingo = view.findViewById(R.id.lLDomingo);
+        LinearLayout lLLunes = view.findViewById(R.id.lLLunes);
+        LinearLayout lLMartes = view.findViewById(R.id.lLMartes);
+        LinearLayout lLMiercoles = view.findViewById(R.id.lLMiercoles);
+        LinearLayout lLJueves = view.findViewById(R.id.lLJueves);
+        LinearLayout lLViernes = view.findViewById(R.id.lLViernes);
+        LinearLayout lLSabado = view.findViewById(R.id.lLSabado);
+        LinearLayout lLDomingo = view.findViewById(R.id.lLDomingo);
 
         TextView tvGrupo = view.findViewById(R.id.tvGrupo);
         LinearLayout llOferta = view.findViewById(R.id.llOferta);

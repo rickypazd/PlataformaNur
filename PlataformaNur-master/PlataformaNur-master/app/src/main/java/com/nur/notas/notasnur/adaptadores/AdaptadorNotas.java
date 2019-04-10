@@ -29,7 +29,6 @@ import java.util.List;
 
 public class AdaptadorNotas extends RecyclerView.Adapter<AdaptadorNotas.MyViewHolder> {
 
-    // private JSONArray listaNotas;
     private List<Notas> listaNotas;
     private Context contexto;
 
@@ -156,25 +155,13 @@ public class AdaptadorNotas extends RecyclerView.Adapter<AdaptadorNotas.MyViewHo
         }
     }
 
-    public int getFaltas(Notas nota) {
+    private int getFaltas(Notas nota) {
         return nota.getFMES1() + nota.getFMES2() + nota.getFMES3() + nota.getFMES4() +
                 nota.getFMES5() + nota.getFMES6() +nota.getFMES7() +  nota.getFMES8() +
                 nota.getFMES9() + nota.getFMES10() + nota.getFMES11() + nota.getFMES12();
     }
 
-    public String getPeriodo(int id) {
-        ArrayList<Periodo> periodos = Preferences.getPeriodos(contexto);
-
-        for (Periodo periodo: periodos) {
-            if (periodo.getLPERIODO_ID() == id) {
-                return periodo.getSPERIODO_DSC();
-            }
-        }
-
-        return "";
-    }
-
-    public String getHorario(Notas objNota) {
+    private String getHorario(Notas objNota) {
         HorariosMateriasDAO horarioDao = FactoryDAO.getOrCreate().newHorariosMateriasDAO();
         List<HorariosMaterias> listaHorarios = horarioDao.seleccionar(objNota.getLGRUPO_ID() + "");
 
@@ -244,7 +231,11 @@ public class AdaptadorNotas extends RecyclerView.Adapter<AdaptadorNotas.MyViewHo
         return horarios;
     }
 
-    public String getDiaAbreviado(String dia) {
+    private String getDiaAbreviado(String dia) {
+        if (dia.isEmpty()) {
+            return "";
+        }
+
         return dia.substring(0, 3);
     }
 
