@@ -574,7 +574,7 @@ public class Login2 extends AppCompatActivity { // 915 -
 
     /* */
 
-    final int PASOS_NECESARIOS_BASE = 5; /* carreras, periodos, perfil, imagen de perfil, periodos ofertados*/
+    final int PASOS_NECESARIOS_BASE = 6; /* carreras, periodos, perfil, imagen de perfil, periodos ofertados, enlaces */
     int pasosCompletadosBase = 0;
 
     int PASOS_NESARIOS_NOTAS = 0; /* carreras x periodos */
