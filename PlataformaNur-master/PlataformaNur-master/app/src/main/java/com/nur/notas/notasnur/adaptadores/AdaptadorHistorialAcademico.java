@@ -63,6 +63,7 @@ public class AdaptadorHistorialAcademico extends RecyclerView.Adapter<AdaptadorH
         final int semestre = semestres.get(position);
 
         ArrayList<Materias> materiasEnElSemestre = new ArrayList<>();
+
         for (Materias unaMateria: listaMaterias) {
             if (unaMateria.getLSEMESTRE() == semestre) {
                 if (unaMateria.getOBS().trim().equals("Reprobado") || unaMateria.getOBS().trim().equals("Abandono")) {

@@ -8,6 +8,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.nur.notas.notasnur.R;
 import com.nur.notas.notasnur.objetos.AlumnoCarrera;
 import com.nur.notas.notasnur.utiles.MyApp;
 import com.nur.notas.notasnur.utiles.Preferences;
@@ -197,10 +198,10 @@ class MateriasDAO extends com.nur.notas.notasnur.dao.MateriasDAO {
         Conexion con = Conexion.getOrCreate();
 
         AlumnoCarrera carrera = Preferences.getCarreraSeleccionada(MyApp.getInstancia());
-        String where = "LCARRERA_ID = ?";
-        String[] parametrosWhere = { String.valueOf(carrera.getLCARRERA_ID()) };
 
-        Cursor cursor = con.ejecutarConsulta(Tablas.Materias, columnas, where, parametrosWhere);
+        String[] parametrosWhere = { String.valueOf(carrera.getLCARRERA_ID()),  String.valueOf(carrera.getLCARRERA_ID()), String.valueOf(carrera.getLCARRERA_ID()) };
+        Cursor cursor = con.ejecutarConsulta(R.string.query_pensum, parametrosWhere);
+
         List<Materias> lista = new ArrayList<>();
 
         while (cursor.moveToNext()) {
@@ -252,7 +253,6 @@ class MateriasDAO extends com.nur.notas.notasnur.dao.MateriasDAO {
         ContentValues requisitosValues;
 
         bd.beginTransaction();
-        Log.i("com.example.ricardopaz", "bd.beginTransaction  of " + carreraId);
 
         try {
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -294,9 +294,7 @@ class MateriasDAO extends com.nur.notas.notasnur.dao.MateriasDAO {
         }
 
         bd.setTransactionSuccessful();
-        Log.i("com.example.ricardopaz", "bd.setTransactionSuccessful  of " + carreraId);
         bd.endTransaction();
-        Log.i("com.example.ricardopaz", "bd.endTransaction  of " + carreraId);
     }
 
     @Override

@@ -3,9 +3,10 @@ package com.nur.notas.notasnur;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.nur.notas.notasnur.utiles.Preferences;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Carga extends AppCompatActivity {
 

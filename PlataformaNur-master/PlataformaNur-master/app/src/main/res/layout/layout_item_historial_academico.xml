@@ -15,7 +15,7 @@
         app:markerSize="20dp"
         app:lineWidth="3dp"
         app:lineStyle="dash"
-        app:marker="@drawable/ic_marker_active"
+        app:marker="@drawable/ic_marker_inactive"
         app:startLineColor="#1976D2"
         app:endLineColor="#1976D2"
         app:linePadding="5dp"/>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="query_materias_cursadas">
+        SELECT *
+        FROM MATERIAS
+        WHERE TRIM(OBS) = \'\'
+        AND LCARRERA_ID = ?
+    </string>
+
+    <string name="query_materias_cursando">
+        SELECT *
+        FROM MATERIAS
+        WHERE OBS = \'FALTANTE\'
+        AND SPERIODO_DSC != \'-\'
+        AND LCARRERA_ID = ?
+    </string>
+
+    <string name="query_materias_faltantes">
+        SELECT *
+        FROM MATERIAS
+        WHERE OBS = \'FALTANTE\'
+        AND SPERIODO_DSC = \'-\'
+        AND CODMATERIA NOT IN (
+            SELECT CODMATERIA
+            FROM MATERIAS
+            WHERE OBS = \'FALTANTE\'
+            AND SPERIODO_DSC != \'-\'
+        )
+        AND LCARRERA_ID = ?
+    </string>
+    
+    <string name="query_pensum">
+        SELECT *
+        FROM MATERIAS
+        WHERE TRIM(OBS) = \'\'
+        AND LCARRERA_ID = ?
+
+        UNION
+
+        SELECT *
+        FROM MATERIAS
+        WHERE OBS = \'FALTANTE\'
+        AND SPERIODO_DSC != \'-\'
+        AND LCARRERA_ID = ?
+
+        UNION
+
+        SELECT *
+        FROM MATERIAS
+        WHERE OBS = \'FALTANTE\'
+        AND SPERIODO_DSC = \'-\'
+        AND CODMATERIA NOT IN (
+            SELECT CODMATERIA
+            FROM MATERIAS
+            WHERE OBS = \'FALTANTE\'
+            AND SPERIODO_DSC != \'-\'
+        )
+        AND LCARRERA_ID = ?
+    </string>
+</resources>

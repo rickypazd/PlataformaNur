@@ -1,23 +1,11 @@
 package com.nur.notas.notasnur;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -32,11 +20,11 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.nur.notas.notasnur.utiles.Preferences;
+import com.nur.notas.notasnur.adaptadores.AdaptadorHistorialAcademico;
 import com.nur.notas.notasnur.dao.FactoryDAO;
 import com.nur.notas.notasnur.dao.MateriasDAO;
 import com.nur.notas.notasnur.dto.Materias;
-import com.nur.notas.notasnur.adaptadores.AdaptadorHistorialAcademico;
+import com.nur.notas.notasnur.utiles.Preferences;
 import com.nur.notas.notasnur.utiles.Util;
 
 import org.json.JSONArray;
@@ -48,11 +36,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 public class HistorialAcademico extends AppCompatActivity {
 
     private SwipeRefreshLayout contenedorSwipeRefreshLayout, swipeRefreshLayoutEmptyState;
     private RecyclerView recyclerView;
-    LinearLayout emptyStateContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
