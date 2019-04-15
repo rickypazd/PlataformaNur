@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.nur.notas.notasnur.objetos.Alumno;
 import com.nur.notas.notasnur.objetos.AlumnoCarrera;
 import com.nur.notas.notasnur.utiles.Preferences;
@@ -27,6 +28,8 @@ import com.nur.notas.notasnur.dao.NotasDAO;
 import com.nur.notas.notasnur.dao.RequisitosMateriasDAO;
 
 import org.json.JSONArray;
+
+import java.io.IOException;
 
 
 public class FragmentoPerfil extends Fragment implements View.OnClickListener {
@@ -147,6 +150,12 @@ public class FragmentoPerfil extends Fragment implements View.OnClickListener {
         horariosMateriasDao.truncate();
         materiasDao.truncate();
         requisitosDao.truncate();
+
+        try {
+            FirebaseInstanceId.getInstance().deleteInstanceId();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Intent intent = new Intent(getContext(), Login.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

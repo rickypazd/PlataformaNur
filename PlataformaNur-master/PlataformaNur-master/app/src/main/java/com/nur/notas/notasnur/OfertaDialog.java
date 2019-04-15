@@ -2,13 +2,9 @@ package com.nur.notas.notasnur;
 
 import android.app.Dialog;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatDialogFragment;
-import androidx.core.content.ContextCompat;
-
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,6 +17,10 @@ import com.nur.notas.notasnur.utiles.Constantes;
 import com.nur.notas.notasnur.utiles.Util;
 
 import java.util.List;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.core.content.ContextCompat;
 
 public class OfertaDialog extends AppCompatDialogFragment {
 
@@ -136,7 +136,10 @@ public class OfertaDialog extends AppCompatDialogFragment {
 
         builder.setView(view);
 
-        return builder.create();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        return alertDialog;
     }
 
     private int getDrawableCarrera(int carreraId) {

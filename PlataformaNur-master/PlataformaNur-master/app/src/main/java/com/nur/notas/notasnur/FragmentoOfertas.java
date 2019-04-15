@@ -1,20 +1,11 @@
 package com.nur.notas.notasnur;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -28,15 +19,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.nur.notas.notasnur.objetos.AlumnoCarrera;
-import com.nur.notas.notasnur.objetos.Periodo;
-import com.nur.notas.notasnur.utiles.Preferences;
+import com.nur.notas.notasnur.adaptadores.AdaptadorOfertas;
+import com.nur.notas.notasnur.adaptadores.AdaptadorPeriodos;
 import com.nur.notas.notasnur.dao.FactoryDAO;
 import com.nur.notas.notasnur.dao.HorariosOfertadosDAO;
 import com.nur.notas.notasnur.dao.MateriasOfertadasDAO;
 import com.nur.notas.notasnur.dto.MateriasOfertadas;
-import com.nur.notas.notasnur.adaptadores.AdaptadorOfertas;
-import com.nur.notas.notasnur.adaptadores.AdaptadorPeriodos;
+import com.nur.notas.notasnur.objetos.AlumnoCarrera;
+import com.nur.notas.notasnur.objetos.Periodo;
+import com.nur.notas.notasnur.utiles.Preferences;
 import com.nur.notas.notasnur.utiles.Util;
 
 import org.json.JSONArray;
@@ -47,6 +38,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 public class FragmentoOfertas extends Fragment {
@@ -62,7 +58,7 @@ public class FragmentoOfertas extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((TabBarActivity)getActivity()).getSupportActionBar().hide();
+        ((TabBarActivity) getActivity()).getSupportActionBar().hide();
     }
 
     @Override
@@ -300,7 +296,7 @@ public class FragmentoOfertas extends Fragment {
         }
     }
 
-    public void verMateria(MateriasOfertadas obj){
+    public void verMateria(MateriasOfertadas obj) {
         int idCarrera = obj.getLCARRERA_ID();
         int idPeriodo = obj.getLPERIODO_ID();
         int idMateria = obj.getID();
@@ -311,7 +307,6 @@ public class FragmentoOfertas extends Fragment {
         args.putInt("idCarrera", idCarrera);
         args.putInt("idPeriodo", idPeriodo);
         args.putInt("idMateria", idMateria);
-
         ofertaDialog.setArguments(args);
     }
 

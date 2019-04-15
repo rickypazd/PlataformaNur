@@ -30,6 +30,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.nur.notas.notasnur.objetos.AlumnoCarrera;
 import com.nur.notas.notasnur.objetos.Periodo;
 import com.nur.notas.notasnur.utiles.Preferences;
@@ -145,6 +146,7 @@ public class Login extends AppCompatActivity { // 915 -
                         obtenerPerfil();
                         obtenerFotoDePerfil();
                         obtenerLinks();
+                        obtenerTokenFCM();
                     }
                 }
             }, new Response.ErrorListener() {
@@ -546,9 +548,81 @@ public class Login extends AppCompatActivity { // 915 -
         }
     }
 
+    public void obtenerTokenFCM() {
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.i("com.nur.notas.notasnur", "El token es: " + token);
+
+        String url = getString(R.string.url_actualizar_token_FCM);
+
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            JSONObject jsonBody = new JSONObject();
+
+            jsonBody.put("SLLAVE", token);
+
+            progreso.setTitle("Preparando tu dispositivo para obtener notificaciones...");
+
+            final String mRequestBody = jsonBody.toString();
+
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject respuesta = new JSONObject(response);
+
+                        if (respuesta.getBoolean("Status")) {
+
+                            pasosCompletadosBase += 1;
+                            verificarCompletadoBase();
+                        } else {
+                            Log.i("nur", "Status false al actualizar el token");
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    pasosCompletadosBase += 1;
+                    verificarCompletadoBase();
+                    Log.e("LOG_VOLLEY", error.toString());
+                }
+            }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Bearer " + Preferences.getTokenAcceso(Login.this));
+
+                    return headers;
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+
+            requestQueue.add(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     /* */
 
-    final int PASOS_NECESARIOS_BASE = 6; /* carreras, periodos, perfil, imagen de perfil, periodos ofertados, enlaces */
+    final int PASOS_NECESARIOS_BASE = 7; /* carreras, periodos, perfil, imagen de perfil, periodos ofertados, enlaces, token de firebase */
     int pasosCompletadosBase = 0;
 
     int PASOS_NESARIOS_NOTAS = 0; /* carreras x periodos */

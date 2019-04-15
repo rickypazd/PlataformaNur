@@ -14,6 +14,7 @@
     <string name="url_historial_academico">http://wsnotas.nur.edu:8880/api/Registros/GetAlumnoHistorial</string>
     <string name="url_foto_perfil">http://wsnotas.nur.edu:8880/api/Registros/GetAlumnoImagen</string>
     <string name="url_enlaces">http://wsnotas.nur.edu:8880/api/Registros/GetLinks</string>
+    <string name="url_actualizar_token_FCM">http://wsnotas.nur.edu:8880/api/Registros/GetLinks</string>
     <string name="KeyService">A10BB4B705310FB670185286C2B2367365A1CA2C</string>
     <string name="title_activity_tab_bar">TabBarActivity</string>
 

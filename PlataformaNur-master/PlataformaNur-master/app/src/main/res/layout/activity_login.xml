@@ -64,6 +64,7 @@
                             android:id="@+id/et_registro"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:singleLine="true"
                             android:hint="Número de registro"/>
                     </com.google.android.material.textfield.TextInputLayout>
 

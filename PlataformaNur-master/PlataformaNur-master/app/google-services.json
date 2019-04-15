@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "472769873087",
+    "firebase_url": "https://notas-nur.firebaseio.com",
+    "project_id": "notas-nur",
+    "storage_bucket": "notas-nur.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472769873087:android:f80428eda7c8038a",
+        "android_client_info": {
+          "package_name": "com.nur.notas.notasnur"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472769873087-gno76rjdqgi3657hrptn3ctmq424070d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAqpaQ0htcJMJpn8mI7C361Y26u5dbA7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472769873087-gno76rjdqgi3657hrptn3ctmq424070d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
